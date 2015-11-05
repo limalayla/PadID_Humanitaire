@@ -1,24 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWin</class>
- <widget class="QMainWindow" name="MainWin" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWin">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>789</width>
+    <height>473</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MainWin</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTabWidget" name="onglets">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>0</y>
+      <width>641</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_vueEns">
+     <attribute name="title">
+      <string>Vue d'ensemble</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_rech">
+     <attribute name="title">
+      <string>Recherche</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_gestHum">
+     <attribute name="title">
+      <string>Gestion Humaine</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_stock">
+     <attribute name="title">
+      <string>Stocks</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QListWidget" name="list_camps">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>1</y>
+      <width>151</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Tous</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>789</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuLangue">
+    <property name="title">
+     <string>Langue</string>
+    </property>
+    <addaction name="actionFran_ais"/>
+    <addaction name="actionAnglais"/>
+   </widget>
+   <addaction name="menuLangue"/>
+  </widget>
+  <action name="actionFran_ais">
+   <property name="text">
+    <string>Français</string>
+   </property>
+  </action>
+  <action name="actionAnglais">
+   <property name="text">
+    <string>Anglais</string>
+   </property>
+  </action>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>
