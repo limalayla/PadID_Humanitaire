@@ -10,8 +10,20 @@
     <height>473</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>789</width>
+    <height>473</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>789</width>
+    <height>473</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWin</string>
+   <string>Humanitaire 2.0</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="onglets">
@@ -24,36 +36,938 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_vueEns">
      <attribute name="title">
       <string>Vue d'ensemble</string>
      </attribute>
+     <widget class="QLabel" name="labelNomCamps">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>60</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nom :</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelLocalisationCamps">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>100</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Localisation: </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LabelNbPersonneCamps">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>140</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nombre de Personne:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelNombrPlaceMax">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>180</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nombre de place max:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelNombrePlacRestante">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>220</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nombre de place restante:</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="TextNomCamp">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>60</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textLocalisationCamps">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>100</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textNbPersonneCamps">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>140</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textNbPlaceMaxCamps">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>180</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textNbPlaceRestCamps">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>220</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Btn_Suppr_Camps">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>290</y>
+        <width>171</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer Camps</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_rech">
      <attribute name="title">
       <string>Recherche</string>
      </attribute>
+     <widget class="QLabel" name="labelNomPersonne">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>40</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nom:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPrenom">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>80</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Prenom:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelAge">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>120</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Age:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPaysDorigine">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>200</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pays d'origine:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelSexe">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>160</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sexe:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelType">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>240</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Type:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelEtat">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>280</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Etat:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelDivers">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>320</y>
+        <width>55</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Divers:</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="TextNomCamp_3">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>40</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="TextNomCamp_4">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>80</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>120</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>5</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_2">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>160</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Homme</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Femme</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_3">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>200</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Chili</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>France</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>USA</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_4">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>240</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Caucasien</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Blanc</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Noir</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_5">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>280</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Disparu</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Bonne Santé</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Malade</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Mort</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTextEdit" name="TextNomCamp_5">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>320</y>
+        <width>200</width>
+        <height>93</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Btn_Recherche">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>320</y>
+        <width>150</width>
+        <height>62</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rechercher</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="list_res_Recherche">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>20</y>
+        <width>171</width>
+        <height>251</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_gestHum">
      <attribute name="title">
       <string>Gestion Humaine</string>
      </attribute>
+     <widget class="QListWidget" name="listPersonneCamps">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>40</y>
+        <width>220</width>
+        <height>350</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Gérard LeRoi</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Bobby Roger</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Jean-Luc Machin</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QPushButton" name="Btn_Ajout_Personne">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>40</y>
+        <width>200</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Btn_Suppr_Personne">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>140</y>
+        <width>200</width>
+        <height>62</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Suppression</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Btn_Modif_Personne">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>240</y>
+        <width>200</width>
+        <height>62</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_stock">
      <attribute name="title">
       <string>Stocks</string>
      </attribute>
+     <widget class="QGroupBox" name="GroupBox_Demande">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>130</y>
+        <width>261</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Demander</string>
+      </property>
+      <widget class="QLabel" name="labelEauDemande">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>55</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Eau: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelMedocDemande">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Médicaments:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelFourniDemande">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Fournitures: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelNourritureDemande">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nourriture:</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textboxDemandeEau">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>20</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textBoxDemandeNourriture">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>50</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextBoxFourniDemande">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>80</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextBoxDemandeMedoc">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>110</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="Btn_Recherche_2">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>330</y>
+        <width>261</width>
+        <height>62</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Demande de Convoi</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_CampsActu">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>20</y>
+        <width>261</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Actuel</string>
+      </property>
+      <widget class="QLabel" name="labelEauActu">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>55</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Eau: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelNourritureActu">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>71</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nourriture:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelMedocActu">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>141</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Médicaments:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelFourniActu">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>141</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Fournitures: </string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextEauActu">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>20</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textNourritureActu">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>50</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textFourniActu">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>80</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textMedocActu">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>110</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_Reserve">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>210</y>
+        <width>261</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Réserves Centrales</string>
+      </property>
+      <widget class="QLabel" name="labelEauReserve">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>55</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Eau: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelNourritureReserve">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nourriture:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelFourniReserve">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Fournitures: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelMedocReserve">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Médicaments:</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextEauReserve">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>20</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextNourritureReserve">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>50</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextFourniReserve">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>80</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="TextMedocReserve">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>110</y>
+         <width>131</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
    <widget class="QListWidget" name="list_camps">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>1</y>
+      <y>0</y>
       <width>151</width>
-      <height>461</height>
+      <height>381</height>
      </rect>
     </property>
     <item>
@@ -61,6 +975,47 @@
       <string>Tous</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>Camps 1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Camps 2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Camps 3</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="Btn_Ajout_Camps">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>410</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ajouter</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="TextRechercheCamps">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>380</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -79,6 +1034,12 @@
     <addaction name="actionFran_ais"/>
     <addaction name="actionAnglais"/>
    </widget>
+   <widget class="QMenu" name="menuFichier">
+    <property name="title">
+     <string>Fichier</string>
+    </property>
+   </widget>
+   <addaction name="menuFichier"/>
    <addaction name="menuLangue"/>
   </widget>
   <action name="actionFran_ais">
