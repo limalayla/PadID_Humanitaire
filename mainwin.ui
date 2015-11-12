@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_vueEns">
      <attribute name="title">
@@ -364,6 +364,26 @@
         <string>5</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>6</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>7</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>9</string>
+       </property>
+      </item>
      </widget>
      <widget class="QComboBox" name="comboBox_2">
       <property name="geometry">
@@ -532,7 +552,7 @@
         <x>30</x>
         <y>40</y>
         <width>220</width>
-        <height>350</height>
+        <height>330</height>
        </rect>
       </property>
       <item>
@@ -588,6 +608,19 @@
       </property>
       <property name="text">
        <string>Modifier</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="TextBoxRecherchePersonne">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>370</y>
+        <width>220</width>
+        <height>32</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -1031,7 +1064,7 @@
     <property name="title">
      <string>Langue</string>
     </property>
-    <addaction name="actionFran_ais"/>
+    <addaction name="actionFrancais"/>
     <addaction name="actionAnglais"/>
    </widget>
    <widget class="QMenu" name="menuFichier">
@@ -1042,7 +1075,7 @@
    <addaction name="menuFichier"/>
    <addaction name="menuLangue"/>
   </widget>
-  <action name="actionFran_ais">
+  <action name="actionFrancais">
    <property name="text">
     <string>Français</string>
    </property>
