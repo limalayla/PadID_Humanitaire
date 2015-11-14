@@ -45,10 +45,11 @@ MainWin::~MainWin()
 void MainWin::initEvenement()
 {
     /* Géneral */
-        QObject::connect(ui->btn_campAjout, SIGNAL(clicked(bool)),        this, SLOT(campAjouter(bool)));
-        QObject::connect(ui->onglets,       SIGNAL(currentChanged(int)),  this, SLOT(changeOnglet(int)));
-        QObject::connect(ui->liste_camp,    SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
-        QObject::connect(ui->text_rechCamp, SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
+        QObject::connect(ui->btn_campAjout,  SIGNAL(clicked(bool)),        this, SLOT(campAjouter(bool)));
+        QObject::connect(ui->onglets,        SIGNAL(currentChanged(int)),  this, SLOT(changeOnglet(int)));
+        QObject::connect(ui->liste_camp,     SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
+        QObject::connect(ui->text_rechCamp,  SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
+        QObject::connect(ui->liste_campRech, SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampRech(QModelIndex)));
 
    /* Onglet vue d'ensemble */
         QObject::connect(ui->btn_campMod,        SIGNAL(clicked(bool)), this, SLOT(m_campMod(bool)));

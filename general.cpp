@@ -9,7 +9,7 @@ void MainWin::changeOnglet(int index)
 
 void MainWin::changeCamp(QModelIndex index)
 {
-    m_curCamp = index.row();
+    if(index.isValid()) m_curCamp = index.row();
 
     if(m_curCamp == 0)
     {
@@ -23,6 +23,14 @@ void MainWin::changeCamp(QModelIndex index)
     ui->btn_campSuppr->setVisible(m_curCamp != 0);
 
     m_campModAnnuler();
+}
+
+void MainWin::changeCampRech(QModelIndex index)
+{
+    m_curCamp = ui->liste_campRech->item(index.row())->text().split(" : ").at(0).toInt();
+
+    ui->liste_camp->setCurrentRow(m_curCamp);
+    changeCamp(QModelIndex()); // Appel à change champ avec un objet vide (vérifié là bas, c'est juste pour éviter les erreurs)
 }
 
 void MainWin::campChargement(quint16)
@@ -76,6 +84,7 @@ void MainWin::campChargement(quint16)
 
 void MainWin::campAjouter(bool)
 {
+    // ToDo : Vérifier s'il n'y a pas déjà de camp s'appelant ainsi
     // Ajout dans la BdD
     // Ajout dans le tableau m_campsIdBdD
     // Initialiser champs du nouveau camp
@@ -86,11 +95,13 @@ void MainWin::campRecherche(QString s)
     if(s.isEmpty()) ui->liste_campRech->setVisible(false);
     else
     {
-        //ui->liste_campRech->clear();
-        foreach(QListWidgetItem* item, ui->liste_camp->findItems(s, Qt::MatchStartsWith))
+        ui->liste_campRech->clear();
+        for(quint16 i= 1; i< ui->liste_camp->count(); i++)
         {
-            QMessageBox::information(this, "", item->text());
-            ui->liste_campRech->addItem(item->text());
+            if(ui->liste_camp->item(i)->text().startsWith(s, Qt::CaseInsensitive))
+            {
+                ui->liste_campRech->addItem(QString::number(i) + " : " + ui->liste_camp->item(i)->text());
+            }
         }
 
         ui->liste_campRech->setVisible(true);

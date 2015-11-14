@@ -22,6 +22,7 @@ class MainWin : public QMainWindow
 
     public slots:
         void changeCamp(QModelIndex);
+        void changeCampRech(QModelIndex);
         void changeOnglet(int);
         void campAjouter(bool);
         void campRecherche(QString);
