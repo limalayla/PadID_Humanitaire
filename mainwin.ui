@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1000</width>
-    <height>1000</height>
+    <width>800</width>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -242,6 +242,24 @@
       </property>
       <property name="text">
        <string>Modifier Camp</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_campModAnnuler">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>270</y>
+        <width>170</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Annuler modifications</string>
       </property>
      </widget>
     </widget>
@@ -1107,6 +1125,27 @@
     </property>
     <property name="placeholderText">
      <string>Rechercher...</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="liste_campRech">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="currentRow">
+     <number>-1</number>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
