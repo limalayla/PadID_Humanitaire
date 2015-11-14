@@ -25,9 +25,7 @@ MainWin::MainWin(QWidget *parent) :
             // ToDo : Récuperer dans BdD liste camps et les mettres dans ui->liste_camp et m_campsIdBdD
 
         /* Onglet vue d'ensemble */
-            ui->btn_campMod->setVisible(false);
-            ui->btn_campModAnnuler->setVisible(false);
-            ui->btn_campSuppr->setVisible(false);
+            ui->groupbox_campAutre->setVisible(false);
 
         /* Onglet recherche */
             for(quint8 i= 1; i<= 100; i++) ui->combo_rechAge->addItem(QString::number(i));

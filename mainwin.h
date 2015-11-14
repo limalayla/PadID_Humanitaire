@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QVector>
+#include <QInputDialog>
 
 namespace Ui {
 class MainWin;
@@ -32,7 +33,7 @@ class MainWin : public QMainWindow
         quint16 m_curCamp;
         quint16 m_curOnglet;
         void initEvenement();
-        QVector<int> campsIdBdD;
+        QVector<int> m_campsIdBdD;
 
     private slots:
 
