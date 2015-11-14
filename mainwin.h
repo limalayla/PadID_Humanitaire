@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWin;
@@ -17,10 +18,17 @@ public:
     ~MainWin();
 
 public slots:
-    void changeOnglet(QListWidgetItem*,QListWidgetItem*);
+    void changeCamp(QModelIndex);
+    void changeOnglet(int);
 
 private:
     Ui::MainWin *ui;
+    quint16 m_curCamp;
+    quint16 m_curOnglet;
+    bool m_campModEnCours;
+
+private slots:
+    void m_campMod(bool);
 };
 
 #endif // MAINWIN_H

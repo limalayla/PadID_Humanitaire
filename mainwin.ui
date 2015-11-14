@@ -41,7 +41,13 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
+    </property>
+    <property name="tabsClosable">
+     <bool>false</bool>
+    </property>
+    <property name="tabBarAutoHide">
+     <bool>false</bool>
     </property>
     <widget class="QWidget" name="tab_vueEns">
      <attribute name="title">
@@ -137,7 +143,7 @@
        <string>Nombre de place restante :</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_supprCamp">
+     <widget class="QPushButton" name="btn_campSuppr">
       <property name="geometry">
        <rect>
         <x>440</x>
@@ -152,10 +158,13 @@
        </font>
       </property>
       <property name="text">
-       <string>Supprimer Camps</string>
+       <string>Supprimer Camp</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="text_campNom">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -166,6 +175,9 @@
       </property>
      </widget>
      <widget class="QLineEdit" name="text_campLoc">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -176,6 +188,9 @@
       </property>
      </widget>
      <widget class="QLineEdit" name="text_campNbPers">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -186,6 +201,9 @@
       </property>
      </widget>
      <widget class="QLineEdit" name="text_campPlaceMax">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -196,6 +214,9 @@
       </property>
      </widget>
      <widget class="QLineEdit" name="text_campPlaceRest">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -203,6 +224,24 @@
         <width>120</width>
         <height>21</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_campMod">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>320</y>
+        <width>170</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Modifier Camp</string>
       </property>
      </widget>
     </widget>
