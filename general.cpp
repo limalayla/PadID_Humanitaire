@@ -19,8 +19,8 @@ void MainWin::changeCamp(QModelIndex index)
     ui->onglets->setTabEnabled(2, m_curCamp != 0);
     ui->onglets->setTabEnabled(3, m_curCamp != 0);
 
-    ui->btn_campMod->setVisible(m_curCamp != 0);
-    ui->btn_campSuppr->setVisible(m_curCamp != 0);
+    ui->groupbox_campTous->setVisible(m_curCamp == 0);
+    ui->groupbox_campAutre->setVisible(m_curCamp != 0);
 
     m_campModAnnuler();
 }
@@ -72,22 +72,50 @@ void MainWin::campChargement(quint16)
     {
         // ToDo : Récuperer l'ensemble des infos necessaires
         // Todo : remplir tout les champs suivant
-            // En attendant : Remplis par une chaine vide (quand les champs seront crées)
+            // En attendant : Remplis par une chaine vide
 
         /* Onglet vue d'ensemble */
-            // Total camps
-            // Total personnes
-            // Total places max
-            // Total places restantes
+            ui->text_campTotal->setText("");
+            ui->text_campTotalRefugies->setText("");
+            ui->text_campTotalPlaceMax->setText("");
+            ui->text_campTotalPlaceRest->setText("");
     }
 }
 
 void MainWin::campAjouter(bool)
 {
-    // ToDo : Vérifier s'il n'y a pas déjà de camp s'appelant ainsi
-    // Ajout dans la BdD
-    // Ajout dans le tableau m_campsIdBdD
-    // Initialiser champs du nouveau camp
+    bool ok, nomPris(false);
+    QString ans;
+
+    do
+    {
+        ans = QInputDialog::getText(this, "Nouveau Camp", "Nom du nouveau camp : ", QLineEdit::Normal, QString(), &ok);
+
+        if(ok && !ans.isEmpty())
+        {
+            // On vérifie qu'il n'y a pas déjà de camp portant ce nom
+                for(quint16 i= 0; i< ui->liste_camp->count() && !nomPris; i++)
+                    if(ans.compare(ui->liste_camp->item(i)->text(), Qt::CaseInsensitive) == 0) nomPris = true;
+
+           if(nomPris)
+               QMessageBox::warning(this, "Nom déjà pris", "Le nom de camp rentré est déjà pris, re-rentrez en un.");
+        }
+        else
+        {
+            if(ok) QMessageBox::warning(this, "Erreur avec le nom", "Erreur lors de la récuperation du non du camp");
+        }
+    }
+    while(ans.isEmpty() && nomPris);
+
+    if(ok && !ans.isEmpty() && !nomPris)
+    {
+        // ToDo : Ajouter dans la BdD
+
+        ui->liste_camp->addItem(ans);
+        m_campsIdBdD.push_back(0 /* Id Sql*/);
+
+        // ToDo : Initialiser champs du nouveau camp
+    }
 }
 
 void MainWin::campRecherche(QString s)
