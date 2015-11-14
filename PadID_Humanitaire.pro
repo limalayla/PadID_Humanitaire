@@ -13,7 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwin.cpp
+        mainwin.cpp \
+    onglet_vueensemble.cpp \
+    onglet_recherche.cpp \
+    onglet_gestionhumaine.cpp \
+    onglet_stocks.cpp \
+    general.cpp
 
 HEADERS  += mainwin.h
 

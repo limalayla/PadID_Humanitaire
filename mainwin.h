@@ -13,22 +13,58 @@ class MainWin : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainWin(QWidget *parent = 0);
-    ~MainWin();
+/* Géneral */
+    public:
+        explicit MainWin(QWidget *parent = 0);
+        ~MainWin();
+        void chargementCamp(quint16);
 
-public slots:
-    void changeCamp(QModelIndex);
-    void changeOnglet(int);
+    public slots:
+        void changeCamp(QModelIndex);
+        void changeOnglet(int);
 
-private:
-    Ui::MainWin *ui;
-    quint16 m_curCamp;
-    quint16 m_curOnglet;
-    bool m_campModEnCours;
+    private:
+        Ui::MainWin *ui;
+        quint16 m_curCamp;
+        quint16 m_curOnglet;
 
-private slots:
-    void m_campMod(bool);
+    private slots:
+
+
+/* Onglet vue d'ensemble */
+    public:
+
+    public slots:
+
+    private:
+        bool m_campModEnCours;
+
+    private slots:
+        void m_campMod(bool);
+
+
+/* Onglet recherche */
+    public:
+
+    public slots:
+
+    private slots:
+
+
+/* Onglet gestion humaine */
+    public:
+
+    public slots:
+
+    private slots:
+
+
+ /* Onglet stocks */
+    public:
+
+    public slots:
+
+    private slots:
 };
 
 #endif // MAINWIN_H
