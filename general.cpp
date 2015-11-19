@@ -24,24 +24,34 @@ void MainWin::changeCamp(QModelIndex index)
 
      m_campModAnnuler();
     QSqlQuery requeteVueEns(db);
+    QSqlQuery requeteNbPers(db);
     requeteVueEns.prepare("select nom_camp, localisation, nb_max  from Camps where id_camp= :id_courant");
     requeteVueEns.bindValue(":id_courant",m_curCamp);
+    requeteNbPers.prepare("select count(*) from Refugie where id_camp = :id_courant");
+    requeteNbPers.bindValue(":id_courant",m_curCamp);
     if(requeteVueEns.exec())
     {
         while(requeteVueEns.next())
         {
             ui->text_campNom->setText(requeteVueEns.value(0).toString());
             ui->text_campLoc->setText(requeteVueEns.value(1).toString());
-            ui->text_campNbPers->setText("");
             ui->text_campPlaceMax->setText(requeteVueEns.value(2).toString());
-            ui->text_campPlaceRest->setText("");
-
         }
+        if(requeteNbPers.exec())
+        {
+             while(requeteNbPers.next())
+             {
+                 int nbPers= requeteNbPers.value(0).toInt();
+                 ui->text_campNbPers->setText(QString::number(nbPers));
+                ui->text_campPlaceRest->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbPers));
+             }
+        }
+        else
+            qDebug() << "erreur: "<< requeteNbPers.lastError();
+
     }
     else
-    {
         qDebug() << "erreur: "<< requeteVueEns.lastError();
-    }
 
 }
 
