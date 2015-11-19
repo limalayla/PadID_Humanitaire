@@ -22,7 +22,37 @@ void MainWin::changeCamp(QModelIndex index)
     ui->groupbox_campTous->setVisible(m_curCamp == 0);
     ui->groupbox_campAutre->setVisible(m_curCamp != 0);
 
-    m_campModAnnuler();
+     m_campModAnnuler();
+    QSqlQuery requeteVueEns(db);
+    QSqlQuery requeteNbPers(db);
+    requeteVueEns.prepare("select nom_camp, localisation, nb_max  from Camps where id_camp= :id_courant");
+    requeteVueEns.bindValue(":id_courant",m_curCamp);
+    requeteNbPers.prepare("select count(*) from Refugie where id_camp = :id_courant");
+    requeteNbPers.bindValue(":id_courant",m_curCamp);
+    if(requeteVueEns.exec())
+    {
+        while(requeteVueEns.next())
+        {
+            ui->text_campNom->setText(requeteVueEns.value(0).toString());
+            ui->text_campLoc->setText(requeteVueEns.value(1).toString());
+            ui->text_campPlaceMax->setText(requeteVueEns.value(2).toString());
+        }
+        if(requeteNbPers.exec())
+        {
+             while(requeteNbPers.next())
+             {
+                 int nbPers= requeteNbPers.value(0).toInt();
+                 ui->text_campNbPers->setText(QString::number(nbPers));
+                ui->text_campPlaceRest->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbPers));
+             }
+        }
+        else
+            qDebug() << "erreur: "<< requeteNbPers.lastError();
+
+    }
+    else
+        qDebug() << "erreur: "<< requeteVueEns.lastError();
+
 }
 
 void MainWin::changeCampRech(QModelIndex index)
@@ -42,11 +72,11 @@ void MainWin::campChargement(quint16)
             // En attendant : Remplis par une chaine vide
 
         /* Onglet vue d'ensemble */
-            ui->text_campNom->setText("");
-            ui->text_campLoc->setText("");
-            ui->text_campNbPers->setText("");
-            ui->text_campPlaceMax->setText("");
-            ui->text_campPlaceRest->setText("");
+        ui->text_campNom->setText("");
+        ui->text_campLoc->setText("");
+        ui->text_campPlaceMax->setText("");
+        ui->text_campPlaceRest->setText("");
+        ui->text_campNbPers->setText("");
 
         /* Onglet stocks */
             // Stocks actuels

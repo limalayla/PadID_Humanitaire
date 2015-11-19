@@ -11,10 +11,10 @@ MainWin::MainWin(QWidget *parent) :
 
     /* Connexion à la BdD */
         db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName("127.0.0.1");      //CONFIG IUT
-        db.setPort(5555);          //CONFIG IUT
-        //db.setHostName("joretapo.fr");  //CONFIG NORMALE
-        //db.setPort(3306);        //CONFIG NORMALE
+        //db.setHostName("127.0.0.1");      //CONFIG IUT
+        // db.setPort(5555);          //CONFIG IUT
+        db.setHostName("joretapo.fr");  //CONFIG NORMALE
+        db.setPort(3306);        //CONFIG NORMALE
         db.setUserName("root");
         db.setPassword("toor");
         db.setDatabaseName("humanitaire");
@@ -36,15 +36,35 @@ MainWin::MainWin(QWidget *parent) :
                 ui->liste_camp->item(0)->setFont(QFont("Arial", 11));
                 ui->liste_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
 
-            // ToDo : Récuperer dans BdD liste camps et les mettres dans ui->liste_camp et m_campsIdBdD
+            //Récupere dans BdD liste camps et les mettres dans ui->liste_camp et m_campsIdBdD
+                        QSqlQuery requeteListeCamps(db);
+                        if(requeteListeCamps.exec("select id_camp,nom_camp from Camps"))
+                        {
+                                while(requeteListeCamps.next())
+                                {
+                                    QVariant resultatNomCamps = requeteListeCamps.value(1);
+                                    QVariant resultatIdCamps = requeteListeCamps.value(0);
+                                    ui->liste_camp->addItem(resultatNomCamps.toString());
+                                    m_campsIdBdD.push_back(resultatIdCamps.toInt());
+                                }
 
+                        }
         /* Onglet vue d'ensemble */
             ui->groupbox_campAutre->setVisible(false);
 
         /* Onglet recherche */
             for(quint8 i= 1; i<= 100; i++) ui->combo_rechAge->addItem(QString::number(i));
-            // ToDo : Récuperer dans une table les pays d'origine et les mettres dans ui->combo_rechPaysOrigine
 
+            //Récupere dans une table les pays d'origine et les mettres dans ui->combo_rechPaysOrigine
+            QSqlQuery requeteListePays(db);
+            if(requeteListePays.exec("select nom_pays from Pays"))
+            {
+                while(requeteListePays.next())
+                {
+                    QVariant resultatNomPays = requeteListePays.value(0);
+                    ui->combo_rechPaysOrigine->addItem(resultatNomPays.toString());
+                }
+            }
     /* Liaison des evenements */
         initEvenement();
 }
@@ -62,6 +82,7 @@ void MainWin::initEvenement()
         QObject::connect(ui->liste_camp,     SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
         QObject::connect(ui->text_rechCamp,  SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
         QObject::connect(ui->liste_campRech, SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampRech(QModelIndex)));
+
 
    /* Onglet vue d'ensemble */
         QObject::connect(ui->btn_campMod,        SIGNAL(clicked(bool)), this, SLOT(m_campMod(bool)));
