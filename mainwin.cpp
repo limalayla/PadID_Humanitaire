@@ -83,6 +83,7 @@ void MainWin::initEvenement()
         QObject::connect(ui->text_rechCamp,  SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
         QObject::connect(ui->liste_campRech, SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampRech(QModelIndex)));
 
+
    /* Onglet vue d'ensemble */
         QObject::connect(ui->btn_campMod,        SIGNAL(clicked(bool)), this, SLOT(m_campMod(bool)));
         QObject::connect(ui->btn_campModAnnuler, SIGNAL(clicked(bool)), this, SLOT(m_campModAnnuler(bool)));

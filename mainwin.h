@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QInputDialog>
 #include <QtSql>
+#include<QDebug>
 
 namespace Ui {
 class MainWin;
