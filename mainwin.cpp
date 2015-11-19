@@ -11,10 +11,10 @@ MainWin::MainWin(QWidget *parent) :
 
     /* Connexion à la BdD */
         db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName("127.0.0.1");      //CONFIG IUT
-        db.setPort(5555);          //CONFIG IUT
-        //db.setHostName("joretapo.fr");  //CONFIG NORMALE
-        //db.setPort(3306);        //CONFIG NORMALE
+        //db.setHostName("127.0.0.1");      //CONFIG IUT
+        // db.setPort(5555);          //CONFIG IUT
+        db.setHostName("joretapo.fr");  //CONFIG NORMALE
+        db.setPort(3306);        //CONFIG NORMALE
         db.setUserName("root");
         db.setPassword("toor");
         db.setDatabaseName("humanitaire");
@@ -36,8 +36,19 @@ MainWin::MainWin(QWidget *parent) :
                 ui->liste_camp->item(0)->setFont(QFont("Arial", 11));
                 ui->liste_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
 
-            // ToDo : Récuperer dans BdD liste camps et les mettres dans ui->liste_camp et m_campsIdBdD
+            //Récupere dans BdD liste camps et les mettres dans ui->liste_camp et m_campsIdBdD
+                        QSqlQuery requeteListeCamps(db);
+                        if(requeteListeCamps.exec("select id_camp,nom_camp from Camps"))
+                        {
+                                while(requeteListeCamps.next())
+                                {
+                                    QVariant resultatNomCamps = requeteListeCamps.value(1);
+                                    QVariant resultatIdCamps = requeteListeCamps.value(0);
+                                    ui->liste_camp->addItem(resultatNomCamps.toString());
+                                    m_campsIdBdD.push_back(resultatIdCamps.toInt());
+                                }
 
+                        }
         /* Onglet vue d'ensemble */
             ui->groupbox_campAutre->setVisible(false);
 

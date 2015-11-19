@@ -280,6 +280,20 @@
         <string>Del</string>
        </property>
       </widget>
+      <zorder>text_campNom</zorder>
+      <zorder>text_campLoc</zorder>
+      <zorder>text_campNbPers</zorder>
+      <zorder>text_campPlaceMax</zorder>
+      <zorder>text_campPlaceRest</zorder>
+      <zorder>label_campNom</zorder>
+      <zorder>label_campLoc</zorder>
+      <zorder>label_campNbPers</zorder>
+      <zorder>label_campPlaceMax</zorder>
+      <zorder>label_campPlaceRest</zorder>
+      <zorder>btn_campModAnnuler</zorder>
+      <zorder>btn_campMod</zorder>
+      <zorder>btn_campSuppr</zorder>
+      <zorder>liste_campRech</zorder>
      </widget>
      <widget class="QGroupBox" name="groupbox_campTous">
       <property name="geometry">
@@ -1213,7 +1227,7 @@
      </font>
     </property>
     <property name="currentRow">
-     <number>0</number>
+     <number>-1</number>
     </property>
     <property name="sortingEnabled">
      <bool>false</bool>
@@ -1221,11 +1235,6 @@
     <item>
      <property name="text">
       <string>Tous</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>nope</string>
      </property>
     </item>
    </widget>
@@ -1299,7 +1308,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLangue">
