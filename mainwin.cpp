@@ -54,8 +54,17 @@ MainWin::MainWin(QWidget *parent) :
 
         /* Onglet recherche */
             for(quint8 i= 1; i<= 100; i++) ui->combo_rechAge->addItem(QString::number(i));
-            // ToDo : Récuperer dans une table les pays d'origine et les mettres dans ui->combo_rechPaysOrigine
 
+            //Récupere dans une table les pays d'origine et les mettres dans ui->combo_rechPaysOrigine
+            QSqlQuery requeteListePays(db);
+            if(requeteListePays.exec("select nom_pays from Pays"))
+            {
+                while(requeteListePays.next())
+                {
+                    QVariant resultatNomPays = requeteListePays.value(0);
+                    ui->combo_rechPaysOrigine->addItem(resultatNomPays.toString());
+                }
+            }
     /* Liaison des evenements */
         initEvenement();
 }
