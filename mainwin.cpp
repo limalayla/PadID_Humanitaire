@@ -17,6 +17,7 @@ MainWin::MainWin(QWidget *parent) :
             ui->onglets->setTabEnabled(2, false);
             ui->onglets->setTabEnabled(3, false);
             ui->liste_campRech->setVisible(false);
+            ui->btn_campModAnnuler->setVisible(false);
 
             // Personnalisation de l'item "Tous" de liste_camp
                 ui->liste_camp->item(0)->setFont(QFont("Arial", 11));

@@ -12,6 +12,7 @@ void MainWin::m_campMod(bool)
     m_campModEnCours = !m_campModEnCours;
     m_campSetEnabledInput(m_campModEnCours);
 
+    ui->btn_campModAnnuler->setVisible(m_campModEnCours);
     ui->btn_campMod->setText(m_campModEnCours ? "Valider Modifications" : "Modifier Camp");
 }
 
