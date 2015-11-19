@@ -6,7 +6,29 @@ void MainWin::m_campMod(bool)
     if(m_campModEnCours)
     {
         // ToDo : Récuperer la BdD à modifier
-        // ToDo : Update sur les champs différents
+        QSqlQuery RequeteCamps(db); 
+        RequeteCamps.prepare("select id_camp from Camps where nom_camp=:nom");
+        RequeteCamps.bindValue(":nom",ui->liste_camp->item(m_curCamp)->text());
+        if(RequeteCamps.exec())
+            {
+            // ToDo : Update sur les champs différents
+            RequeteCamps.next();
+            QSqlQuery ModifCamps(db);
+            ModifCamps.prepare("update Camps set nom_camp = :nom_camp ,localisation=:localisation , nb_max=:nb_max where id_camp=:id");
+            ModifCamps.bindValue(":nom_camp",ui->text_campNom->text());
+            ModifCamps.bindValue(":localisation",ui->text_campLoc->text());
+            ModifCamps.bindValue(":nb_max",ui->text_campPlaceMax->text());
+            ModifCamps.bindValue(":id",RequeteCamps.value(0).toString());
+            if(!(ModifCamps.exec()))
+                qDebug() << "erreur insertion valeurs : " << ModifCamps.lastError();
+            }
+         else
+            qDebug() << "erreur selection element  : " << RequeteCamps.lastError();
+
+        int placeres =(int) ui->text_campPlaceMax->text() - (int) ui->text_campNbPers->text()
+
+
+
     }
 
     m_campModEnCours = !m_campModEnCours;
