@@ -5,30 +5,22 @@ void MainWin::m_campMod(bool)
 {
     if(m_campModEnCours)
     {
-        // ToDo : Récuperer la BdD à modifier
-        QSqlQuery RequeteCamps(db); 
-        RequeteCamps.prepare("select id_camp from Camps where nom_camp=:nom");
-        RequeteCamps.bindValue(":nom",ui->liste_camp->item(m_curCamp)->text());
-        if(RequeteCamps.exec())
-            {
-            // ToDo : Update sur les champs différents
-            RequeteCamps.next();
-            QSqlQuery ModifCamps(db);
-            ModifCamps.prepare("update Camps set nom_camp = :nom_camp ,localisation=:localisation , nb_max=:nb_max where id_camp=:id");
-            ModifCamps.bindValue(":nom_camp",ui->text_campNom->text());
-            ModifCamps.bindValue(":localisation",ui->text_campLoc->text());
-            ModifCamps.bindValue(":nb_max",ui->text_campPlaceMax->text());
-            ModifCamps.bindValue(":id",RequeteCamps.value(0).toString());
-            if(!(ModifCamps.exec()))
-                qDebug() << "erreur insertion valeurs : " << ModifCamps.lastError();
-            }
-         else
-            qDebug() << "erreur selection element  : " << RequeteCamps.lastError();
+        QSqlQuery req_modifCamps(db);
 
-        int placeres =(int) ui->text_campPlaceMax->text() - (int) ui->text_campNbPers->text()
+        // ToDo : Update uniquement sur les champs différents
 
+        req_modifCamps.prepare("UPDATE Camps SET nom_camp = :nom_camp, localisation = :localisation, nb_max = :nb_max WHERE id_camp = :id");
 
+        req_modifCamps.bindValue(":nom_camp",     ui->text_campNom->text());
+        req_modifCamps.bindValue(":localisation", ui->text_campLoc->text());
+        req_modifCamps.bindValue(":nb_max",       ui->text_campPlaceMax->text());
+        req_modifCamps.bindValue(":id",           m_curCamp);
 
+        if(req_modifCamps.exec())
+        {
+            qDebug() << "[DEBUG] Modification de camp réussie";
+        }
+        else qDebug() << "[ERROR] Modification camps: Insertion valeurs (" << req_modifCamps.lastError() << ")";
     }
 
     m_campModEnCours = !m_campModEnCours;
