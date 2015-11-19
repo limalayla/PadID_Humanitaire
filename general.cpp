@@ -11,48 +11,58 @@ void MainWin::changeCamp(QModelIndex index)
 {
     if(index.isValid()) m_curCamp = index.row();
 
+    campChargement(m_curCamp);
     if(m_curCamp == 0)
     {
         if(m_curOnglet == 2 || m_curOnglet == 3) m_curOnglet = 0;
+        /* SQL */
     }
 
-    ui->onglets->setTabEnabled(2, m_curCamp != 0);
-    ui->onglets->setTabEnabled(3, m_curCamp != 0);
-
-    ui->groupbox_campTous->setVisible(m_curCamp == 0);
-    ui->groupbox_campAutre->setVisible(m_curCamp != 0);
-
-     m_campModAnnuler();
-    QSqlQuery requeteVueEns(db);
-    QSqlQuery requeteNbPers(db);
-    requeteVueEns.prepare("select nom_camp, localisation, nb_max  from Camps where id_camp= :id_courant");
-    requeteVueEns.bindValue(":id_courant",m_curCamp);
-    requeteNbPers.prepare("select count(*) from Refugie where id_camp = :id_courant");
-    requeteNbPers.bindValue(":id_courant",m_curCamp);
-    if(requeteVueEns.exec())
-    {
-        while(requeteVueEns.next())
-        {
-            ui->text_campNom->setText(requeteVueEns.value(0).toString());
-            ui->text_campLoc->setText(requeteVueEns.value(1).toString());
-            ui->text_campPlaceMax->setText(requeteVueEns.value(2).toString());
-        }
-        if(requeteNbPers.exec())
-        {
-             while(requeteNbPers.next())
-             {
-                 int nbPers= requeteNbPers.value(0).toInt();
-                 ui->text_campNbPers->setText(QString::number(nbPers));
-                ui->text_campPlaceRest->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbPers));
-             }
-        }
-        else
-            qDebug() << "erreur: "<< requeteNbPers.lastError();
-
-    }
     else
-        qDebug() << "erreur: "<< requeteVueEns.lastError();
+    {
+        QSqlQuery requeteVueEns(db);
+        QSqlQuery requeteNbPers(db);
 
+        /* Onglet Vue d'Ensemble */
+            requeteVueEns.prepare("SELECT nom_camp, localisation, nb_max  FROM Camps WHERE id_camp= :id_courant");
+            requeteVueEns.bindValue(":id_courant", m_curCamp);
+
+            if(requeteVueEns.exec())
+            {
+                while(requeteVueEns.next())
+                {
+                    ui->text_campNom->setText(requeteVueEns.value(0).toString());
+                    ui->text_campLoc->setText(requeteVueEns.value(1).toString());
+                    ui->text_campPlaceMax->setText(requeteVueEns.value(2).toString());
+                }
+
+                requeteNbPers.prepare("SELECT count(*) FROM Refugie WHERE id_camp = :id_courant");
+                requeteNbPers.bindValue(":id_courant", m_curCamp);
+
+                if(requeteNbPers.exec())
+                {
+                     while(requeteNbPers.next())
+                     {
+                        int nbPers= requeteNbPers.value(0).toInt();
+                        ui->text_campNbPers->setText(QString::number(nbPers));
+                        ui->text_campPlaceRest->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbPers));
+                     }
+                }
+                else qDebug() << "erreur: "<< requeteNbPers.lastError();
+            }
+            else qDebug() << "erreur: "<< requeteVueEns.lastError();
+        }
+
+    // Désactivation des onglets "Gestion Humaine" et "Stock" quand "Tous" est séléctionné
+        ui->onglets->setTabEnabled(2, m_curCamp != 0);
+        ui->onglets->setTabEnabled(3, m_curCamp != 0);
+
+    // Changement d'interface -> interface différente quand "Tous" est séléctionné
+        ui->groupbox_campTous->setVisible(m_curCamp == 0);
+        ui->groupbox_campAutre->setVisible(m_curCamp != 0);
+
+     // Annulation des changements sur les camps s'il y en a
+         m_campModAnnuler();
 }
 
 void MainWin::changeCampRech(QModelIndex index)

@@ -11,10 +11,10 @@ MainWin::MainWin(QWidget *parent) :
 
     /* Connexion à la BdD */
         db = QSqlDatabase::addDatabase("QMYSQL");
-        //db.setHostName("127.0.0.1");      //CONFIG IUT
-        // db.setPort(5555);          //CONFIG IUT
+        //db.setHostName("127.0.0.1");	//CONFIG IUT
+        // db.setPort(5555);          	//CONFIG IUT
         db.setHostName("joretapo.fr");  //CONFIG NORMALE
-        db.setPort(3306);        //CONFIG NORMALE
+        db.setPort(3306);        		//CONFIG NORMALE
         db.setUserName("root");
         db.setPassword("toor");
         db.setDatabaseName("humanitaire");
@@ -88,4 +88,5 @@ void MainWin::initEvenement()
         QObject::connect(ui->btn_campMod,        SIGNAL(clicked(bool)), this, SLOT(m_campMod(bool)));
         QObject::connect(ui->btn_campModAnnuler, SIGNAL(clicked(bool)), this, SLOT(m_campModAnnuler(bool)));
         QObject::connect(ui->btn_campSuppr,      SIGNAL(clicked(bool)), this, SLOT(m_campSuppr(bool)));
+
 }
