@@ -1,6 +1,7 @@
 #include "mainwin.h"
 #include "ui_mainwin.h"
 
+
 MainWin::MainWin(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWin),
     m_curCamp(0), m_curOnglet(0), m_campModEnCours(false)
@@ -9,6 +10,19 @@ MainWin::MainWin(QWidget *parent) :
     ui->setupUi(this);
 
     /* Connexion à la BdD */
+        db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setHostName("127.0.0.1");      //CONFIG IUT
+        db.setPort(5555);          //CONFIG IUT
+        //db.setHostName("joretapo.fr");  //CONFIG NORMALE
+        //db.setPort(3306);        //CONFIG NORMALE
+        db.setUserName("root");
+        db.setPassword("toor");
+        db.setDatabaseName("humanitaire");
+        qDebug() << "connexion en cours";
+            if(db.open())
+                qDebug() << "connexion reussi";
+            else
+                qDebug() << "La connexion a échouée, désolé" ;
 
 
     /* Préparation de l'interface */

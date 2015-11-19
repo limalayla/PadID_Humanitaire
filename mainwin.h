@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QVector>
 #include <QInputDialog>
+#include <QtSql>
 
 namespace Ui {
 class MainWin;
@@ -34,6 +35,7 @@ class MainWin : public QMainWindow
         quint16 m_curOnglet;
         void initEvenement();
         QVector<int> m_campsIdBdD;
+        QSqlDatabase db;
 
     private slots:
 
