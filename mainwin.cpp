@@ -1,4 +1,4 @@
-#include "mainwin.h"
+﻿#include "mainwin.h"
 #include "ui_mainwin.h"
 
 
@@ -61,7 +61,7 @@ MainWin::MainWin(QWidget *parent) :
 MainWin::~MainWin()
 {
     delete ui;
-    if(m_db != NULL) delete m_db;
+    closedb();
 }
 
 void MainWin::initEvenement()
@@ -72,6 +72,8 @@ void MainWin::initEvenement()
         QObject::connect(ui->liste_camp,        SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
         QObject::connect(ui->text_rechCamp,     SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
         QObject::connect(ui->liste_campRech,    SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampRech(QModelIndex)));
+        QObject::connect(&m_timerdb,            SIGNAL(timeout()),            this, SLOT(closedb()));
+        QObject::connect(ui->actionQuitter,     SIGNAL(toggled(bool)), this, SLOT(close()));
 
 
    /* Onglet vue d'ensemble */

@@ -41,9 +41,10 @@ class MainWin : public QMainWindow
         void initEvenement();
         quint16 m_nomCampValide(const QString&);
         QVector<int> m_campsIdBdD;
+        QTimer m_timerdb;
 
     private slots:
-
+        void closedb();
 
 /* Onglet vue d'ensemble */
     public:

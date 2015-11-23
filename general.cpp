@@ -145,6 +145,8 @@ void MainWin::campRecherche(QString s)
 
 QSqlDatabase* MainWin::db()
 {
+    int timeout(1*10*1000);
+
     if(m_db == NULL)
     {
         QSqlDatabase tmpdb = QSqlDatabase::addDatabase("QMYSQL");
@@ -161,18 +163,43 @@ QSqlDatabase* MainWin::db()
         m_db->setUserName("root");
         m_db->setPassword("toor");
         m_db->setDatabaseName("humanitaire");
-        qDebug() << "Connexion en cours";
+    }
 
-        if(m_db->open()) qDebug() << "Connexion réussie";
+    if(!m_db->isOpen())
+    {
+        qDebug() << "[DEBUG] general.cpp::db() : Connecting to " << m_db->hostName()     << ":"
+                                                                     << m_db->port()         << " on "
+                                                                     << m_db->databaseName() << " for "
+                                                                     << timeout/1000         << "s";
+
+        if(m_db->open()) qDebug() << "[DEBUG] general.cpp::db() : Db successfuly opened";
         else
         {
-            qDebug() << "Connexion échouée" ;
+            qCritical() << "[ERROR] general.cpp::db() : " << m_db->lastError().text();
             QMessageBox::critical(this, "Connexion à la BdD", "Erreur de connexion à la base de données :\n" +
                                                               m_db->lastError().text());
         }
+
     }
 
+    m_timerdb.start(timeout);
+
     return m_db;
+}
+
+void MainWin::closedb()
+{
+    if(m_db != NULL)
+    {
+        if(m_db->isOpen())
+        {
+            m_db->close();
+            m_timerdb.stop();
+            qDebug() << "[DEBUG] general.cpp::closedb() : Db closed";
+        }
+        else qDebug() << "[DEBUG] general.cpp::closedb() : Db can't be closed (not opened)";
+    }
+    else qDebug() << "[ERROR] general.cpp::closedb() : Db can't be closed (not instantiated)";
 }
 
 /*

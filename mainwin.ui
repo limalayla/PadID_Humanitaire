@@ -1204,7 +1204,7 @@
       <x>0</x>
       <y>0</y>
       <width>150</width>
-      <height>411</height>
+      <height>250</height>
      </rect>
     </property>
     <property name="font">
@@ -1249,21 +1249,27 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>410</y>
+      <y>250</y>
       <width>150</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>10</pointsize>
      </font>
+    </property>
+    <property name="maxLength">
+     <number>50</number>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
     <property name="placeholderText">
      <string>Rechercher...</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QListWidget" name="liste_campRech">
@@ -1272,7 +1278,81 @@
       <x>0</x>
       <y>0</y>
       <width>150</width>
-      <height>411</height>
+      <height>250</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="currentRow">
+     <number>-1</number>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="liste_reserve">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>269</y>
+      <width>150</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="currentRow">
+     <number>-1</number>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>Tous</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="text_rechReserve">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>420</y>
+      <width>150</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="maxLength">
+     <number>50</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>Rechercher...</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="liste_reserveRech">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>319</y>
+      <width>150</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
