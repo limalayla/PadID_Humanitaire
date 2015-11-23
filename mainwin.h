@@ -7,7 +7,9 @@
 #include <QVector>
 #include <QInputDialog>
 #include <QtSql>
-#include<QDebug>
+#include <QDebug>
+#include <QtGlobal>
+#include <QRegExp>
 
 namespace Ui {
 class MainWin;
@@ -22,6 +24,7 @@ class MainWin : public QMainWindow
         explicit MainWin(QWidget *parent = 0);
         ~MainWin();
         void campChargement(quint16);
+        QSqlDatabase* db();
 
     public slots:
         void changeCamp(QModelIndex);
@@ -32,11 +35,12 @@ class MainWin : public QMainWindow
 
     private:
         Ui::MainWin *ui;
+        QSqlDatabase* m_db;
         quint16 m_curCamp;
         quint16 m_curOnglet;
         void initEvenement();
+        quint16 m_nomCampValide(const QString&);
         QVector<int> m_campsIdBdD;
-        QSqlDatabase db;
 
     private slots:
 
@@ -49,6 +53,7 @@ class MainWin : public QMainWindow
     private:
         bool m_campModEnCours;
         void m_campSetEnabledInput(bool);
+        void m_vueensLoad(bool= false);
 
     private slots:
         void m_campMod(bool);

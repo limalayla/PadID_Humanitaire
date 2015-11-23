@@ -3,27 +3,13 @@
 
 
 MainWin::MainWin(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWin),
+    QMainWindow(parent), ui(new Ui::MainWin), m_db(NULL),
     m_curCamp(0), m_curOnglet(0), m_campModEnCours(false)
-
 {
     ui->setupUi(this);
 
     /* Connexion à la BdD */
-        db = QSqlDatabase::addDatabase("QMYSQL");
-        //db.setHostName("127.0.0.1");	//CONFIG IUT
-        // db.setPort(5555);          	//CONFIG IUT
-        db.setHostName("joretapo.fr");  //CONFIG NORMALE
-        db.setPort(3306);        		//CONFIG NORMALE
-        db.setUserName("root");
-        db.setPassword("toor");
-        db.setDatabaseName("humanitaire");
-        qDebug() << "connexion en cours";
-            if(db.open())
-                qDebug() << "connexion reussi";
-            else
-                qDebug() << "La connexion a échouée, désolé" ;
-
+        db();
 
     /* Préparation de l'interface */
         /* Géneral */
@@ -38,18 +24,20 @@ MainWin::MainWin(QWidget *parent) :
                 ui->liste_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
 
             //Récupere dans BdD liste camps et les mettres dans ui->liste_camp et m_campsIdBdD
-                        QSqlQuery requeteListeCamps(db);
-                        if(requeteListeCamps.exec("select id_camp,nom_camp from Camps"))
-                        {
-                                while(requeteListeCamps.next())
-                                {
-                                    QVariant resultatNomCamps = requeteListeCamps.value(1);
-                                    QVariant resultatIdCamps = requeteListeCamps.value(0);
-                                    ui->liste_camp->addItem(resultatNomCamps.toString());
-                                    m_campsIdBdD.push_back(resultatIdCamps.toInt());
-                                }
+                QSqlQuery requeteListeCamps(*db());
+                if(requeteListeCamps.exec("SELECT id_camp, nom_camp FROM Camps"))
+                {
+                    // On push une première fois pour le camp spécial "Tous"
+                    m_campsIdBdD.push_back(-1);
+                    while(requeteListeCamps.next())
+                    {
+                        QVariant resultatNomCamps = requeteListeCamps.value(1);
+                        QVariant resultatIdCamps = requeteListeCamps.value(0);
+                        ui->liste_camp->addItem(resultatNomCamps.toString());
+                        m_campsIdBdD.push_back(resultatIdCamps.toInt());
+                    }
+                }
 
-                        }
         /* Onglet vue d'ensemble */
             ui->groupbox_campAutre->setVisible(false);
 
@@ -57,8 +45,8 @@ MainWin::MainWin(QWidget *parent) :
             for(quint8 i= 1; i<= 100; i++) ui->combo_rechAge->addItem(QString::number(i));
 
             //Récupere dans une table les pays d'origine et les mettres dans ui->combo_rechPaysOrigine
-            QSqlQuery requeteListePays(db);
-            if(requeteListePays.exec("select nom_pays from Pays"))
+            QSqlQuery requeteListePays(*db());
+            if(requeteListePays.exec("SELECT nom_pays FROM Pays"))
             {
                 while(requeteListePays.next())
                 {
@@ -73,16 +61,17 @@ MainWin::MainWin(QWidget *parent) :
 MainWin::~MainWin()
 {
     delete ui;
+    if(m_db != NULL) delete m_db;
 }
 
 void MainWin::initEvenement()
 {
     /* Géneral */
-        QObject::connect(ui->btn_campAjout,  SIGNAL(clicked(bool)),        this, SLOT(campAjouter(bool)));
-        QObject::connect(ui->onglets,        SIGNAL(currentChanged(int)),  this, SLOT(changeOnglet(int)));
-        QObject::connect(ui->liste_camp,     SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
-        QObject::connect(ui->text_rechCamp,  SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
-        QObject::connect(ui->liste_campRech, SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampRech(QModelIndex)));
+        QObject::connect(ui->btn_campAjout,     SIGNAL(clicked(bool)),        this, SLOT(campAjouter(bool)));
+        QObject::connect(ui->onglets,           SIGNAL(currentChanged(int)),  this, SLOT(changeOnglet(int)));
+        QObject::connect(ui->liste_camp,        SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
+        QObject::connect(ui->text_rechCamp,     SIGNAL(textChanged(QString)), this, SLOT(campRecherche(QString)));
+        QObject::connect(ui->liste_campRech,    SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampRech(QModelIndex)));
 
 
    /* Onglet vue d'ensemble */

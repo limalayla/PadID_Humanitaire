@@ -24,3 +24,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwin.h
 
 FORMS    += mainwin.ui
+
+TRANSLATIONS = humanitaire_fr.ts \
+               humanitaire_en.ts

@@ -20,38 +20,8 @@ void MainWin::changeCamp(QModelIndex index)
 
     else
     {
-        QSqlQuery requeteVueEns(db);
-        QSqlQuery requeteNbPers(db);
-
-        /* Onglet Vue d'Ensemble */
-            requeteVueEns.prepare("SELECT nom_camp, localisation, nb_max  FROM Camps WHERE id_camp= :id_courant");
-            requeteVueEns.bindValue(":id_courant", m_curCamp);
-
-            if(requeteVueEns.exec())
-            {
-                while(requeteVueEns.next())
-                {
-                    ui->text_campNom->setText(requeteVueEns.value(0).toString());
-                    ui->text_campLoc->setText(requeteVueEns.value(1).toString());
-                    ui->text_campPlaceMax->setText(requeteVueEns.value(2).toString());
-                }
-
-                requeteNbPers.prepare("SELECT count(*) FROM Refugie WHERE id_camp = :id_courant");
-                requeteNbPers.bindValue(":id_courant", m_curCamp);
-
-                if(requeteNbPers.exec())
-                {
-                     while(requeteNbPers.next())
-                     {
-                        int nbPers= requeteNbPers.value(0).toInt();
-                        ui->text_campNbPers->setText(QString::number(nbPers));
-                        ui->text_campPlaceRest->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbPers));
-                     }
-                }
-                else qDebug() << "erreur: "<< requeteNbPers.lastError();
-            }
-            else qDebug() << "erreur: "<< requeteVueEns.lastError();
-        }
+        m_vueensLoad();
+    }
 
     // Désactivation des onglets "Gestion Humaine" et "Stock" quand "Tous" est séléctionné
         ui->onglets->setTabEnabled(2, m_curCamp != 0);
@@ -124,30 +94,27 @@ void MainWin::campChargement(quint16)
 
 void MainWin::campAjouter(bool)
 {
-    bool ok, nomPris(false);
+    bool ok;
+    quint16 nomValide;
     QString ans;
 
     do
     {
         ans = QInputDialog::getText(this, "Nouveau Camp", "Nom du nouveau camp : ", QLineEdit::Normal, QString(), &ok);
 
-        if(ok && !ans.isEmpty())
+        if(ok)
         {
-            // On vérifie qu'il n'y a pas déjà de camp portant ce nom
-                for(quint16 i= 0; i< ui->liste_camp->count() && !nomPris; i++)
-                    if(ans.compare(ui->liste_camp->item(i)->text(), Qt::CaseInsensitive) == 0) nomPris = true;
+            nomValide = m_nomCampValide(ans);
 
-           if(nomPris)
-               QMessageBox::warning(this, "Nom déjà pris", "Le nom de camp rentré est déjà pris, re-rentrez en un.");
-        }
-        else
-        {
-            if(ok) QMessageBox::warning(this, "Erreur avec le nom", "Erreur lors de la récuperation du non du camp");
+                 if(nomValide == 1) QMessageBox::warning(this, "Nom Vide", "Le nom de camp rentré est vide, re-rentrez en un.");
+            else if(nomValide == 2) QMessageBox::warning(this, "Nom Trop Long", "Le nom de camp rentré fait plus de 50 caractères, re-rentrez en un.");
+            else if(nomValide == 3) QMessageBox::warning(this, "Nom Mal Formaté", "Le nom de camp rentré à un mauvais format (^[a-z](\\w|-)*$), re-rentrez en un.");
+            else if(nomValide == 4) QMessageBox::warning(this, "Nom déjà pris", "Le nom de camp rentré est déjà pris, re-rentrez en un.");
         }
     }
-    while(ans.isEmpty() && nomPris);
+    while(ok && nomValide != 0);
 
-    if(ok && !ans.isEmpty() && !nomPris)
+    if(ok)
     {
         // ToDo : Ajouter dans la BdD
 
@@ -174,4 +141,58 @@ void MainWin::campRecherche(QString s)
 
         ui->liste_campRech->setVisible(true);
     }
+}
+
+QSqlDatabase* MainWin::db()
+{
+    if(m_db == NULL)
+    {
+        QSqlDatabase tmpdb = QSqlDatabase::addDatabase("QMYSQL");
+        m_db = new QSqlDatabase(tmpdb);
+
+        /* Config IUT */
+            //m_db->setHostName("127.0.0.1");
+            //m_db->setPort(5555);
+
+        /* Config NORMALE */
+            m_db->setHostName("joretapo.fr");
+            m_db->setPort(3306);
+
+        m_db->setUserName("root");
+        m_db->setPassword("toor");
+        m_db->setDatabaseName("humanitaire");
+        qDebug() << "Connexion en cours";
+
+        if(m_db->open()) qDebug() << "Connexion réussie";
+        else
+        {
+            qDebug() << "Connexion échouée" ;
+            QMessageBox::critical(this, "Connexion à la BdD", "Erreur de connexion à la base de données :\n" +
+                                                              m_db->lastError().text());
+        }
+    }
+
+    return m_db;
+}
+
+/*
+ * Valeurs de Retour :
+ *  0 -> Ok
+ *  1 -> Chaine Vide
+ *  2 -> Nom Trop Long (> 50)
+ *  3 -> Mauvais Format
+ *  4 -> Nom Déjà Pris
+*/
+
+quint16 MainWin::m_nomCampValide(const QString& s)
+{
+    if(s.isEmpty()) return 1;
+    if(s.length() >= 50) return 2;
+
+    if(!QRegExp("^[a-z](\\w|-)*$", Qt::CaseInsensitive).exactMatch(s)) return 3;
+
+    for(quint16 i= 0; i< ui->liste_camp->count(); i++)
+        if(s.compare(ui->liste_camp->item(i)->text(), Qt::CaseInsensitive) == 0 && i != m_curCamp) return 4;
+
+    return 0;
 }

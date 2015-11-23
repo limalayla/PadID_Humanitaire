@@ -41,7 +41,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -280,20 +280,6 @@
         <string>Del</string>
        </property>
       </widget>
-      <zorder>text_campNom</zorder>
-      <zorder>text_campLoc</zorder>
-      <zorder>text_campNbPers</zorder>
-      <zorder>text_campPlaceMax</zorder>
-      <zorder>text_campPlaceRest</zorder>
-      <zorder>label_campNom</zorder>
-      <zorder>label_campLoc</zorder>
-      <zorder>label_campNbPers</zorder>
-      <zorder>label_campPlaceMax</zorder>
-      <zorder>label_campPlaceRest</zorder>
-      <zorder>btn_campModAnnuler</zorder>
-      <zorder>btn_campMod</zorder>
-      <zorder>btn_campSuppr</zorder>
-      <zorder>liste_campRech</zorder>
      </widget>
      <widget class="QGroupBox" name="groupbox_campTous">
       <property name="geometry">
@@ -1308,7 +1294,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLangue">
@@ -1324,8 +1310,16 @@
     </property>
     <addaction name="actionQuitter"/>
    </widget>
+   <widget class="QMenu" name="menuProfil">
+    <property name="title">
+     <string>Profil</string>
+    </property>
+    <addaction name="actionConnexion"/>
+    <addaction name="actionD_connexion"/>
+   </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuLangue"/>
+   <addaction name="menuProfil"/>
   </widget>
   <action name="actionFrancais">
    <property name="text">
@@ -1340,6 +1334,16 @@
   <action name="actionQuitter">
    <property name="text">
     <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionConnexion">
+   <property name="text">
+    <string>Connexion</string>
+   </property>
+  </action>
+  <action name="actionD_connexion">
+   <property name="text">
+    <string>Déconnexion</string>
    </property>
   </action>
  </widget>
