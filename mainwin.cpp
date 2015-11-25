@@ -75,7 +75,7 @@ void MainWin::initSlots()
         QObject::connect(ui->text_searchCamp, SIGNAL(textChanged(QString)), this, SLOT(campSearch(QString)));
         QObject::connect(ui->list_campSearch, SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampSearch(QModelIndex)));
         QObject::connect(&m_timerdb,          SIGNAL(timeout()),            this, SLOT(closedb()));
-        QObject::connect(ui->actionExit,    SIGNAL(toggled(bool)),        this, SLOT(close()));
+        QObject::connect(ui->actionExit,      SIGNAL(triggered(bool)),      this, SLOT(close()));
 
 
    /* Overview Tab */
