@@ -3,7 +3,8 @@
 
 
 MainWin::MainWin(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWin), m_db(NULL),
+    QMainWindow(parent), m_refugeeInfoWin(NULL),
+    ui(new Ui::MainWin), m_db(NULL),
     m_curCamp(0), m_curTab(0), m_campModOngoing(false)
 {
     /*  CONSTRUCTOR
@@ -83,4 +84,8 @@ void MainWin::initSlots()
         QObject::connect(ui->btn_campModCancel, SIGNAL(clicked(bool)), this, SLOT(campModCancel(bool)));
         QObject::connect(ui->btn_campDel,       SIGNAL(clicked(bool)), this, SLOT(campDel(bool)));
 
+   /* Manage Tab */
+        QObject::connect(ui->btn_manageAdd, SIGNAL(clicked(bool)), this, SLOT(refugeeAdd(bool)));
+        QObject::connect(ui->btn_manageMod, SIGNAL(clicked(bool)), this, SLOT(refugeeMod(bool)));
+        QObject::connect(ui->btn_manageDel, SIGNAL(clicked(bool)), this, SLOT(refugeeDel(bool)));
 }

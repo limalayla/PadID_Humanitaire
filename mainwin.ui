@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Humanitaire 2.0</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="tabs">
     <property name="geometry">

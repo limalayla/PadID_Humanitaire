@@ -11,6 +11,8 @@
 #include <QtGlobal>
 #include <QRegExp>
 
+#include "refugeeinfowin.h"
+
 namespace Ui {
 class MainWin;
 }
@@ -24,6 +26,8 @@ class MainWin : public QMainWindow
         explicit MainWin(QWidget *parent = 0);
                 ~MainWin();
         QSqlDatabase* db(quint16 timeoutTimer_s= 5*60);
+
+        RefugeeInfoWin *m_refugeeInfoWin;
 
         static const quint8 c_AllCampIndex = 0;
 
@@ -76,9 +80,15 @@ class MainWin : public QMainWindow
     public:
 
     public slots:
+        void closeRefugeeInfo();
+
+    private:
+        void openRefugeeInfo(RefugeeInfoWin::OpenMode openMode);
 
     private slots:
-
+        void refugeeAdd(bool);
+        void refugeeMod(bool);
+        void refugeeDel(bool);
 
  /* Supplies Tab */
     public:
