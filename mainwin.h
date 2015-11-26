@@ -75,10 +75,15 @@ class MainWin : public QMainWindow
 /* Management Tab */
     public:
 
+    private:
+
+
     public slots:
 
     private slots:
         void managementLoad(QSqlDatabase* db);
+        void manageSearch(QString searchString);
+        void changeManageSearch(QModelIndex index);
 
 
  /* Supplies Tab */
@@ -87,6 +92,8 @@ class MainWin : public QMainWindow
     public slots:
 
     private slots:
+        void suppliesLoad(QSqlDatabase* db);
+        void suppliesInit(QSqlDatabase * db);
 };
 
 #endif // MAINWIN_H

@@ -818,12 +818,35 @@
       <property name="placeholderText">
        <string>Rechercher une personne...</string>
       </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="list_manageSearch">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>40</y>
+        <width>200</width>
+        <height>330</height>
+       </rect>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_supplies">
      <attribute name="title">
       <string>Stocks</string>
      </attribute>
+     <widget class="QTabWidget" name="tabs_supplies">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>0</y>
+        <width>661</width>
+        <height>451</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QListWidget" name="list_camp">
