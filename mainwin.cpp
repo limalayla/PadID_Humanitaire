@@ -58,6 +58,7 @@ MainWin::MainWin(QWidget *parent) :
             }
      /*Initiating tab_supplies */
             suppliesInit(db());
+            ui->tabs_supplies->setVisible(true);
      /* Initiating the signals - slots */
         initSlots();
 
