@@ -7,7 +7,9 @@
 #include <QVector>
 #include <QInputDialog>
 #include <QtSql>
-#include<QDebug>
+#include <QDebug>
+#include <QtGlobal>
+#include <QRegExp>
 
 namespace Ui {
 class MainWin;
@@ -17,53 +19,60 @@ class MainWin : public QMainWindow
 {
     Q_OBJECT
 
-/* Géneral */
+/* General */
     public:
         explicit MainWin(QWidget *parent = 0);
-        ~MainWin();
-        void campChargement(quint16);
+                ~MainWin();
+        QSqlDatabase* db(quint16 timeoutTimer_s= 5*60);
+
+        static const quint8 c_AllCampIndex = 0;
 
     public slots:
-        void changeCamp(QModelIndex);
-        void changeCampRech(QModelIndex);
-        void changeOnglet(int);
-        void campAjouter(bool);
-        void campRecherche(QString);
+        void changeCamp      (QModelIndex);
+        void changeCampSearch(QModelIndex);
+        void changeTab(int);
+        void campAdd(bool);
+        void campSearch(QString);
 
     private:
         Ui::MainWin *ui;
+        QSqlDatabase* m_db;
         quint16 m_curCamp;
-        quint16 m_curOnglet;
-        void initEvenement();
-        QVector<int> m_campsIdBdD;
-        QSqlDatabase db;
+        quint16 m_curTab;
+        QVector<int> m_campsIdDb;
+        QTimer m_timerdb;
+
+        void    initSlots();
+        quint16 campNameValid(const QString&);
 
     private slots:
+        void closedb();
 
-
-/* Onglet vue d'ensemble */
+/* Overview Tab */
     public:
 
     public slots:
 
     private:
-        bool m_campModEnCours;
-        void m_campSetEnabledInput(bool);
+        bool m_campModOngoing;
+        void campSetEnabledInput(bool);
+        void overviewLoad(bool= false);
+        void overviewLoad(QSqlDatabase* db, bool= false);
 
     private slots:
-        void m_campMod(bool);
-        void m_campModAnnuler(bool =false);
-        void m_campSuppr(bool);
+        void campMod(bool);
+        void campModCancel(bool =false);
+        void campDel(bool);
 
 
-/* Onglet recherche */
+/* Search Tab */
     public:
 
     public slots:
 
     private slots:
 
-/* Onglet gestion humaine */
+/* Management Tab */
     public:
 
     public slots:
@@ -71,7 +80,7 @@ class MainWin : public QMainWindow
     private slots:
 
 
- /* Onglet stocks */
+ /* Supplies Tab */
     public:
 
     public slots:

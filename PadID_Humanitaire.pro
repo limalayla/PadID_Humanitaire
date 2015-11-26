@@ -13,14 +13,17 @@ TARGET = PadID_Humanitaire
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwin.cpp \
-    onglet_vueensemble.cpp \
-    onglet_recherche.cpp \
-    onglet_gestionhumaine.cpp \
-    onglet_stocks.cpp \
-    general.cpp
+SOURCES +=  main.cpp\
+            mainwin.cpp \
+            tab_overview.cpp \
+            tab_supplies.cpp  \
+            tab_search.cpp     \
+            tab_management.cpp  \
+            general.cpp
 
 HEADERS  += mainwin.h
 
 FORMS    += mainwin.ui
+
+TRANSLATIONS = humanitaire_fr.ts \
+               humanitaire_en.ts
