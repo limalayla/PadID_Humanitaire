@@ -46,6 +46,7 @@ void MainWin::changeCamp(QModelIndex index)
     else
     {
         overviewLoad();
+        managementLoad(db());
         // ToDo: Other tabs loading
     }
 }
@@ -155,12 +156,12 @@ QSqlDatabase* MainWin::db(quint16 timeoutTimer_s)
 
         // Configure it (might be in a config file in the future)
             /* Config IUT */
-                m_db->setHostName("127.0.0.1");
-                m_db->setPort(5555);
+                //m_db->setHostName("127.0.0.1");
+               // m_db->setPort(5555);
 
             /* Config NORMALE */
-                //m_db->setHostName("joretapo.fr");
-                //m_db->setPort(3306);
+                m_db->setHostName("joretapo.fr");
+                m_db->setPort(3306);
 
             m_db->setUserName("root");
             m_db->setPassword("toor");

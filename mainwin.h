@@ -78,6 +78,7 @@ class MainWin : public QMainWindow
     public slots:
 
     private slots:
+        void managementLoad(QSqlDatabase* db);
 
 
  /* Supplies Tab */
