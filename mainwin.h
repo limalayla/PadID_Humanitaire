@@ -86,7 +86,9 @@ class MainWin : public QMainWindow
         void closeRefugeeInfo();
 
     private:
-        void openRefugeeInfo(RefugeeInfoWin::OpenMode openMode);
+        void openRefugeeInfo(RefugeeInfoWin::OpenMode openMode, int idRefugeeDb);
+        quint16 m_curRefugee;
+        QVector<int> m_refugeeIdDb;
 
     private slots:
         void managementLoad(QSqlDatabase* db);
@@ -95,6 +97,9 @@ class MainWin : public QMainWindow
         void refugeeAdd(bool);
         void refugeeMod(bool);
         void refugeeDel(bool);
+
+        void refugeeSet(QModelIndex);
+        void refugeeSee(QModelIndex);
 
  /* Supplies Tab */
     public:

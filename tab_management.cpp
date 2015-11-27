@@ -6,15 +6,17 @@ void MainWin::managementLoad(QSqlDatabase* db_)
     QSqlQuery req_management (*db_);
     ui->list_manageSearch->setVisible(false);
     ui->list_manage->clear();
-    req_management.prepare("Select Refugie.nom from Refugie where  :id_courant= Refugie.id_camp");
+    m_refugeeIdDb.clear();
+    req_management.prepare("SELECT Refugie.nom,Refugie.id_refugie FROM Refugie WHERE Refugie.id_camp = :id_courant");
     req_management.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
     if(req_management.exec())
     {
-            while(req_management.next())
-            {
-                ui->list_manage->addItem(req_management.value(0).toString());
-            }
+        while(req_management.next())
+        {
+            ui->list_manage->addItem(req_management.value(0).toString());
+            m_refugeeIdDb.push_back(req_management.value(1).toInt());
+        }
     }
 }
 
@@ -49,18 +51,32 @@ void MainWin::changeManageSearch(QModelIndex index)
      *      ACTIONS     : Gets the searched person index (via its label, can't find another way)
      *                    Selects the corresponding person on ui->list_manage
     */
-    ui->list_manage->setCurrentRow(ui->list_manageSearch->item(index.row())->text().split(" : ").at(0).toInt());
+
+    m_curRefugee = ui->list_manageSearch->item(index.row())->text().split(" : ").at(0).toInt();
+    ui->list_manage->setCurrentRow(m_curRefugee);
+
+    refugeeSet(QModelIndex());
 }
 
 
+void MainWin::refugeeSet(QModelIndex index)
+{
+    if(index.isValid()) m_curRefugee = index.row();
+}
+
+void MainWin::refugeeSee(QModelIndex)
+{
+    openRefugeeInfo(RefugeeInfoWin::readOnly, m_refugeeIdDb[m_curRefugee]);
+}
+
 void MainWin::refugeeAdd(bool)
 {
-    openRefugeeInfo(RefugeeInfoWin::creation);
+    openRefugeeInfo(RefugeeInfoWin::creation, -1);
 }
 
 void MainWin::refugeeMod(bool)
 {
-    openRefugeeInfo(RefugeeInfoWin::readWrite);
+    openRefugeeInfo(RefugeeInfoWin::readWrite, m_refugeeIdDb[m_curRefugee]);
 }
 
 void MainWin::refugeeDel(bool)
@@ -71,11 +87,11 @@ void MainWin::refugeeDel(bool)
     }
 }
 
-void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode)
+void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode, int idRefugeeDb)
 {
     if(m_refugeeInfoWin == NULL)
     {
-        m_refugeeInfoWin = new RefugeeInfoWin(this, openMode);
+        m_refugeeInfoWin = new RefugeeInfoWin(db(), this, idRefugeeDb, openMode);
     }
 
     if(m_refugeeInfoWin->isVisible())

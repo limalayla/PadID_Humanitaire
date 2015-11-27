@@ -92,7 +92,9 @@ void MainWin::initSlots()
         QObject::connect(ui->btn_campDel,       SIGNAL(clicked(bool)), this, SLOT(campDel(bool)));
 
    /* Manage Tab */
-        QObject::connect(ui->btn_manageAdd, SIGNAL(clicked(bool)), this, SLOT(refugeeAdd(bool)));
-        QObject::connect(ui->btn_manageMod, SIGNAL(clicked(bool)), this, SLOT(refugeeMod(bool)));
-        QObject::connect(ui->btn_manageDel, SIGNAL(clicked(bool)), this, SLOT(refugeeDel(bool)));
+        QObject::connect(ui->btn_manageAdd, SIGNAL(clicked(bool)),              this, SLOT(refugeeAdd(bool)));
+        QObject::connect(ui->btn_manageMod, SIGNAL(clicked(bool)),              this, SLOT(refugeeMod(bool)));
+        QObject::connect(ui->btn_manageDel, SIGNAL(clicked(bool)),              this, SLOT(refugeeDel(bool)));
+        QObject::connect(ui->list_manage,   SIGNAL(clicked(QModelIndex)),       this, SLOT(refugeeSet(QModelIndex)));
+        QObject::connect(ui->list_manage,   SIGNAL(doubleClicked(QModelIndex)), this, SLOT(refugeeSee(QModelIndex)));
 }

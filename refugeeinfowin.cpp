@@ -1,11 +1,13 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase db_, QWidget *parent, int idDb, OpenMode openMode); :
+RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, OpenMode openMode) :
     QDialog(parent), ui(new Ui::RefugeeInfoWin),
     m_openMode(openMode)
 {
     ui->setupUi(this);
+
+    ui->text_fname->setText(QString::number(idDb));
 
     if(m_openMode == RefugeeInfoWin::readWrite || m_openMode == RefugeeInfoWin::creation)
     {
@@ -14,6 +16,12 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase db_, QWidget *parent, int idDb, Open
         ui->combo_state->setEnabled(true);
         ui->text_misc->setEnabled(true);
         ui->combo_curCamp->setEnabled(true);
+    }
+
+    else
+    {
+        ui->btn_ok->setVisible(false);
+        ui->btn_cancel->setVisible(false);
     }
 
     if(m_openMode == RefugeeInfoWin::creation)
