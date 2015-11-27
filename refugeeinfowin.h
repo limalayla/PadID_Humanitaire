@@ -2,7 +2,7 @@
 #define REFUGEEINFOWIN_H
 
 #include <QDialog>
-
+#include <QtSql>
 namespace Ui {
 class RefugeeInfoWin;
 }
@@ -19,12 +19,13 @@ public:
         creation  = 2
     };
 
-    explicit RefugeeInfoWin(QWidget *parent = 0, OpenMode openMode = readOnly);
+    explicit RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent = 0, int idDb=-1, OpenMode openMode = readOnly);
     ~RefugeeInfoWin();
 
 private:
     Ui::RefugeeInfoWin *ui;
     OpenMode m_openMode;
+    quint16 m_idDb;
 };
 
 #endif // REFUGEEINFOWIN_H

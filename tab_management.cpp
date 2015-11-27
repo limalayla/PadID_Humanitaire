@@ -75,7 +75,7 @@ void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode)
 {
     if(m_refugeeInfoWin == NULL)
     {
-        m_refugeeInfoWin = new RefugeeInfoWin(this, openMode);
+        m_refugeeInfoWin = new RefugeeInfoWin(db(),this, -1,openMode);
     }
 
     if(m_refugeeInfoWin->isVisible())
@@ -91,6 +91,20 @@ void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode)
 
 void MainWin::closeRefugeeInfo()
 {
+    if(m_refugeeInfoWin != NULL)
+    {
+        delete m_refugeeInfoWin;
+        m_refugeeInfoWin = NULL;
+    }
+}
+
+void MainWin::OkRefugeeInfo()
+{
+    /*QSqlQuery AddorUpdateRefugee;
+
+    AddorUpdateRefugee.prepare("Insert into Refugie (id_refugie,nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp "
+                               +"Values"
+                               +"on Duplicate Key nom= :newname , prenom = :newfname, etat= :newState,id_camp = :newId_camp");*/
     if(m_refugeeInfoWin != NULL)
     {
         delete m_refugeeInfoWin;
