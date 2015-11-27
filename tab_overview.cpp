@@ -44,10 +44,10 @@ void MainWin::campMod(bool)
             // Else, show the corresponding error
                 else
                 {
-                         if(validName == 1) QMessageBox::warning(this, "Nom Vide", "Le nom de camp rentré est vide, re-rentrez en un.");
-                    else if(validName == 2) QMessageBox::warning(this, "Nom Trop Long", "Le nom de camp rentré fait plus de 50 caractères, re-rentrez en un.");
-                    else if(validName == 3) QMessageBox::warning(this, "Nom Mal Formaté", "Le nom de camp rentré à un mauvais format (^[a-z](\\w|-)*$), re-rentrez en un.");
-                    else if(validName == 4) QMessageBox::warning(this, "Nom déjà pris", "Le nom de camp rentré est déjà pris, re-rentrez en un.");
+                         if(validName == 1) QMessageBox::warning(this, tr("Empty name"), tr("You entered an empty name for a camp, please enter one again."));
+                    else if(validName == 2) QMessageBox::warning(this, tr("Name too long"), tr("This name is too long ( more than 50 character), please enter one again.."));
+                    else if(validName == 3) QMessageBox::warning(this, tr("Incorrect name"), tr("You enter an incorrect name: (^[a-z](\\w|-)*$), please enter one again."));
+                    else if(validName == 4) QMessageBox::warning(this, tr("Name already taken"), tr("The name of the camp is already taken, please enter one again."));
                 }
         }
 
@@ -59,7 +59,7 @@ void MainWin::campMod(bool)
                 campSetEnabledInput(m_campModOngoing);
 
                 ui->btn_campModCancel->setVisible(m_campModOngoing);
-                ui->btn_campMod->setText(m_campModOngoing ? "Valider Modifications" : "Modifier Camp");
+                ui->btn_campMod->setText(m_campModOngoing ? tr("Validate Changes") : tr("Modify Camp"));
         }
 }
 
@@ -77,7 +77,7 @@ void MainWin::campModCancel(bool)
         m_campModOngoing = false;
         campSetEnabledInput(false);
         ui->btn_campModCancel->setVisible(false);
-        ui->btn_campMod->setText("Modifier Camp");
+        ui->btn_campMod->setText(tr("Modify Camp"));
 
         overviewLoad(db(), true);
     }
@@ -94,7 +94,7 @@ void MainWin::campDel(bool)
     bool campEmpty = false; // Si personne n'est dans le camp (Camp.nbPersonne == 0)
 
     if( campEmpty ||
-        QMessageBox::question(this, "Supprimer ?", "Êtes vous sur de vouloir tuer les restant ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes
+        QMessageBox::question(this, tr("Delete ?"), tr("Are you sure you want to delete the camp ?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes
       )
     {
         // ToDo : Récuperer l'id dans la bdd correspondant au camp à supprimer
@@ -102,7 +102,7 @@ void MainWin::campDel(bool)
         // Requête pour le supprimer
             // /!\ Supprimer aussi les personnes et stocks correspondants
 
-        QMessageBox::information(this, "", "Supression de " + QString::number(m_curCamp));
+        QMessageBox::information(this, "", tr("Deleting of ") + QString::number(m_curCamp));
     }
 }
 void MainWin::overviewLoad(bool reload)
