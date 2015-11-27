@@ -82,17 +82,18 @@ void MainWin::campAdd(bool)
 
     do
     {
-        ans = QInputDialog::getText(this, "Nouveau Camp", "Nom du nouveau camp : ", QLineEdit::Normal, QString(), &ok);
+        ans = QInputDialog::getText(this, tr("New Camp"), tr("Camp name : "), QLineEdit::Normal, QString(), &ok);
 
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)
         {
             validName = campNameValid(ans);
 
-                 if(validName == 1) QMessageBox::warning(this, "Nom Vide", "Le nom de camp rentré est vide, re-rentrez en un.");
-            else if(validName == 2) QMessageBox::warning(this, "Nom Trop Long", "Le nom de camp rentré fait plus de 50 caractères, re-rentrez en un.");
-            else if(validName == 3) QMessageBox::warning(this, "Nom Mal Formaté", "Le nom de camp rentré à un mauvais format (^[a-z](\\w|-)*$), re-rentrez en un.");
-            else if(validName == 4) QMessageBox::warning(this, "Nom déjà pris", "Le nom de camp rentré est déjà pris, re-rentrez en un.");
+                 if(validName == 1) QMessageBox::warning(this, tr("Empty name"), tr("You entered an empty name, please enter one again"));
+            else if(validName == 2) QMessageBox::warning(this, tr("Name too long"), tr("This name is too long (more than 50 characters), please enter one again."));
+            else if(validName == 3) QMessageBox::warning(this, tr("Incorrect name", tr("You enter an incorrect name(^[a-z](\\w|-)*$), please enter one again"));
+            else if(validName == 3) QMessageBox::warning(this, tr("Incorrect name", tr("You enter an incorrect name(^[a-z](\\w|-)*$), please enter one again"));
+            else if(validName == 4) QMessageBox::warning(this, tr("Name already taken"), tr("The name of the camp is already taken, please enter one again"));
         }
     }
     while(ok && validName != 0);

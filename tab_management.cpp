@@ -80,7 +80,7 @@ void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode)
 
     if(m_refugeeInfoWin->isVisible())
     {
-        QMessageBox::critical(this, "Refugee Window Already Open", "The Refugee Window is already open !");
+        QMessageBox::critical(this, tr("Refugee Window Already Open"), tr("The Refugee Window is already open !"));
     }
 
     else
