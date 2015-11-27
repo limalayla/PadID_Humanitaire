@@ -20,23 +20,65 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
         ui->combo_curCamp->setEnabled(true);
     }
 
-    QSqlQuery req_refudgeeinfo(*db_);
-    req_refudgeeinfo.prepare("Select nom, prenom, age, sexe,pays_dorigine,type,etat,divers from Refugie where id_refugie=:idDb");
-    req_refudgeeinfo.bindValue(":idDb",idDb);
-    if(req_refudgeeinfo.exec())
-    {
-        if(req_refudgeeinfo.next())
-        {
-            ui->text_lname->setText(req_refudgeeinfo.value(0).toString());
-            ui->text_fname->setText(req_refudgeeinfo.value(1).toString());
-            ui->combo_age->addItem(req_refudgeeinfo.value(2).toString());
-            ui->combo_sex->addItem(req_refudgeeinfo.value(3).toString());
-            ui->combo_country->addItem(req_refudgeeinfo.value(4).toString());
-            ui->combo_type->addItem(req_refudgeeinfo.value(5).toString());
-            ui->combo_state->addItem(req_refudgeeinfo.value(6).toString());
-            ui->text_misc->setPlainText(req_refudgeeinfo.value(7).toString());
-        }
+    QSqlQuery req_refugeeinfo(*db_);
+    QSqlQuery req_allcamp(*db_);
+    QSqlQuery req_allSexe(*db_);
+    QSqlQuery req_allCountry(*db_);
+    QSqlQuery req_allType(*db_);
+    QSqlQuery req_allState(*db_);
 
+    req_allSexe.prepare("Select Distinct sexe from Refugie ");
+    if(req_allSexe.exec())
+    {
+        while(req_allSexe.next())
+        {
+            ui->combo_sex->addItem(req_allSexe.value(0).toString());
+        }
+    }
+
+    req_allcamp.prepare("SELECT nom_camp FROM Camps");
+    if(req_allcamp.exec())
+    {
+        while(req_allcamp.next())
+        {
+            ui->combo_curCamp->addItem(req_allcamp.value(0).toString());
+        }
+    }
+
+    req_allCountry.prepare("Select Distinct pays_dorigine from Refugie");
+    if(req_allCountry.exec())
+    {
+        while(req_allCountry.next())
+            ui->combo_country->addItem(req_allCountry.value(0).toString());
+    }
+
+    req_allType.prepare("Select Distinct type from Refugie");
+    if(req_allType.exec())
+    {
+        while(req_allType.next())
+            ui->combo_type->addItem(req_allType.value(0).toString());
+    }
+
+    for(int i=1;i<=100;i++)
+        ui->combo_age->addItem(QString::number(i));
+
+    req_allState.prepare("Select Distinct etat from Refugie");
+    if(req_allState.exec())
+    {
+        while(req_allState.next())
+            ui->combo_state->addItem(req_allState.value(0).toString());
+    }
+
+    req_refugeeinfo.prepare("Select nom, prenom,divers from Refugie where id_refugie=:idDb");
+    req_refugeeinfo.bindValue(":idDb",idDb);
+    if(req_refugeeinfo.exec())
+    {
+        if(req_refugeeinfo.next())
+        {
+            ui->text_lname->setText(req_refugeeinfo.value(0).toString());
+            ui->text_fname->setText(req_refugeeinfo.value(1).toString());
+            ui->text_misc->setPlainText(req_refugeeinfo.value(2).toString());
+        }
     }
     if(m_openMode == RefugeeInfoWin::creation)
     {
