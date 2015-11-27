@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Humanitaire 2.0</string>
+   <string>Humanitary 2.0</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -55,7 +55,7 @@
     </property>
     <widget class="QWidget" name="tab_overview">
      <attribute name="title">
-      <string>Vue d'ensemble</string>
+      <string>Overview</string>
      </attribute>
      <widget class="QGroupBox" name="groupbox_campOther">
       <property name="geometry">
@@ -152,7 +152,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Nom :</string>
+        <string>Name :</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campLoc">
@@ -188,7 +188,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Nombre de Personne :</string>
+        <string>Number of people :</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campPlaceMax">
@@ -206,7 +206,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Nombre de place max :</string>
+        <string>Maximum number of places :</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campPlaceRemaining">
@@ -224,7 +224,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Nombre de place restante :</string>
+        <string>Number of space remaining :</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_campModCancel">
@@ -242,7 +242,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Annuler modifications</string>
+        <string>Cancel modifications</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_campMod">
@@ -260,7 +260,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Modifier Camp</string>
+        <string>Modify camp</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_campDel">
@@ -278,7 +278,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Supprimer Camp</string>
+        <string>Delete camp</string>
        </property>
        <property name="shortcut">
         <string>Del</string>
@@ -323,7 +323,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total Places Max : </string>
+        <string>Number max of space: </string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campTotalRefugiee">
@@ -336,7 +336,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total Réfugiés :</string>
+        <string>Total Refugiees :</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_totalPlacesRemaining">
@@ -349,7 +349,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total Places Restantes :</string>
+        <string>Total space remaining :</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="text_campTotal">
@@ -410,7 +410,7 @@
     </widget>
     <widget class="QWidget" name="tab_search">
      <attribute name="title">
-      <string>Recherche</string>
+      <string>Search</string>
      </attribute>
      <widget class="QLabel" name="label_searchLName">
       <property name="geometry">
@@ -427,7 +427,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Nom:</string>
+       <string>Last name:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchFName">
@@ -445,7 +445,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Prenom:</string>
+       <string>first name:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchAge">
@@ -481,7 +481,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Pays d'origine:</string>
+       <string>Country of Origin:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchSex">
@@ -499,7 +499,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Sexe:</string>
+       <string>Sex:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchType">
@@ -535,7 +535,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Etat:</string>
+       <string>Status:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchMisc">
@@ -553,7 +553,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Divers:</string>
+       <string>Others:</string>
       </property>
      </widget>
      <widget class="QComboBox" name="combo_searchAge">
@@ -567,7 +567,7 @@
       </property>
       <item>
        <property name="text">
-        <string>Inconnu</string>
+        <string>Unknown</string>
        </property>
       </item>
      </widget>
@@ -582,17 +582,17 @@
       </property>
       <item>
        <property name="text">
-        <string>Inconnu</string>
+        <string>Unknown</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Homme</string>
+        <string>Men</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Femme</string>
+        <string>Women</string>
        </property>
       </item>
      </widget>
@@ -607,7 +607,7 @@
       </property>
       <item>
        <property name="text">
-        <string>Inconnu</string>
+        <string>Unknown</string>
        </property>
       </item>
      </widget>
@@ -622,32 +622,32 @@
       </property>
       <item>
        <property name="text">
-        <string>Inconnu</string>
+        <string>Unknown</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Caucasien</string>
+        <string>Caucasus</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Noir</string>
+        <string>African</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Mongoloïde</string>
+        <string>Asian</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Australoïde</string>
+        <string>Australian</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Amérindien</string>
+        <string>Native American / Indian</string>
        </property>
       </item>
      </widget>
@@ -662,27 +662,27 @@
       </property>
       <item>
        <property name="text">
-        <string>Inconnu</string>
+        <string>Unknown</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Disparu</string>
+        <string>Missing</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Bonne Santé</string>
+        <string>Healthy</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Malade</string>
+        <string>Sick</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Mort</string>
+        <string>Dead</string>
        </property>
       </item>
      </widget>
@@ -714,7 +714,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Rechercher</string>
+       <string>Search</string>
       </property>
      </widget>
      <widget class="QListWidget" name="list_res_search">
@@ -750,7 +750,7 @@
     </widget>
     <widget class="QWidget" name="tab_manage">
      <attribute name="title">
-      <string>Gestion Humaine</string>
+      <string>Human management</string>
      </attribute>
      <widget class="QListWidget" name="list_manage">
       <property name="geometry">
@@ -778,7 +778,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Ajouter</string>
+       <string>Add</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_manageDel">
@@ -791,7 +791,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Suppression</string>
+       <string>Removal</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_manageMod">
@@ -804,7 +804,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Modifier</string>
+       <string>Modify</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="text_searchManage">
@@ -820,7 +820,7 @@
        <set>Qt::AlignCenter</set>
       </property>
       <property name="placeholderText">
-       <string>Rechercher une personne...</string>
+       <string>Search for someone...</string>
       </property>
       <property name="clearButtonEnabled">
        <bool>true</bool>
@@ -855,7 +855,7 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Medicament</string>
+        <string>Drug</string>
        </attribute>
        <widget class="QScrollArea" name="scroolArea">
         <property name="geometry">
@@ -888,7 +888,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Medicament</string>
+           <string>Drug</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_2">
@@ -901,7 +901,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Quantité</string>
+           <string>Amount</string>
           </property>
          </widget>
          <widget class="QCheckBox" name="checkBox">
@@ -927,7 +927,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Aspirine</string>
+           <string>Aspirin</string>
           </property>
          </widget>
          <widget class="QCheckBox" name="checkBox_3">
@@ -992,7 +992,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Commander</string>
+           <string>Order</string>
           </property>
          </widget>
          <widget class="QScrollBar" name="verticalScrollBar">
@@ -1013,7 +1013,7 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>autre truc</string>
+        <string>Other furnitures</string>
        </attribute>
       </widget>
      </widget>
@@ -1041,7 +1041,7 @@
     </property>
     <item>
      <property name="text">
-      <string>Tous</string>
+      <string>All</string>
      </property>
     </item>
    </widget>
@@ -1060,7 +1060,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Ajouter</string>
+     <string>Add</string>
     </property>
     <property name="shortcut">
      <string>Ctrl+A</string>
@@ -1087,7 +1087,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="placeholderText">
-     <string>Rechercher...</string>
+     <string>Search...</string>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
@@ -1136,7 +1136,7 @@
     </property>
     <item>
      <property name="text">
-      <string>Tous</string>
+      <string>All</string>
      </property>
     </item>
    </widget>
@@ -1161,7 +1161,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="placeholderText">
-     <string>Rechercher...</string>
+     <string>Search...</string>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
@@ -1200,20 +1200,20 @@
    </property>
    <widget class="QMenu" name="menuLanguage">
     <property name="title">
-     <string>Langue</string>
+     <string>Language</string>
     </property>
     <addaction name="actionFrench"/>
     <addaction name="actionEnglish"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Fichier</string>
+     <string>File</string>
     </property>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuProfile">
     <property name="title">
-     <string>Profil</string>
+     <string>Profile</string>
     </property>
     <addaction name="actionConnexion"/>
     <addaction name="actionDeconnexion"/>
@@ -1229,22 +1229,22 @@
   </action>
   <action name="actionEnglish">
    <property name="text">
-    <string>Anglais</string>
+    <string>English</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Quitter</string>
+    <string>Quit</string>
    </property>
   </action>
   <action name="actionConnexion">
    <property name="text">
-    <string>Connexion</string>
+    <string>Connection</string>
    </property>
   </action>
   <action name="actionDeconnexion">
    <property name="text">
-    <string>Déconnexion</string>
+    <string>Log out</string>
    </property>
   </action>
  </widget>

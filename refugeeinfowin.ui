@@ -88,7 +88,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Âge :</string>
+    <string>Age :</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_ok">
@@ -101,7 +101,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Valider</string>
+    <string>Confirm</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_cancel">
@@ -114,7 +114,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Annuler</string>
+    <string>Cancel</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_sex">
@@ -132,7 +132,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Sexe :</string>
+    <string>Sex :</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_country">
@@ -145,7 +145,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Pays d'Origine :</string>
+    <string>Country of Origin :</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_type">
@@ -171,7 +171,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>État :</string>
+    <string>status:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_misc">
@@ -184,7 +184,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Divers :</string>
+    <string>Others :</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_curCamp">
@@ -197,7 +197,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Camp Actuel :</string>
+    <string>Current Camp:</string>
    </property>
   </widget>
   <widget class="QComboBox" name="combo_curCamp">
