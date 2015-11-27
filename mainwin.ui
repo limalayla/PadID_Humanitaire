@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -791,7 +791,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Removal</string>
+       <string>Remove</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_manageMod">

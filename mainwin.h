@@ -12,6 +12,7 @@
 #include <QRegExp>
 
 #include "refugeeinfowin.h"
+#include "tools.h"
 
 namespace Ui {
 class MainWin;
@@ -47,7 +48,6 @@ class MainWin : public QMainWindow
         QTimer m_timerdb;
 
         void    initSlots();
-        quint16 campNameValid(const QString&);
 
     private slots:
         void closedb();

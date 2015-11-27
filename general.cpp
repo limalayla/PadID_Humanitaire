@@ -77,7 +77,7 @@ void MainWin::campAdd(bool)
     */
 
     bool ok;
-    quint16 validName;
+    Tools::StringEvalCode validName;
     QString ans;
 
     do
@@ -87,16 +87,13 @@ void MainWin::campAdd(bool)
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)
         {
-            validName = campNameValid(ans);
+            validName = Tools::campNameValid(ans, *ui->list_camp, Tools::c_regex_campName, m_curCamp, 50);
 
-                 if(validName == 1) QMessageBox::warning(this, tr("Empty name"), tr("You entered an empty name, please enter one again"));
-            else if(validName == 2) QMessageBox::warning(this, tr("Name too long"), tr("This name is too long (more than 50 characters), please enter one again."));
-            else if(validName == 3) QMessageBox::warning(this, tr("Incorrect name", tr("You enter an incorrect name(^[a-z](\\w|-)*$), please enter one again"));
-            else if(validName == 3) QMessageBox::warning(this, tr("Incorrect name", tr("You enter an incorrect name(^[a-z](\\w|-)*$), please enter one again"));
-            else if(validName == 4) QMessageBox::warning(this, tr("Name already taken"), tr("The name of the camp is already taken, please enter one again"));
+            if(validName != Tools::Ok)
+                Tools::dispErr(this, validName);
         }
     }
-    while(ok && validName != 0);
+    while(ok && validName != Tools::Ok);
 
     if(ok)
     {
@@ -211,28 +208,4 @@ void MainWin::closedb()
         else qDebug() << "[DEBUG] general.cpp::closedb() : Db can't be closed (not opened)";
     }
     else qDebug() << "[ERROR] general.cpp::closedb() : Db can't be closed (not instantiated)";
-}
-
-quint16 MainWin::campNameValid(const QString& s)
-{
-    /*  TOOL
-     *      USE         : To check if a string is valid (to a certain patern wich should be precised)
-     *      ACTIONS     : Check multiple points and returns a corresponding value
-     *      RETURN VAL  : 0 -> Ok
-     *                    1 -> Empty String
-     *                    2 -> Too long Name (> 50)
-     *                    3 -> Bad Format
-     *                    4 -> Alrady take Name
-     *      REMARKS     : Should be in another file, use some king of struct for the return values and add more customization options
-    */
-
-    if(s.isEmpty()) return 1;
-    if(s.length() >= 50) return 2;
-
-    if(!QRegExp("^[a-z](\\w|-)*$", Qt::CaseInsensitive).exactMatch(s)) return 3;
-
-    for(quint16 i= 0; i< ui->list_camp->count(); i++)
-        if(s.compare(ui->list_camp->item(i)->text(), Qt::CaseInsensitive) == 0 && i != m_curCamp) return 4;
-
-    return 0;
 }

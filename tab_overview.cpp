@@ -11,16 +11,16 @@ void MainWin::campMod(bool)
      *                                                         switch to 1st state
     */
 
-    quint16 validName(0);
+    Tools::StringEvalCode validName(Tools::Ok);
 
     /* 2nd state (modification ongoing) */
         if(m_campModOngoing)
         {
             // Check if new name is valid
-            validName = campNameValid(ui->text_campName->text());
+            validName = Tools::campNameValid(ui->text_campName->text(), *ui->list_camp, Tools::c_regex_campName, m_curCamp);
 
             // Change it in the ui and the db if so
-                if(validName == 0)
+                if(validName == Tools::Ok)
                 {
                     QSqlQuery req_campMod(*db());
 
@@ -43,16 +43,11 @@ void MainWin::campMod(bool)
 
             // Else, show the corresponding error
                 else
-                {
-                         if(validName == 1) QMessageBox::warning(this, tr("Empty name"), tr("You entered an empty name for a camp, please enter one again."));
-                    else if(validName == 2) QMessageBox::warning(this, tr("Name too long"), tr("This name is too long ( more than 50 character), please enter one again.."));
-                    else if(validName == 3) QMessageBox::warning(this, tr("Incorrect name"), tr("You enter an incorrect name: (^[a-z](\\w|-)*$), please enter one again."));
-                    else if(validName == 4) QMessageBox::warning(this, tr("Name already taken"), tr("The name of the camp is already taken, please enter one again."));
-                }
+                    Tools::dispErr(this, validName);
         }
 
     /* 1st and 2nd states */
-        if(validName == 0)
+        if(validName == Tools::Ok)
         {
             // Toggle the state and ui
                 m_campModOngoing = !m_campModOngoing;
