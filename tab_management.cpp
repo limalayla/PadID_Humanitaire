@@ -75,7 +75,7 @@ void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode)
 {
     if(m_refugeeInfoWin == NULL)
     {
-        m_refugeeInfoWin = new RefugeeInfoWin(this, openMode);
+        m_refugeeInfoWin = new RefugeeInfoWin(db(),this, -1,openMode);
     }
 
     if(m_refugeeInfoWin->isVisible())
