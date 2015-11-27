@@ -1,7 +1,7 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(QWidget *parent, RefugeeInfoWin::OpenMode openMode) :
+RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase db_, QWidget *parent, int idDb, OpenMode openMode); :
     QDialog(parent), ui(new Ui::RefugeeInfoWin),
     m_openMode(openMode)
 {
