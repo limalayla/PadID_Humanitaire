@@ -1,14 +1,12 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, RefugeeInfoWin::OpenMode openMode) :
+RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, OpenMode openMode) :
     QDialog(parent), ui(new Ui::RefugeeInfoWin),
     m_openMode(openMode)
 {
     ui->setupUi(this);
-
-
-
+	
     QSqlQuery req_refugeeinfo(*db_);
     QSqlQuery req_allcamp(*db_);
     QSqlQuery req_allSexe(*db_);
@@ -59,7 +57,6 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
             ui->combo_state->addItem(req_allState.value(0).toString());
     }
 
-    idDb=47;
     req_refugeeinfo.prepare("Select nom, prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp from Refugie where id_refugie=:idDb");
     req_refugeeinfo.bindValue(":idDb",idDb);
     if(idDb!=-1)
@@ -117,6 +114,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
             }
         }
     }
+	
     else
     {
         ui->combo_age->setCurrentIndex(-1);
@@ -135,6 +133,13 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
         ui->text_misc->setEnabled(true);
         ui->combo_curCamp->setEnabled(true);
     }
+
+    else
+    {
+        ui->btn_ok->setVisible(false);
+        ui->btn_cancel->setVisible(false);
+    }
+
     if(m_openMode == RefugeeInfoWin::creation)
     {
         ui->combo_age->setEnabled(true);

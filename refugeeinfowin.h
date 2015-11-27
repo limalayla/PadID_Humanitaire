@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QtSql>
+#include <QSqlDatabase>
+
 namespace Ui {
 class RefugeeInfoWin;
 }
@@ -19,7 +21,7 @@ public:
         creation  = 2
     };
 
-    explicit RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent = 0, int idDb=-1, OpenMode openMode = readOnly);
+    explicit RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent= 0, int idDb= -1, OpenMode openMode= readOnly);
     ~RefugeeInfoWin();
 
 private:
