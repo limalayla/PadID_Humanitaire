@@ -11,14 +11,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
 
     }
     idDb=2;
-    if(m_openMode == RefugeeInfoWin::readWrite || m_openMode == RefugeeInfoWin::creation)
-    {
-        ui->text_fname->setEnabled(true);
-        ui->text_lname->setEnabled(true);
-        ui->combo_state->setEnabled(true);
-        ui->text_misc->setEnabled(true);
-        ui->combo_curCamp->setEnabled(true);
-    }
+
 
     QSqlQuery req_refugeeinfo(*db_);
     QSqlQuery req_allcamp(*db_);
@@ -36,7 +29,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
         }
     }
 
-    req_allcamp.prepare("SELECT nom_camp FROM Camps");
+    req_allcamp.prepare("SELECT Distinct nom_camp FROM Camps");
     if(req_allcamp.exec())
     {
         while(req_allcamp.next())
@@ -69,7 +62,8 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
             ui->combo_state->addItem(req_allState.value(0).toString());
     }
 
-    req_refugeeinfo.prepare("Select nom, prenom,divers from Refugie where id_refugie=:idDb");
+
+    req_refugeeinfo.prepare("Select nom, prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp from Refugie where id_refugie=:idDb");
     req_refugeeinfo.bindValue(":idDb",idDb);
     if(req_refugeeinfo.exec())
     {
@@ -77,8 +71,60 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
         {
             ui->text_lname->setText(req_refugeeinfo.value(0).toString());
             ui->text_fname->setText(req_refugeeinfo.value(1).toString());
-            ui->text_misc->setPlainText(req_refugeeinfo.value(2).toString());
+            ui->combo_age->setCurrentIndex(req_refugeeinfo.value(2).toInt()-1);
+
+            for(int i=0; i<ui->combo_sex->count();i++)
+            {
+                if(req_refugeeinfo.value(3).toString()==ui->combo_sex->currentText())
+                {
+                    ui->combo_sex->setCurrentIndex(i);
+                    break;
+                }
+                ui->combo_sex->setCurrentIndex(ui->combo_sex->currentIndex()+1);
+            }
+
+            for(int i=0; i<ui->combo_country->count();i++)
+            {
+                if(req_refugeeinfo.value(4).toString()==ui->combo_country->currentText())
+                {
+                    ui->combo_country->setCurrentIndex(i);
+                    break;
+                }
+                ui->combo_country->setCurrentIndex(ui->combo_country->currentIndex()+1);
+            }
+
+            for(int i=0; i<ui->combo_type->count();i++)
+            {
+                if(req_refugeeinfo.value(5).toString()==ui->combo_type->currentText())
+                {
+                    ui->combo_type->setCurrentIndex(i);
+                    break;
+                }
+                ui->combo_type->setCurrentIndex(ui->combo_type->currentIndex()+1);
+            }
+
+            for(int i=0; i<ui->combo_state->count();i++)
+            {
+                if(req_refugeeinfo.value(6).toString()==ui->combo_state->currentText())
+                {
+                    ui->combo_state->setCurrentIndex(i);
+                    break;
+                }
+                ui->combo_state->setCurrentIndex(ui->combo_state->currentIndex()+1);
+            }
+            ui->text_misc->setPlainText(req_refugeeinfo.value(7).toString());
+            ui->combo_curCamp->setCurrentIndex(req_refugeeinfo.value(8).toInt());
+
         }
+    }
+
+    if(m_openMode == RefugeeInfoWin::readWrite || m_openMode == RefugeeInfoWin::creation)
+    {
+        ui->text_fname->setEnabled(true);
+        ui->text_lname->setEnabled(true);
+        ui->combo_state->setEnabled(true);
+        ui->text_misc->setEnabled(true);
+        ui->combo_curCamp->setEnabled(true);
     }
     if(m_openMode == RefugeeInfoWin::creation)
     {
