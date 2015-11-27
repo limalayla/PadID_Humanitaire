@@ -6,11 +6,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
     m_openMode(openMode)
 {
     ui->setupUi(this);
-    if(idDb==-1)
-    {
 
-    }
-    idDb=2;
 
 
     QSqlQuery req_refugeeinfo(*db_);
@@ -19,6 +15,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
     QSqlQuery req_allCountry(*db_);
     QSqlQuery req_allType(*db_);
     QSqlQuery req_allState(*db_);
+
 
     req_allSexe.prepare("Select Distinct sexe from Refugie ");
     if(req_allSexe.exec())
@@ -62,60 +59,72 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
             ui->combo_state->addItem(req_allState.value(0).toString());
     }
 
-
+    idDb=47;
     req_refugeeinfo.prepare("Select nom, prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp from Refugie where id_refugie=:idDb");
     req_refugeeinfo.bindValue(":idDb",idDb);
-    if(req_refugeeinfo.exec())
+    if(idDb!=-1)
     {
-        if(req_refugeeinfo.next())
+        if(req_refugeeinfo.exec())
         {
-            ui->text_lname->setText(req_refugeeinfo.value(0).toString());
-            ui->text_fname->setText(req_refugeeinfo.value(1).toString());
-            ui->combo_age->setCurrentIndex(req_refugeeinfo.value(2).toInt()-1);
-
-            for(int i=0; i<ui->combo_sex->count();i++)
+            if(req_refugeeinfo.next())
             {
-                if(req_refugeeinfo.value(3).toString()==ui->combo_sex->currentText())
-                {
-                    ui->combo_sex->setCurrentIndex(i);
-                    break;
-                }
-                ui->combo_sex->setCurrentIndex(ui->combo_sex->currentIndex()+1);
-            }
+                ui->text_lname->setText(req_refugeeinfo.value(0).toString());
+                ui->text_fname->setText(req_refugeeinfo.value(1).toString());
+                ui->combo_age->setCurrentIndex(req_refugeeinfo.value(2).toInt()-1);
 
-            for(int i=0; i<ui->combo_country->count();i++)
-            {
-                if(req_refugeeinfo.value(4).toString()==ui->combo_country->currentText())
+                for(int i=0; i<ui->combo_sex->count();i++)
                 {
-                    ui->combo_country->setCurrentIndex(i);
-                    break;
+                    if(req_refugeeinfo.value(3).toString()==ui->combo_sex->currentText())
+                    {
+                        ui->combo_sex->setCurrentIndex(i);
+                        break;
+                    }
+                    ui->combo_sex->setCurrentIndex(ui->combo_sex->currentIndex()+1);
                 }
-                ui->combo_country->setCurrentIndex(ui->combo_country->currentIndex()+1);
-            }
 
-            for(int i=0; i<ui->combo_type->count();i++)
-            {
-                if(req_refugeeinfo.value(5).toString()==ui->combo_type->currentText())
+                for(int i=0; i<ui->combo_country->count();i++)
                 {
-                    ui->combo_type->setCurrentIndex(i);
-                    break;
+                    if(req_refugeeinfo.value(4).toString()==ui->combo_country->currentText())
+                    {
+                        ui->combo_country->setCurrentIndex(i);
+                        break;
+                    }
+                    ui->combo_country->setCurrentIndex(ui->combo_country->currentIndex()+1);
                 }
-                ui->combo_type->setCurrentIndex(ui->combo_type->currentIndex()+1);
-            }
 
-            for(int i=0; i<ui->combo_state->count();i++)
-            {
-                if(req_refugeeinfo.value(6).toString()==ui->combo_state->currentText())
+                for(int i=0; i<ui->combo_type->count();i++)
                 {
-                    ui->combo_state->setCurrentIndex(i);
-                    break;
+                    if(req_refugeeinfo.value(5).toString()==ui->combo_type->currentText())
+                    {
+                        ui->combo_type->setCurrentIndex(i);
+                        break;
+                    }
+                    ui->combo_type->setCurrentIndex(ui->combo_type->currentIndex()+1);
                 }
-                ui->combo_state->setCurrentIndex(ui->combo_state->currentIndex()+1);
-            }
-            ui->text_misc->setPlainText(req_refugeeinfo.value(7).toString());
-            ui->combo_curCamp->setCurrentIndex(req_refugeeinfo.value(8).toInt());
 
+                for(int i=0; i<ui->combo_state->count();i++)
+                {
+                    if(req_refugeeinfo.value(6).toString()==ui->combo_state->currentText())
+                    {
+                        ui->combo_state->setCurrentIndex(i);
+                        break;
+                    }
+                    ui->combo_state->setCurrentIndex(ui->combo_state->currentIndex()+1);
+                }
+                ui->text_misc->setPlainText(req_refugeeinfo.value(7).toString());
+                ui->combo_curCamp->setCurrentIndex(req_refugeeinfo.value(8).toInt());
+
+            }
         }
+    }
+    else
+    {
+        ui->combo_age->setCurrentIndex(-1);
+        ui->combo_country->setCurrentIndex(-1);
+        ui->combo_curCamp->setCurrentIndex(-1);
+        ui->combo_sex->setCurrentIndex(-1);
+        ui->combo_state->setCurrentIndex(-1);
+        ui->combo_type->setCurrentIndex(-1);
     }
 
     if(m_openMode == RefugeeInfoWin::readWrite || m_openMode == RefugeeInfoWin::creation)
@@ -136,7 +145,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_,QWidget *parent,int idDb, Refug
 
     QObject::connect(this ,          SIGNAL(accepted()),    parent, SLOT(closeRefugeeInfo()));
     QObject::connect(this ,          SIGNAL(rejected()),    parent, SLOT(closeRefugeeInfo()));
-    QObject::connect(ui->btn_ok ,    SIGNAL(clicked(bool)), parent, SLOT(closeRefugeeInfo()));
+    QObject::connect(ui->btn_ok ,    SIGNAL(clicked(bool)), parent, SLOT(OkRefugeeInfo()));
     QObject::connect(ui->btn_cancel, SIGNAL(clicked(bool)), parent, SLOT(closeRefugeeInfo()));
 }
 

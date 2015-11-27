@@ -84,6 +84,7 @@ class MainWin : public QMainWindow
 
     public slots:
         void closeRefugeeInfo();
+        void OkRefugeeInfo();
 
     private:
         void openRefugeeInfo(RefugeeInfoWin::OpenMode openMode);
