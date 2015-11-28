@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -152,7 +152,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Name :</string>
+        <string>Name:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campLoc">
@@ -170,10 +170,10 @@
         </font>
        </property>
        <property name="text">
-        <string>Localisation :</string>
+        <string>Localisation:</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_campNbRefugee">
+      <widget class="QLabel" name="label_campRefugeeCount">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -188,7 +188,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Number of people :</string>
+        <string>Refugee Count:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campPlaceMax">
@@ -206,7 +206,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Maximum number of places :</string>
+        <string>Maximum Places:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campPlaceRemaining">
@@ -224,7 +224,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Number of space remaining :</string>
+        <string>Remaining Places:</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_campModCancel">
@@ -300,7 +300,7 @@
       <property name="flat">
        <bool>true</bool>
       </property>
-      <widget class="QLabel" name="label_campTotal">
+      <widget class="QLabel" name="label_campCount">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -310,7 +310,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total Camps :</string>
+        <string>Camp Count:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campTotalPlaceMax">
@@ -323,10 +323,10 @@
         </rect>
        </property>
        <property name="text">
-        <string>Number max of space: </string>
+        <string>Maximum Places: </string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_campTotalRefugiee">
+      <widget class="QLabel" name="label_campTotalRefugee">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -336,7 +336,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total Refugiees :</string>
+        <string>Refugee Count:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_totalPlacesRemaining">
@@ -349,10 +349,10 @@
         </rect>
        </property>
        <property name="text">
-        <string>Total space remaining :</string>
+        <string>Remaining Places:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="text_campTotal">
+      <widget class="QLineEdit" name="text_campCount">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -365,7 +365,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLineEdit" name="text_campTotalRefugiee">
+      <widget class="QLineEdit" name="text_campTotalRefugeeCount">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -391,7 +391,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLineEdit" name="text_campTotalPlaceRest">
+      <widget class="QLineEdit" name="text_campTotalRemainingPlaces">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -427,7 +427,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Last name:</string>
+       <string>Last Name:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchFName">
@@ -445,7 +445,7 @@
        </font>
       </property>
       <property name="text">
-       <string>first name:</string>
+       <string>First Name:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchAge">
@@ -466,7 +466,7 @@
        <string>Age:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_searchCountry">
+     <widget class="QLabel" name="label_searchHomeland">
       <property name="geometry">
        <rect>
         <x>70</x>
@@ -481,7 +481,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Country of Origin:</string>
+       <string>Homeland:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchSex">
@@ -596,7 +596,7 @@
        </property>
       </item>
      </widget>
-     <widget class="QComboBox" name="combo_searchCountry">
+     <widget class="QComboBox" name="combo_searchHomeland">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -750,7 +750,7 @@
     </widget>
     <widget class="QWidget" name="tab_manage">
      <attribute name="title">
-      <string>Human management</string>
+      <string>Human Hanagement</string>
      </attribute>
      <widget class="QListWidget" name="list_manage">
       <property name="geometry">
@@ -820,7 +820,7 @@
        <set>Qt::AlignCenter</set>
       </property>
       <property name="placeholderText">
-       <string>Search for someone...</string>
+       <string>Search for Someone...</string>
       </property>
       <property name="clearButtonEnabled">
        <bool>true</bool>
@@ -851,7 +851,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1114,7 +1114,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QListWidget" name="list_reserve">
+   <widget class="QListWidget" name="list_stock">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -1167,13 +1167,13 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QListWidget" name="list_reserveSearch">
+   <widget class="QListWidget" name="list_stockSearch">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>319</y>
+      <y>269</y>
       <width>150</width>
-      <height>101</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -1239,7 +1239,7 @@
   </action>
   <action name="actionConnexion">
    <property name="text">
-    <string>Connection</string>
+    <string>Log In</string>
    </property>
   </action>
   <action name="actionDeconnexion">

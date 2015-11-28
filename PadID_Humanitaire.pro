@@ -20,15 +20,15 @@ SOURCES +=  main.cpp\
             tab_search.cpp     \
             tab_management.cpp  \
             general.cpp \
-    refugeeinfowin.cpp \
-    tools.cpp
+            refugeeinfowin.cpp \
+            tools.cpp
 
 HEADERS  += mainwin.h \
-    refugeeinfowin.h \
-    tools.h
+            refugeeinfowin.h \
+            tools.h
 
 FORMS    += mainwin.ui \
     refugeeinfowin.ui
 
-TRANSLATIONS = humanitaire_fr.ts \
-               humanitaire_en.ts
+TRANSLATIONS = lang/humanitaire_fr.ts \
+               lang/humanitaire_en.ts

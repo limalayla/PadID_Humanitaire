@@ -1,7 +1,7 @@
 #include "mainwin.h"
 #include "ui_mainwin.h"
 
-void MainWin::suppliesInit(QSqlDatabase* db_)
+void MainWin::suppliesInit(QSqlDatabase*)
 {
     /*QSqlQuery req_supplies (*db_);
     req_supplies.prepare("Select category_name from furniture_category ");
@@ -14,7 +14,7 @@ void MainWin::suppliesInit(QSqlDatabase* db_)
 }
 
 
-void MainWin::suppliesLoad(QSqlDatabase* db_)
+void MainWin::suppliesLoad(QSqlDatabase*)
 {
     /* In function of the maquette */
     //....

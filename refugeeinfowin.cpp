@@ -37,7 +37,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
     if(req_allCountry.exec())
     {
         while(req_allCountry.next())
-            ui->combo_country->addItem(req_allCountry.value(0).toString());
+            ui->combo_homeland->addItem(req_allCountry.value(0).toString());
     }
 
     req_allType.prepare("Select Distinct type from Refugie");
@@ -79,14 +79,14 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
                     ui->combo_sex->setCurrentIndex(ui->combo_sex->currentIndex()+1);
                 }
 
-                for(int i=0; i<ui->combo_country->count();i++)
+                for(int i=0; i<ui->combo_homeland->count();i++)
                 {
-                    if(req_refugeeinfo.value(4).toString()==ui->combo_country->currentText())
+                    if(req_refugeeinfo.value(4).toString()==ui->combo_homeland->currentText())
                     {
-                        ui->combo_country->setCurrentIndex(i);
+                        ui->combo_homeland->setCurrentIndex(i);
                         break;
                     }
-                    ui->combo_country->setCurrentIndex(ui->combo_country->currentIndex()+1);
+                    ui->combo_homeland->setCurrentIndex(ui->combo_homeland->currentIndex()+1);
                 }
 
                 for(int i=0; i<ui->combo_type->count();i++)
@@ -118,7 +118,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
     else
     {
         ui->combo_age->setCurrentIndex(-1);
-        ui->combo_country->setCurrentIndex(-1);
+        ui->combo_homeland->setCurrentIndex(-1);
         ui->combo_curCamp->setCurrentIndex(-1);
         ui->combo_sex->setCurrentIndex(-1);
         ui->combo_state->setCurrentIndex(-1);
@@ -144,7 +144,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
     {
         ui->combo_age->setEnabled(true);
         ui->combo_sex->setEnabled(true);
-        ui->combo_country->setEnabled(true);
+        ui->combo_homeland->setEnabled(true);
         ui->combo_type->setEnabled(true);
     }
 

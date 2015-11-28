@@ -54,7 +54,7 @@ MainWin::MainWin(QWidget *parent) :
                 {
                     QVariant res_countryList(req_countryList.value(0));
 
-                    ui->combo_searchCountry->addItem(res_countryList.toString());
+                    ui->combo_searchHomeland->addItem(res_countryList.toString());
                 }
             }
      /*Initiating tab_supplies */
@@ -82,9 +82,7 @@ void MainWin::initSlots()
         QObject::connect(&m_timerdb,          SIGNAL(timeout()),            this, SLOT(closedb()));
         QObject::connect(ui->actionExit,      SIGNAL(triggered(bool)),      this, SLOT(close()));
         QObject::connect(ui->text_searchManage,SIGNAL(textChanged(QString)),this,SLOT(manageSearch(QString)));
-         QObject::connect(ui->list_manageSearch, SIGNAL(clicked(QModelIndex)), this, SLOT(changeManageSearch(QModelIndex)));
-
-
+        QObject::connect(ui->list_manageSearch, SIGNAL(clicked(QModelIndex)), this, SLOT(changeManageSearch(QModelIndex)));
 
    /* Overview Tab */
         QObject::connect(ui->btn_campMod,       SIGNAL(clicked(bool)), this, SLOT(campMod(bool)));

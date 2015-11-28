@@ -8,6 +8,8 @@
 
 class Tools : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit Tools(QObject *parent = 0);
 

@@ -88,7 +88,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Age :</string>
+    <string>Age:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_ok">
@@ -135,7 +135,7 @@
     <string>Sex :</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_country">
+  <widget class="QLabel" name="label_homeland">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -145,7 +145,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Country of Origin :</string>
+    <string>Homeland:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_type">
@@ -158,7 +158,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Type :</string>
+    <string>Type:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_state">
@@ -171,7 +171,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>status:</string>
+    <string>Status:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_misc">
@@ -184,7 +184,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Others :</string>
+    <string>Others:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_curCamp">
@@ -226,7 +226,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="combo_country">
+  <widget class="QComboBox" name="combo_homeland">
    <property name="enabled">
     <bool>false</bool>
    </property>
