@@ -28,7 +28,7 @@ HEADERS  += mainwin.h \
             tools.h
 
 FORMS    += mainwin.ui \
-    refugeeinfowin.ui
+            refugeeinfowin.ui
 
 TRANSLATIONS = lang/humanitaire_fr.ts \
                lang/humanitaire_en.ts

@@ -7,9 +7,6 @@
 #include <QVector>
 #include <QInputDialog>
 #include <QtSql>
-#include <QDebug>
-#include <QtGlobal>
-#include <QRegExp>
 
 #include "refugeeinfowin.h"
 #include "tools.h"
@@ -24,11 +21,12 @@ class MainWin : public QMainWindow
 
 /* General */
     public:
-        explicit MainWin(QWidget *parent = 0);
+        explicit MainWin(QWidget *parent, QJsonDocument configFile);
                 ~MainWin();
         QSqlDatabase* db(quint16 timeoutTimer_s= 5*60);
 
         RefugeeInfoWin *m_refugeeInfoWin;
+        QJsonDocument m_configFile ;
 
         static const quint8 c_AllCampIndex = 0;
 

@@ -5,6 +5,11 @@
 #include <QRegExp>
 #include <QListWidget>
 #include <QMessageBox>
+#include <QFile>
+#include <QJsonDocument>
+#include <QDebug>
+#include <QtGlobal>
+#include <QRegExp>
 
 class Tools : public QObject
 {
@@ -31,6 +36,7 @@ public:
                                         quint16 sizeMax= 50);
 
     static void dispErr(QWidget* source, const StringEvalCode& code);
+    static QJsonDocument* jsonFromFile(const QString& path, bool* ok = NULL);
 };
 
 #endif // TOOLS_H

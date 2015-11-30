@@ -472,5 +472,35 @@
         <source>The name of the camp is already taken, please enter one again.</source>
         <translation>Ce nom de camp est déjà pris, veuillez en re-rentrer un.</translation>
     </message>
+    <message>
+        <location filename="../tools.cpp" line="49"/>
+        <source>Can&apos;t open File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="49"/>
+        <source>File </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="49"/>
+        <source> cannot be opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="60"/>
+        <source>Error Parsing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="60"/>
+        <source>Error parsing </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="60"/>
+        <source>at line </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
