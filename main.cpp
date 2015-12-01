@@ -6,18 +6,19 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
 
+
     /* Opening the config file */
     bool ok;
     QJsonDocument *configFile = Tools::jsonFromFile(app.applicationDirPath() + "/config.json", &ok);
+    QTranslator translator;
 
     if(ok)
     {
-        QTranslator translator;
-        QString translation = app.applicationDirPath() + "/humanitaire_" + configFile->object()["lang"].toString() + ".qm";
+        QString translation = "humanitaire_" + configFile->object()["lang"].toString() + ".qm";
 
         if(!QFile::exists(translation)) qWarning() << translation << " does not exist";
 
-        if(translator.load(translation))
+        if(translator.load(translation, app.applicationDirPath() + "/lang"))
         {
             qDebug() << "[DEBUG]main.cpp::main() : Translation succeeded for " << translation << "!";
             app.installTranslator(&translator);
@@ -33,8 +34,6 @@ int main(int argc, char *argv[])
     {
         qCritical() << "[ERROR] Couldn't open the configuration file";
     }
-
-
 
     MainWin w(0, ok ? *configFile : QJsonDocument());
     w.show();

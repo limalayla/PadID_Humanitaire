@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>MainWin</name>
     <message>
@@ -475,32 +475,32 @@
     <message>
         <location filename="../tools.cpp" line="49"/>
         <source>Can&apos;t open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;ouvrir le Fichier</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="49"/>
         <source>File </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="49"/>
         <source> cannot be opened</source>
-        <translation type="unfinished"></translation>
+        <translation> ne peux pas être ouvert</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="60"/>
         <source>Error Parsing</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur en parcourant</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="60"/>
         <source>Error parsing </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur en Parcourant </translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="60"/>
         <source>at line </source>
-        <translation type="unfinished"></translation>
+        <translation>A la position</translation>
     </message>
 </context>
 </TS>

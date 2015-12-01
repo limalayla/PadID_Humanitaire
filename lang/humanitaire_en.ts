@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.0" language="en_US">
 <context>
     <name>MainWin</name>
     <message>
@@ -476,32 +476,32 @@
     <message>
         <location filename="../tools.cpp" line="49"/>
         <source>Can&apos;t open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Can&apos;t open File</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="49"/>
         <source>File </source>
-        <translation type="unfinished"></translation>
+        <translation>File</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="49"/>
         <source> cannot be opened</source>
-        <translation type="unfinished"></translation>
+        <translation> cannot be opened</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="60"/>
         <source>Error Parsing</source>
-        <translation type="unfinished"></translation>
+        <translation>Error Parsing</translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="60"/>
         <source>Error parsing </source>
-        <translation type="unfinished"></translation>
+        <translation>Error Parsing </translation>
     </message>
     <message>
         <location filename="../tools.cpp" line="60"/>
         <source>at line </source>
-        <translation type="unfinished"></translation>
+        <translation>At offset</translation>
     </message>
 </context>
 </TS>
