@@ -23,7 +23,8 @@ public:
 
     explicit RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent= 0, int idDb= -1, OpenMode openMode= readOnly);
     ~RefugeeInfoWin();
-
+public slots:
+    void insertOrUpdateRefugee();
 private:
     Ui::RefugeeInfoWin *ui;
     OpenMode m_openMode;

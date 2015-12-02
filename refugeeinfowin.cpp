@@ -150,8 +150,40 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
 
     QObject::connect(this ,          SIGNAL(accepted()),    parent, SLOT(closeRefugeeInfo()));
     QObject::connect(this ,          SIGNAL(rejected()),    parent, SLOT(closeRefugeeInfo()));
+    QObject::connect(ui->btn_ok, SIGNAL(clicked(bool)),this,SLOT(insertOrUpdateRefugee()));
     QObject::connect(ui->btn_ok ,    SIGNAL(clicked(bool)), parent, SLOT(OkRefugeeInfo()));
     QObject::connect(ui->btn_cancel, SIGNAL(clicked(bool)), parent, SLOT(closeRefugeeInfo()));
+}
+
+void RefugeeInfoWin::insertOrUpdateRefugee()
+{
+    QSqlQuery AddorUpdateRefugee;
+    QSqlQuery requestNewId_Camp;
+    QString StartRequest, MidRequest, EndRequest;
+    StartRequest="Insert into Refugie (id_refugie,nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
+    MidRequest = "Values (:newid , :newname, :newfname , :newage , :newSexe , :newPays , :newtype , :newState , :newDivers , :newId_camp ) ";
+    EndRequest = "on Duplicate Key UPDATE nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
+    AddorUpdateRefugee.prepare( StartRequest + MidRequest + EndRequest);
+
+    AddorUpdateRefugee.bindValue(":newid", 101);
+    AddorUpdateRefugee.bindValue(":newname",ui->text_lname->text());
+    AddorUpdateRefugee.bindValue(":newfname",ui->text_fname->text());
+    AddorUpdateRefugee.bindValue(":newage",ui->combo_age->currentText().toInt());
+    AddorUpdateRefugee.bindValue(":newSexe",ui->combo_sex->currentText());
+    AddorUpdateRefugee.bindValue(":newPays",ui->combo_homeland->currentText());
+    AddorUpdateRefugee.bindValue(":newtype",ui->combo_type->currentText());
+    AddorUpdateRefugee.bindValue(":newState",ui->combo_state->currentText());
+    AddorUpdateRefugee.bindValue(":newDivers",ui->text_misc->toPlainText());
+    AddorUpdateRefugee.bindValue(":newId_camp",ui->combo_curCamp->currentIndex());
+    requestNewId_Camp.prepare("Select id_camp from Camp where nom_camp = :camp");
+    requestNewId_Camp.bindValue(":camp",ui->combo_curCamp->currentText());
+
+    if(AddorUpdateRefugee.exec())
+    {
+           qDebug() << "Insertion Reussi";
+    }
+    else
+         qDebug() << AddorUpdateRefugee.lastError().text();
 }
 
 RefugeeInfoWin::~RefugeeInfoWin()
