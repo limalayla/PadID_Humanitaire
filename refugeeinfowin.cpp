@@ -59,8 +59,10 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
 
     req_refugeeinfo.prepare("Select nom, prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp from Refugie where id_refugie=:idDb");
     req_refugeeinfo.bindValue(":idDb",idDb);
+
     if(idDb!=-1)
     {
+        m_idDb=idDb;
         if(req_refugeeinfo.exec())
         {
             if(req_refugeeinfo.next())
@@ -165,7 +167,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     EndRequest = "on Duplicate Key UPDATE nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
     AddorUpdateRefugee.prepare( StartRequest + MidRequest + EndRequest);
 
-    AddorUpdateRefugee.bindValue(":newid", 101);
+    AddorUpdateRefugee.bindValue(":newid", m_idDb);
     AddorUpdateRefugee.bindValue(":newname",ui->text_lname->text());
     AddorUpdateRefugee.bindValue(":newfname",ui->text_fname->text());
     AddorUpdateRefugee.bindValue(":newage",ui->combo_age->currentText().toInt());
@@ -177,7 +179,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     AddorUpdateRefugee.bindValue(":newId_camp",ui->combo_curCamp->currentIndex());
     requestNewId_Camp.prepare("Select id_camp from Camp where nom_camp = :camp");
     requestNewId_Camp.bindValue(":camp",ui->combo_curCamp->currentText());
-
+    qDebug()<<m_idDb;
     if(AddorUpdateRefugee.exec())
     {
            qDebug() << "Insertion Reussi";
