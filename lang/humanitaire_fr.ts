@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>MainWin</name>
     <message>
@@ -471,6 +471,36 @@
         <location filename="../tools.cpp" line="33"/>
         <source>The name of the camp is already taken, please enter one again.</source>
         <translation>Ce nom de camp est déjà pris, veuillez en re-rentrer un.</translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="49"/>
+        <source>Can&apos;t open File</source>
+        <translation>Impossible d&apos;ouvrir le Fichier</translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="49"/>
+        <source>File </source>
+        <translation>Fichier</translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="49"/>
+        <source> cannot be opened</source>
+        <translation> ne peux pas être ouvert</translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="60"/>
+        <source>Error Parsing</source>
+        <translation>Erreur en parcourant</translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="60"/>
+        <source>Error parsing </source>
+        <translation>Erreur en Parcourant </translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="60"/>
+        <source>at line </source>
+        <translation>A la position</translation>
     </message>
 </context>
 </TS>

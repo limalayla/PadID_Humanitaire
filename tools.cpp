@@ -32,3 +32,36 @@ void Tools::dispErr(QWidget* src, const StringEvalCode& code)
     else if(code == Tools::BadFormat)   QMessageBox::warning(src, tr("Incorrect name"), tr("You enter an incorrect name: (^[a-z](\\w|-)*$), please enter one again."));
     else if(code == Tools::AlreadyTake) QMessageBox::warning(src, tr("Name already taken"), tr("The name of the camp is already taken, please enter one again."));
 }
+
+QJsonDocument* Tools::jsonFromFile(const QString& path, bool* ok)
+{
+    QString pathToJson(path + ((path.endsWith(".json")) ? "" : ".json"));
+    QFile file(pathToJson);
+    QJsonDocument* jsonDoc = new QJsonDocument();
+    QJsonParseError err;
+
+    qDebug() << "[DEBUG] tools.cpp::jsonFromFile() : opening " << pathToJson;
+    if(ok != NULL) *ok = true;
+
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        qCritical() << "[ERROR] tools.cpp::jsonFromFile() : file " << file.fileName() << " cannot be opened (" << file.errorString() << ")";
+        QMessageBox::critical(NULL, tr("Can't open File"), tr("File ") + file.fileName() + tr(" cannot be opened") + " (" + file.errorString() + ")");
+
+        if(ok != NULL) *ok = false;
+        return NULL;
+    }
+
+    *jsonDoc = QJsonDocument::fromJson(file.readAll(), &err);
+
+    if(err.error != QJsonParseError::NoError)
+    {
+        qCritical() << "[ERROR] tools.cpp::jsonFromFile() : error parsing " << pathToJson << " (#" << err.error << ") at line " << err.offset << " : " << err.errorString();
+        QMessageBox::critical(NULL, tr("Error Parsing"), tr("Error parsing ") + pathToJson + " (#" + err.error + " )" + tr("at line ") + err.offset + " : " + err.errorString());
+
+        if(ok != NULL) *ok = false;
+        return NULL;
+    }
+
+    return jsonDoc;
+}

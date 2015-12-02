@@ -1,9 +1,8 @@
 ﻿#include "mainwin.h"
 #include "ui_mainwin.h"
 
-
-MainWin::MainWin(QWidget *parent) :
-    QMainWindow(parent), m_refugeeInfoWin(NULL),
+MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
+    QMainWindow(parent), m_refugeeInfoWin(NULL), m_configFile(configFile),
     ui(new Ui::MainWin), m_db(NULL),
     m_curCamp(0), m_curTab(0), m_campModOngoing(false)
 {

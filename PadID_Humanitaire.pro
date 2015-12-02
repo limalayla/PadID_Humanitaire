@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT		 += sql
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +28,7 @@ HEADERS  += mainwin.h \
             tools.h
 
 FORMS    += mainwin.ui \
-    refugeeinfowin.ui
+            refugeeinfowin.ui
 
 TRANSLATIONS = lang/humanitaire_fr.ts \
                lang/humanitaire_en.ts

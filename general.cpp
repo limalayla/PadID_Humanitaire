@@ -139,7 +139,7 @@ QSqlDatabase* MainWin::db(quint16 timeoutTimer_s)
 {
     /*  SINGLETON
      *      WHEN CALL   : Whenever to use the database
-     *      ACTIONS     : Instantiate a new db if there isn't already one
+     *      ACTIONS     : Instantiate a new db if there isn't already one from a json formated config file
      *                    Open this db for n seconds if not already open
      *                    Start a timeout timer
      *      RETURN VAL  : Database's address once initiated
@@ -152,18 +152,19 @@ QSqlDatabase* MainWin::db(quint16 timeoutTimer_s)
             QSqlDatabase tmpdb = QSqlDatabase::addDatabase("QMYSQL");
             m_db = new QSqlDatabase(tmpdb);
 
-        // Configure it (might be in a config file in the future)
-            /* Config IUT */
-                m_db->setHostName("127.0.0.1");
-                m_db->setPort(5555);
 
-            /* Config NORMALE */
-                //m_db->setHostName("joretapo.fr");
-                //m_db->setPort(3306);
+        // Configure it with a json config file
+            if(!m_configFile.isNull())
+            {
+                QJsonObject configDb = m_configFile.object()["db"].toObject();
 
-            m_db->setUserName("root");
-            m_db->setPassword("toor");
-            m_db->setDatabaseName("humanitaire");
+                m_db->setHostName    (configDb["host"  ].toString());
+                m_db->setPort        (configDb["port"  ].toInt()   );
+                m_db->setUserName    (configDb["login" ].toString());
+                m_db->setPassword    (configDb["passwd"].toString());
+                m_db->setDatabaseName(configDb["name"  ].toString());
+                m_db->open();
+            }
     }
 
     // If db not already open
@@ -179,7 +180,7 @@ QSqlDatabase* MainWin::db(quint16 timeoutTimer_s)
             else
             {
                 qCritical() << "[ERROR] general.cpp::db() : " << m_db->lastError().text();
-                QMessageBox::critical(this, "Db Connextion", "Error Connecting to Database:\n" +
+                QMessageBox::critical(this, "Db Connection", "Error Connecting to Database:\n" +
                                                                   m_db->lastError().text());
             }
     }
