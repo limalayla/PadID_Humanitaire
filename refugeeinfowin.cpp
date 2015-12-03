@@ -78,24 +78,22 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMod
 
 void RefugeeInfoWin::insertOrUpdateRefugee()
 {
-    /*
+    QSqlQuery AddorUpdateRefugee;
+    QString StartRequest,MidRequest;
+	
     if(m_openMode == creation)
     {
-        QSqlQuery req_update()
-    }
+        StartRequest="Insert into Refugie(nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
+        MidRequest = "Values ( :newname, :newfname , :newage , :newSexe , :newPays , :newtype , :newState , :newDivers , :newId_camp )";
 
+    }
     else
     {
+        StartRequest = "Update Refugie set nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
+        MidRequest = "where id_refugie= :newid";
+    }
 
-    }*/
-
-    QSqlQuery AddorUpdateRefugee;
-    QSqlQuery requestNewId_Camp;
-    QString StartRequest, MidRequest, EndRequest;
-    StartRequest="Insert into Refugie (id_refugie,nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
-    MidRequest = "Values (:newid , :newname, :newfname , :newage , :newSexe , :newPays , :newtype , :newState , :newDivers , :newId_camp ) ";
-    EndRequest = "on Duplicate Key UPDATE nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
-    AddorUpdateRefugee.prepare( StartRequest + MidRequest + EndRequest);
+    AddorUpdateRefugee.prepare( StartRequest + MidRequest);
 
     AddorUpdateRefugee.bindValue(":newid",      m_idDb);
     AddorUpdateRefugee.bindValue(":newname",    ui->text_lname->text());
@@ -107,9 +105,6 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     AddorUpdateRefugee.bindValue(":newState",   ui->combo_state->currentText());
     AddorUpdateRefugee.bindValue(":newDivers",  ui->text_misc->toPlainText());
     AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentIndex());
-
-    requestNewId_Camp.prepare("Select id_camp from Camp where nom_camp = :camp");
-    requestNewId_Camp.bindValue(":camp",ui->combo_curCamp->currentText());
 
     if(AddorUpdateRefugee.exec())
         qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
