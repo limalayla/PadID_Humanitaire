@@ -42,6 +42,10 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
         /* Overview Tab */
             ui->groupbox_campOther->setVisible(false);
 
+            ui->text_campPlaceMax->setValidator(new QIntValidator(this));
+            ui->text_campNbRefugee->setValidator(new QIntValidator(this));
+            ui->text_campPlaceRemaining->setValidator(new QIntValidator(this));
+
         /* Search Tab */
             for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
 
@@ -56,12 +60,13 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
                     ui->combo_searchHomeland->addItem(res_countryList.toString());
                 }
             }
-     /*Initiating tab_supplies */
+
+         /* Supplies Tab */
             suppliesInit(m_db->access());
             ui->tabs_supplies->setVisible(true);
-     /* Initiating the signals - slots */
-        initSlots();
 
+         /* Initiating the signals - slots */
+            initSlots();
 }
 
 MainWin::~MainWin()

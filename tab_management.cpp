@@ -122,7 +122,6 @@ void MainWin::closeRefugeeInfo()
 
 void MainWin::OkRefugeeInfo()
 {
-
     if(m_refugeeInfoWin != NULL)
     {
         delete m_refugeeInfoWin;
