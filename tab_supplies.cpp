@@ -3,8 +3,9 @@
 
 void MainWin::suppliesInit(QSqlDatabase*)
 {
-    /*QSqlQuery req_supplies (*db_);
-    req_supplies.prepare("Select category_name from furniture_category ");
+    QSqlQuery req_supplies (*m_db->access());
+    req_supplies.prepare("Select nom_fourniture from Fourniture");
+
     if(req_supplies.exec())
     {
         while(req_supplies.next())

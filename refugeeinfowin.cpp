@@ -34,7 +34,7 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
                 ui->combo_homeland->setCurrentIndex(ui->combo_homeland->findText(req_refugeeinfo.value(4).toString()));
 
                 ui->text_misc->setPlainText(req_refugeeinfo.value(7).toString());
-
+                //Probleme ICi!
                 req_camp.prepare("Select nom_camp from Camps where id_camp = :idcamp ");
                 req_camp.bindValue(":idcamp",req_refugeeinfo.value(8).toInt());
                 qDebug() << req_refugeeinfo.value(0).toInt();
