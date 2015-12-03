@@ -90,6 +90,7 @@ void MainWin::refugeeDel(bool)
             qDebug() << "Delete Successful";
         else
             qDebug() << RemoveRefugee.lastError();
+        managementLoad(m_db->access());
     }
 }
 
@@ -118,6 +119,7 @@ void MainWin::closeRefugeeInfo()
         delete m_refugeeInfoWin;
         m_refugeeInfoWin = NULL;
     }
+    managementLoad(m_db->access());
 }
 
 void MainWin::OkRefugeeInfo()
@@ -128,4 +130,5 @@ void MainWin::OkRefugeeInfo()
         delete m_refugeeInfoWin;
         m_refugeeInfoWin = NULL;
     }
+    managementLoad(m_db->access());
 }

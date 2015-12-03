@@ -97,8 +97,16 @@ void MainWin::campAdd(bool)
 
     if(ok)
     {
-        // ToDo : Add camp to Db
-
+        // Add camp to Db
+        QSqlQuery requestAddCamp;
+        requestAddCamp.prepare("Insert into Camps(nom_camp,localisation,nb_max,id_stock) Values (:NameNewCamp, ' ', 0, 0)");
+        requestAddCamp.bindValue(":NameNewCamp", ans);
+        if(requestAddCamp.exec())
+        {
+            qDebug() << "Insert Successful";
+        }
+        else
+            qDebug() << requestAddCamp.lastError();
         ui->list_camp->addItem(ans);
         m_campsIdDb.push_back(0 /* Id Sql*/);
 

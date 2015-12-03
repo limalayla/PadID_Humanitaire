@@ -1,7 +1,7 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMode openMode) :
+RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMode openMode) :
     QDialog(parent), ui(new Ui::RefugeeInfoWin), m_db(db_),
     m_openMode(openMode), m_idDb(-1)
 {
@@ -35,12 +35,11 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMod
             }
         }
     }
-	
     else
     {
         ui->combo_age->setCurrentIndex(-1);
         ui->combo_homeland->setCurrentIndex(-1);
-        ui->combo_curCamp->setCurrentIndex(-1);
+        ui->combo_curCamp->setCurrentIndex(-1); //Put on the good position at the beginning of the window
         ui->combo_sex->setCurrentIndex(-1);
         ui->combo_state->setCurrentIndex(-1);
         ui->combo_type->setCurrentIndex(-1);
