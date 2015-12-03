@@ -12,6 +12,7 @@ void MainWin::campMod(bool)
     */
 
     Tools::StringEvalCode validName(Tools::Ok);
+    bool placesMaxOk = true;
 
     /* 2nd state (modification ongoing) */
         if(m_campModOngoing)
@@ -44,10 +45,26 @@ void MainWin::campMod(bool)
             // Else, show the corresponding error
                 else
                     Tools::dispErr(this, validName);
+            /* Check if the what is entered in places max is good */
+                placesMaxOk = ui->text_campPlaceMax->text().toInt() >= ui->text_campNbRefugee->text().toInt();
+                if(placesMaxOk)
+                {
+                    // SQL
+                    ui->text_campPlaceRemaining->setText(QString::number((ui->text_campPlaceMax->text().toInt() -
+                                                                          ui->text_campNbRefugee->text().toInt())));
+                }
+                else
+                {
+                    qDebug() << "[WARN ] tab_overview.cpp::campMod() : places max (" << ui->text_campPlaceMax->text().toInt()
+                                                                                     << ") < places occupied ("
+                                                                                     << ui->text_campNbRefugee->text().toInt()
+                                                                                     << ")";
+                    QMessageBox::warning(this, tr("Wrong number"), tr("You entered a place number too small"));
+                }
         }
 
     /* 1st and 2nd states */
-        if(validName == Tools::Ok)
+        if(validName == Tools::Ok && placesMaxOk)
         {
             // Toggle the state and ui
                 m_campModOngoing = !m_campModOngoing;
@@ -82,6 +99,7 @@ void MainWin::campSetEnabledInput(bool b)
 {
     ui->text_campName->setEnabled(b);
     ui->text_campLoc->setEnabled(b);
+    ui->text_campPlaceMax->setEnabled(b);
 }
 
 void MainWin::campDel(bool)

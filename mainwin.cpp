@@ -21,18 +21,39 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->btn_campModCancel->setVisible(false);
 
             // Customize the ui->list_camp's "All" item
-            ui->list_camp->item(0)->setFont(QFont("Arial", 11));
-            ui->list_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
-            m_campsIdDb.push_back(-1);
+				
 
             // Get the camp list from database
-            Updatelist_camp();
-     /*Initiating tab_supplies */
+			Updatelist_camp();
+
+        /* Overview Tab */
+            ui->groupbox_campOther->setVisible(false);
+
+            ui->text_campPlaceMax->setValidator(new QIntValidator(this));
+            ui->text_campNbRefugee->setValidator(new QIntValidator(this));
+            ui->text_campPlaceRemaining->setValidator(new QIntValidator(this));
+
+        /* Search Tab */
+            for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
+
+            // Get the list of the differents country from db and put it in ui->combo_searchCountry
+            QSqlQuery req_countryList(*m_db->access());
+            if(req_countryList.exec("SELECT nom_pays FROM Pays"))
+            {
+                while(req_countryList.next())
+                {
+                    QVariant res_countryList(req_countryList.value(0));
+
+                    ui->combo_searchHomeland->addItem(res_countryList.toString());
+                }
+            }
+
+         /* Supplies Tab */
             suppliesInit(m_db->access());
             ui->tabs_supplies->setVisible(true);
-     /* Initiating the signals - slots */
-        initSlots();
 
+         /* Initiating the signals - slots */
+            initSlots();
 }
 
 MainWin::~MainWin()
@@ -68,9 +89,20 @@ void MainWin::initSlots()
 
 void MainWin::Updatelist_camp()
 {
-    //QListWidgetItem *all =new QListWidgetItem(ui->list_camp->item(0));
-     ui->list_camp->clear();
-     //ui->list_camp->addItem(all);
+	/*
+	 *
+	 *
+	 *
+	*/
+	
+	// Clear the already existing camp list
+    ui->list_camp->clear();
+	
+	// (Re)create the first item "All" (wich have a specific meaning : see a summary of all camps)
+	
+	ui->list_camp->item(0)->setFont(QFont("Arial", 11));
+	ui->list_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
+	m_campsIdDb.push_back(-1);
     QSqlQuery req_listCamp(*m_db->access());
     if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps"))
     {
@@ -83,22 +115,4 @@ void MainWin::Updatelist_camp()
             ui->list_camp->addItem(res_campName.toString());
         }
     }
-
-/* Overview Tab */
-ui->groupbox_campOther->setVisible(false);
-
-/* Search Tab */
-for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
-
-// Get the list of the differents country from db and put it in ui->combo_searchCountry
-QSqlQuery req_countryList(*m_db->access());
-if(req_countryList.exec("SELECT nom_pays FROM Pays"))
-{
-    while(req_countryList.next())
-    {
-        QVariant res_countryList(req_countryList.value(0));
-
-        ui->combo_searchHomeland->addItem(res_countryList.toString());
-    }
-}
 }
