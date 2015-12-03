@@ -92,12 +92,30 @@ void MainWin::campDel(bool)
         QMessageBox::question(this, tr("Delete ?"), tr("Are you sure you want to delete the camp ?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes
       )
     {
+
+
+
+        QSqlQuery req_delcamp_camp(*m_db->access());
+        QSqlQuery req_delcamp_pers(*m_db->access());
+
+        req_delcamp_camp.prepare("DELETE FROM Camps  WHERE id_camp= :id_courant");
+        req_delcamp_camp.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+        req_delcamp_pers.prepare("DELETE FROM Refugie  WHERE id_camp= :id_courant");
+        req_delcamp_pers.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+
+        if(req_delcamp_camp.exec()){
+
+            Updatelist_camp();
+            if(!req_delcamp_pers.exec())qCritical() << "[ERROR] onglet_overview.cpp::campDel()::req_delcamp_pers.exec() : " << req_delcamp_camp.lastError();
+            } else qCritical() << "[ERROR] onglet_overview.cpp::campDel()::req_delcamp_camp.exec() : " << req_delcamp_camp.lastError();
+
+
         // ToDo : Récuperer l'id dans la bdd correspondant au camp à supprimer
         // Supprimer son entrée dans le tableau de camps avec l'indice m_curCamp -1
         // Requête pour le supprimer
             // /!\ Supprimer aussi les personnes et stocks correspondants
 
-        QMessageBox::information(this, "", tr("Deleting of ") + QString::number(m_curCamp));
+
     }
 }
 void MainWin::overviewLoad(bool reload)
@@ -135,7 +153,7 @@ void MainWin::overviewLoad(QSqlDatabase* db_, bool reload)
                     ui->text_campNbRefugee->setText(QString::number(nbRefugee));
                     ui->text_campPlaceRemaining->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbRefugee));
                  }
-            } else qCritical() << "[ERROR] onglet_vueensemble.cpp::vueensLoad()::req_nbRefugee.exec() : " << req_nbRefugee.lastError();
+            } else qCritical() << "[ERROR] onglet_overview.cpp::overviewLoad()::req_nbRefugee.exec() : " << req_nbRefugee.lastError();
         }
-    } else qCritical() << "[ERROR] onglet_vueensemble.cpp::vueensLoad()::req_overview.exec() : " << req_overview.lastError();
+    } else qCritical() << "[ERROR] onglet_overview.cpp::overviewLoad()::req_overview.exec() : " << req_overview.lastError();
 }
