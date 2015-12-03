@@ -83,7 +83,13 @@ void MainWin::refugeeDel(bool)
 {
     if(QMessageBox::question(this, tr("Are you sure ?"), tr("Delete this refugee ?")) == QMessageBox::Yes)
     {
-        /* SQL */
+        QSqlQuery RemoveRefugee;
+        RemoveRefugee.prepare("DELETE FROM Refugie where id_refugie = :idDelete");
+        RemoveRefugee.bindValue(":idDelete", m_refugeeIdDb[m_curRefugee]);
+        if(RemoveRefugee.exec())
+            qDebug() << "Delete Successful";
+        else
+            qDebug() << RemoveRefugee.lastError();
     }
 }
 
