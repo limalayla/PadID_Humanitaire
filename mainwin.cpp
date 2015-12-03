@@ -3,7 +3,7 @@
 
 MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
     QMainWindow(parent), m_refugeeInfoWin(NULL), m_configFile(configFile),
-    ui(new Ui::MainWin), db(new Database(this)),
+    m_db(new Database(this, configFile)), ui(new Ui::MainWin),
     m_curCamp(0), m_curTab(0), m_campModOngoing(false)
 {
     /*  CONSTRUCTOR
@@ -73,15 +73,12 @@ MainWin::~MainWin()
 void MainWin::initSlots()
 {
     /* General */
-        QObject::connect(ui->btn_campAdd,     SIGNAL(clicked(bool)),        this, SLOT(campAdd(bool)));
-        QObject::connect(ui->tabs,            SIGNAL(currentChanged(int)),  this, SLOT(changeTab(int)));
-        QObject::connect(ui->list_camp,       SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
-        QObject::connect(ui->text_searchCamp, SIGNAL(textChanged(QString)), this, SLOT(campSearch(QString)));
-        QObject::connect(ui->list_campSearch, SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampSearch(QModelIndex)));
-        QObject::connect(&m_timerdb,          SIGNAL(timeout()),            this, SLOT(closedb()));
-        QObject::connect(ui->actionExit,      SIGNAL(triggered(bool)),      this, SLOT(close()));
-        QObject::connect(ui->text_searchManage,SIGNAL(textChanged(QString)),this,SLOT(manageSearch(QString)));
-        QObject::connect(ui->list_manageSearch, SIGNAL(clicked(QModelIndex)), this, SLOT(changeManageSearch(QModelIndex)));
+        QObject::connect(ui->btn_campAdd,       SIGNAL(clicked(bool)),        this, SLOT(campAdd(bool)));
+        QObject::connect(ui->tabs,              SIGNAL(currentChanged(int)),  this, SLOT(changeTab(int)));
+        QObject::connect(ui->list_camp,         SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
+        QObject::connect(ui->text_searchCamp,   SIGNAL(textChanged(QString)), this, SLOT(campSearch(QString)));
+        QObject::connect(ui->list_campSearch,   SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampSearch(QModelIndex)));
+        QObject::connect(ui->actionExit,        SIGNAL(triggered(bool)),      this, SLOT(close()));
 
    /* Overview Tab */
         QObject::connect(ui->btn_campMod,       SIGNAL(clicked(bool)), this, SLOT(campMod(bool)));
@@ -89,9 +86,11 @@ void MainWin::initSlots()
         QObject::connect(ui->btn_campDel,       SIGNAL(clicked(bool)), this, SLOT(campDel(bool)));
 
    /* Manage Tab */
-        QObject::connect(ui->btn_manageAdd, SIGNAL(clicked(bool)),              this, SLOT(refugeeAdd(bool)));
-        QObject::connect(ui->btn_manageMod, SIGNAL(clicked(bool)),              this, SLOT(refugeeMod(bool)));
-        QObject::connect(ui->btn_manageDel, SIGNAL(clicked(bool)),              this, SLOT(refugeeDel(bool)));
-        QObject::connect(ui->list_manage,   SIGNAL(clicked(QModelIndex)),       this, SLOT(refugeeSet(QModelIndex)));
-        QObject::connect(ui->list_manage,   SIGNAL(doubleClicked(QModelIndex)), this, SLOT(refugeeSee(QModelIndex)));
+        QObject::connect(ui->btn_manageAdd,     SIGNAL(clicked(bool)),              this, SLOT(refugeeAdd(bool)));
+        QObject::connect(ui->btn_manageMod,     SIGNAL(clicked(bool)),              this, SLOT(refugeeMod(bool)));
+        QObject::connect(ui->btn_manageDel,     SIGNAL(clicked(bool)),              this, SLOT(refugeeDel(bool)));
+        QObject::connect(ui->list_manage,       SIGNAL(clicked(QModelIndex)),       this, SLOT(refugeeSet(QModelIndex)));
+        QObject::connect(ui->list_manage,       SIGNAL(doubleClicked(QModelIndex)), this, SLOT(refugeeSee(QModelIndex)));
+        QObject::connect(ui->text_searchManage, SIGNAL(textChanged(QString)),       this, SLOT(manageSearch(QString)));
+        QObject::connect(ui->list_manageSearch, SIGNAL(clicked(QModelIndex)),       this, SLOT(changeManageSearch(QModelIndex)));
 }

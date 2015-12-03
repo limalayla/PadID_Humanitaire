@@ -1,13 +1,13 @@
 #include "database.h"
 
-Database::Database(QObject *parent) :
+Database::Database(QObject *parent, QJsonDocument configFile) :
     QObject(parent),
-    m_db(NULL), m_wakedUp(false)
+    m_db(NULL), m_wakedUp(false), m_configFile(configFile)
 {
 
 }
 
-QSqlDatabase* Database::access(quint16 timeoutTimer_s)
+QSqlDatabase* Database::access(quint16 timeout)
 {
     /*  SINGLETON
      *      WHEN CALL   : Whenever to use the database
@@ -20,7 +20,7 @@ QSqlDatabase* Database::access(quint16 timeoutTimer_s)
     // If no database instantiated
     if(m_db == NULL)
     {
-        // Create a new one (silly but functional way of doing it)
+        // Create a new one (silly but working way of doing it)
             QSqlDatabase tmpdb = QSqlDatabase::addDatabase("QMYSQL");
             m_db = new QSqlDatabase(tmpdb);
 
@@ -46,27 +46,27 @@ QSqlDatabase* Database::access(quint16 timeoutTimer_s)
             qDebug() << "[DEBUG] general.cpp::db() : Connecting to " << m_db->hostName()     << ":"
                                                                      << m_db->port()         << " on "
                                                                      << m_db->databaseName() << " for "
-                                                                     << timeoutTimer_s       << "s";
+                                                                     << timeout              << "s";
 
             if(m_db->open()) qDebug() << "[DEBUG] general.cpp::db() : Db successfuly opened";
             else
             {
                 qCritical() << "[ERROR] general.cpp::db() : " << m_db->lastError().text();
-                QMessageBox::critical(this, "Db Connection", "Error Connecting to Database:\n" +
+                QMessageBox::critical(NULL, "Db Connection", "Error Connecting to Database:\n" +
                                                                   m_db->lastError().text());
             }
     }
 
     // Start or restart its timer
-    m_timerdb.start(timeoutTimer_s * 1000);
+    m_timer.start(timeout * 1000);
 
     return m_db;
 }
 
 void Database::close()
 {
-    /*  SLOT
-     *      ACTIVATION  : When the db's timer runs out
+    /*  FUNCTION
+     *      WHEN CALL   : When the db needs to be closed (automatically or manually)
      *      ACTIONS     : Close the db and stop its timer if the db is instantiated and open
     */
 
@@ -75,10 +75,20 @@ void Database::close()
         if(m_db->isOpen())
         {
             m_db->close();
-            m_timerdb.stop();
-            qDebug() << "[DEBUG] general.cpp::closedb() : Db closed";
+            m_timer.stop();
+            qDebug() << "[DEBUG] database.cpp::close() : Db closed";
         }
-        else qDebug() << "[DEBUG] general.cpp::closedb() : Db can't be closed (not opened)";
+        else qDebug() << "[DEBUG] database.cpp::close() : Db can't be closed (not opened)";
     }
-    else qDebug() << "[ERROR] general.cpp::closedb() : Db can't be closed (not instantiated)";
+    else qDebug() << "[ERROR] database.cpp::close() : Db can't be closed (not instantiated)";
+}
+
+void Database::privateclose()
+{
+    /*  SLOT
+     *      ACTIVATION  : When the db's timer runs out
+     *      ACTIONS     : Close the db and stop its timer if the db is instantiated and open
+    */
+
+    close();
 }

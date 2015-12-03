@@ -3,10 +3,8 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
-#include <QMessageBox>
 #include <QVector>
 #include <QInputDialog>
-#include <QtSql>
 
 #include "refugeeinfowin.h"
 #include "database.h"
@@ -26,7 +24,7 @@ class MainWin : public QMainWindow
                 ~MainWin();
 
         RefugeeInfoWin *m_refugeeInfoWin;
-        QJsonDocument m_configFile ;
+        QJsonDocument m_configFile;
         Database* m_db;
 
         static const quint8 c_AllCampIndex = 0;
@@ -45,9 +43,6 @@ class MainWin : public QMainWindow
         QVector<int> m_campsIdDb;
 
         void    initSlots();
-
-    private slots:
-        void closedb();
 
 /* Overview Tab */
     public:

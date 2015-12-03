@@ -1,17 +1,17 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, OpenMode openMode) :
-    QDialog(parent), ui(new Ui::RefugeeInfoWin),
+RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMode openMode) :
+    QDialog(parent), ui(new Ui::RefugeeInfoWin), m_db(db_),
     m_openMode(openMode), m_idDb(-1)
 {
     ui->setupUi(this);
 
-    fillFields(db_);
+    fillFields(m_db->access());
 
     if(m_openMode != creation)
     {
-        QSqlQuery req_refugeeinfo(*db_);
+        QSqlQuery req_refugeeinfo(*m_db->access());
         m_idDb = idDb;
 
         req_refugeeinfo.prepare("SELECT nom, prenom, age, sexe, pays_dorigine, type, etat, divers, id_camp FROM Refugie WHERE id_refugie = :idDb");
@@ -78,6 +78,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
 
 void RefugeeInfoWin::insertOrUpdateRefugee()
 {
+    /*
     if(m_openMode == creation)
     {
         QSqlQuery req_update()
@@ -86,7 +87,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     else
     {
 
-    }
+    }*/
 
     QSqlQuery AddorUpdateRefugee;
     QSqlQuery requestNewId_Camp;
