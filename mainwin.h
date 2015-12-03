@@ -43,6 +43,7 @@ class MainWin : public QMainWindow
         QVector<int> m_campsIdDb;
 
         void    initSlots();
+        void Updatelist_camp();
 
 /* Overview Tab */
     public:
