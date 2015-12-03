@@ -42,8 +42,8 @@ class MainWin : public QMainWindow
         quint16 m_curTab;
         QVector<int> m_campsIdDb;
 
-        void    initSlots();
-        void Updatelist_camp();
+        void initSlots();
+        void loadCampList();
 
 /* Overview Tab */
     public:

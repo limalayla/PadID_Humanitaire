@@ -105,35 +105,41 @@ void MainWin::campSetEnabledInput(bool b)
 void MainWin::campDel(bool)
 {
     bool campEmpty = false; // Si personne n'est dans le camp (Camp.nbPersonne == 0)
+    bool success(true);
 
     if( campEmpty ||
         QMessageBox::question(this, tr("Delete ?"), tr("Are you sure you want to delete the camp ?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes
       )
     {
-
-
-
         QSqlQuery req_delcamp_camp(*m_db->access());
         QSqlQuery req_delcamp_pers(*m_db->access());
 
-        req_delcamp_camp.prepare("DELETE FROM Camps  WHERE id_camp= :id_courant");
-        req_delcamp_camp.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
-        req_delcamp_pers.prepare("DELETE FROM Refugie  WHERE id_camp= :id_courant");
-        req_delcamp_pers.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+        req_delcamp_camp.prepare("DELETE FROM Camps  WHERE id_camp= :id2Del");
+        req_delcamp_camp.bindValue(":id2Del", m_campsIdDb[m_curCamp]);
 
-        if(req_delcamp_camp.exec()){
+        req_delcamp_pers.prepare("DELETE FROM Refugie  WHERE id_camp= :id2Del");
+        req_delcamp_pers.bindValue(":id2Del", m_campsIdDb[m_curCamp]);
 
-            Updatelist_camp();
-            if(!req_delcamp_pers.exec())qCritical() << "[ERROR] onglet_overview.cpp::campDel()::req_delcamp_pers.exec() : " << req_delcamp_camp.lastError();
-            } else qCritical() << "[ERROR] onglet_overview.cpp::campDel()::req_delcamp_camp.exec() : " << req_delcamp_camp.lastError();
+        if(req_delcamp_camp.exec())
+        {
+            if(req_delcamp_pers.exec())
+            {
+                qDebug() << "[DEBUG] onglet_overview.cpp::campDel() : Deletion successful";
+                loadCampList();
+                m_curCamp--;
+                changeCamp(QModelIndex());
+            }
+            else success = false;
+        }
+        else success = false;
 
+        if(!success)
+        {
+            qWarning() << "[WARN ] onglet_overview.cpp::campDel()) : Deletion failed" << req_delcamp_camp.lastError().text();
+            QMessageBox::warning(this, tr("Error on Camp Deletion"), tr("Camp Deletion Failed") + req_delcamp_camp.lastError().text());
+        }
 
-        // ToDo : Récuperer l'id dans la bdd correspondant au camp à supprimer
-        // Supprimer son entrée dans le tableau de camps avec l'indice m_curCamp -1
-        // Requête pour le supprimer
-            // /!\ Supprimer aussi les personnes et stocks correspondants
-
-
+        // /!\ Also delete the correpsonding stocks and so
     }
 }
 void MainWin::overviewLoad(bool reload)

@@ -98,17 +98,21 @@ void MainWin::campAdd(bool)
     if(ok)
     {
         // Add camp to Db
-        QSqlQuery requestAddCamp;
-        requestAddCamp.prepare("Insert into Camps(nom_camp,localisation,nb_max,id_stock) Values (:NameNewCamp, ' ', 0, 0)");
-        requestAddCamp.bindValue(":NameNewCamp", ans);
+        QSqlQuery requestAddCamp(*m_db->access());
+
+        requestAddCamp.prepare("INSERT INTO Camps(nom_camp, localisation, nb_max, id_stock) Values (:newCampName, ' ', 0, 0)");
+        requestAddCamp.bindValue(":newCampName", ans);
+
         if(requestAddCamp.exec())
         {
-            qDebug() << "Insert Successful";
+            loadCampList();
+            qDebug() <<  "[DEBUG] general.cpp::campAdd() : Insert Successful ("  + ans + ")";
         }
         else
-            qDebug() << requestAddCamp.lastError();
-        ui->list_camp->addItem(ans);
-        m_campsIdDb.push_back(0 /* Id Sql*/);
+        {
+            qWarning() << "[WARN ] general.cpp::campAdd() : Insert Failed" << requestAddCamp.lastError().text();
+            QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + requestAddCamp.lastError().text());
+        }
 
         // ToDo : Initialize all off the new camp's attributes
     }
@@ -141,4 +145,34 @@ void MainWin::campSearch(QString searchString)
         // Then show it
             ui->list_campSearch->setVisible(true);
     }
+}
+
+void MainWin::loadCampList()
+{
+    /*  Function
+     *      Get a fresh list containing all the camps in the database
+     *      Can be used for creation or update of the list
+     *      m_idDb is an int vector used to make the link between the position of the camp in the list and its id in the db
+    */
+
+    // Clear the already existing camp list
+        ui->list_camp->clear();
+        m_campsIdDb.clear();
+
+    // (Re)create the first item "All" (wich have a specific meaning : see a summary of all camps)
+        ui->list_camp->addItem(tr("All"));
+        ui->list_camp->item(0)->setFont(QFont("Arial", 11));
+        ui->list_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
+        m_campsIdDb.push_back(-1);
+
+    // Get the list of camps from the database
+        QSqlQuery req_listCamp(*m_db->access());
+        if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps"))
+        {
+            while(req_listCamp.next())
+            {
+                m_campsIdDb.push_back(req_listCamp.value(0).toInt());       // ID
+                ui->list_camp->addItem(req_listCamp.value(1).toString());   // Camp Name
+            }
+        }
 }

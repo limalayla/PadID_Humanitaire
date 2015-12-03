@@ -20,11 +20,8 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->list_campSearch->setVisible(false);
             ui->btn_campModCancel->setVisible(false);
 
-            // Customize the ui->list_camp's "All" item
-				
-
             // Get the camp list from database
-			Updatelist_camp();
+            loadCampList();
 
         /* Overview Tab */
             ui->groupbox_campOther->setVisible(false);
@@ -85,34 +82,4 @@ void MainWin::initSlots()
         QObject::connect(ui->list_manage,       SIGNAL(doubleClicked(QModelIndex)), this, SLOT(refugeeSee(QModelIndex)));
         QObject::connect(ui->text_searchManage, SIGNAL(textChanged(QString)),       this, SLOT(manageSearch(QString)));
         QObject::connect(ui->list_manageSearch, SIGNAL(clicked(QModelIndex)),       this, SLOT(changeManageSearch(QModelIndex)));
-}
-
-void MainWin::Updatelist_camp()
-{
-	/*
-	 *
-	 *
-	 *
-	*/
-	
-	// Clear the already existing camp list
-    ui->list_camp->clear();
-	
-	// (Re)create the first item "All" (wich have a specific meaning : see a summary of all camps)
-	
-	ui->list_camp->item(0)->setFont(QFont("Arial", 11));
-	ui->list_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
-	m_campsIdDb.push_back(-1);
-    QSqlQuery req_listCamp(*m_db->access());
-    if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps"))
-    {
-        while(req_listCamp.next())
-        {
-            QVariant res_campID  (req_listCamp.value(0));
-            QVariant res_campName(req_listCamp.value(1));
-
-            m_campsIdDb.push_back(res_campID.toInt());
-            ui->list_camp->addItem(res_campName.toString());
-        }
-    }
 }
