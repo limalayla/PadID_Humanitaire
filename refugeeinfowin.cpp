@@ -90,7 +90,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     else
     {
         StartRequest = "Update Refugie set nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
-        MidRequest = "where id_refugie= :newid";
+        MidRequest = " where id_refugie= :newid";
     }
 
     AddorUpdateRefugee.prepare( StartRequest + MidRequest);
