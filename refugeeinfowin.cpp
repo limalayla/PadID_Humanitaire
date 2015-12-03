@@ -71,13 +71,23 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
 
     QObject::connect(this ,          SIGNAL(accepted()),    parent, SLOT(closeRefugeeInfo()));
     QObject::connect(this ,          SIGNAL(rejected()),    parent, SLOT(closeRefugeeInfo()));
-    QObject::connect(ui->btn_ok, SIGNAL(clicked(bool)),this,SLOT(insertOrUpdateRefugee()));
+    QObject::connect(ui->btn_ok,     SIGNAL(clicked(bool)), this,   SLOT(insertOrUpdateRefugee()));
     QObject::connect(ui->btn_ok ,    SIGNAL(clicked(bool)), parent, SLOT(OkRefugeeInfo()));
     QObject::connect(ui->btn_cancel, SIGNAL(clicked(bool)), parent, SLOT(closeRefugeeInfo()));
 }
 
 void RefugeeInfoWin::insertOrUpdateRefugee()
 {
+    if(m_openMode == creation)
+    {
+        QSqlQuery req_update()
+    }
+
+    else
+    {
+
+    }
+
     QSqlQuery AddorUpdateRefugee;
     QSqlQuery requestNewId_Camp;
     QString StartRequest, MidRequest, EndRequest;

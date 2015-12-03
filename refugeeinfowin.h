@@ -5,6 +5,8 @@
 #include <QtSql>
 #include <QSqlDatabase>
 
+#include "database.h"
+
 namespace Ui {
 class RefugeeInfoWin;
 }

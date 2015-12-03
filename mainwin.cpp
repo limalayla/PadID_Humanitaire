@@ -3,7 +3,7 @@
 
 MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
     QMainWindow(parent), m_refugeeInfoWin(NULL), m_configFile(configFile),
-    ui(new Ui::MainWin), m_db(NULL),
+    ui(new Ui::MainWin), db(new Database(this)),
     m_curCamp(0), m_curTab(0), m_campModOngoing(false)
 {
     /*  CONSTRUCTOR
@@ -26,7 +26,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
                 m_campsIdDb.push_back(-1);
 
             // Get the camp list from database
-                QSqlQuery req_listCamp(*db());
+                QSqlQuery req_listCamp(*m_db->access());
                 if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps"))
                 {
                     while(req_listCamp.next())
@@ -46,7 +46,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
 
             // Get the list of the differents country from db and put it in ui->combo_searchCountry
-            QSqlQuery req_countryList(*db());
+            QSqlQuery req_countryList(*m_db->access());
             if(req_countryList.exec("SELECT nom_pays FROM Pays"))
             {
                 while(req_countryList.next())
@@ -57,7 +57,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
                 }
             }
      /*Initiating tab_supplies */
-            suppliesInit(db());
+            suppliesInit(m_db->access());
             ui->tabs_supplies->setVisible(true);
      /* Initiating the signals - slots */
         initSlots();
@@ -67,7 +67,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
 MainWin::~MainWin()
 {
     delete ui;
-    closedb();
+    m_db->close();
 }
 
 void MainWin::initSlots()

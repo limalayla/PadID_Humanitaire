@@ -9,6 +9,7 @@
 #include <QtSql>
 
 #include "refugeeinfowin.h"
+#include "database.h"
 #include "tools.h"
 
 namespace Ui {
@@ -23,10 +24,10 @@ class MainWin : public QMainWindow
     public:
         explicit MainWin(QWidget *parent, QJsonDocument configFile);
                 ~MainWin();
-        QSqlDatabase* db(quint16 timeoutTimer_s= 5*60);
 
         RefugeeInfoWin *m_refugeeInfoWin;
         QJsonDocument m_configFile ;
+        Database* m_db;
 
         static const quint8 c_AllCampIndex = 0;
 
@@ -39,11 +40,9 @@ class MainWin : public QMainWindow
 
     private:
         Ui::MainWin *ui;
-        QSqlDatabase* m_db;
         quint16 m_curCamp;
         quint16 m_curTab;
         QVector<int> m_campsIdDb;
-        QTimer m_timerdb;
 
         void    initSlots();
 
