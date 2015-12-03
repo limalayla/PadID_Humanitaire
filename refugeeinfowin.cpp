@@ -79,7 +79,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
 {
     QSqlQuery AddorUpdateRefugee;
     QString StartRequest,MidRequest;
-	
+    bool ok=true;
     if(m_openMode == creation)
     {
         StartRequest="Insert into Refugie(nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
@@ -105,10 +105,54 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     AddorUpdateRefugee.bindValue(":newDivers",  ui->text_misc->toPlainText());
     AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentIndex());
 
-    if(AddorUpdateRefugee.exec())
-        qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
-    else
-        qDebug() << "[ERROR] refugeeinfowin.cpp::addOrUpdateRefugee() : Insertion Failed (" + AddorUpdateRefugee.lastError().text() + ")";
+    if(ui->text_fname->text()=="")
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the firstname"));
+    }
+    if(ui->text_lname->text()=="" && ok)
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the surname"));
+    }
+    if(ui->combo_age->currentText()=="" && ok)
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the age"));
+    }
+    if(ui->combo_sex->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the sex"));
+    }
+    if(ui->combo_homeland->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the homeland"));
+    }
+    if(ui->combo_type->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the type"));
+    }
+    if(ui->combo_state->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the state"));
+    }
+    if(ui->combo_curCamp->currentText()=="" && ok)
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the current Camp"));
+    }
+
+    if(ok)
+    {
+        if(AddorUpdateRefugee.exec())
+            qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
+        else
+            qDebug() << "[ERROR] refugeeinfowin.cpp::addOrUpdateRefugee() : Insertion Failed (" + AddorUpdateRefugee.lastError().text() + ")";
+    }
 }
 
 RefugeeInfoWin::~RefugeeInfoWin()
