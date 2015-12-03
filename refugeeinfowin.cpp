@@ -1,17 +1,17 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, OpenMode openMode) :
-    QDialog(parent), ui(new Ui::RefugeeInfoWin),
+RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMode openMode) :
+    QDialog(parent), ui(new Ui::RefugeeInfoWin), m_db(db_),
     m_openMode(openMode), m_idDb(-1)
 {
     ui->setupUi(this);
 
-    fillFields(db_);
+    fillFields(m_db->access());
 
     if(m_openMode != creation)
     {
-        QSqlQuery req_refugeeinfo(*db_);
+        QSqlQuery req_refugeeinfo(*m_db->access());
         m_idDb = idDb;
 
         req_refugeeinfo.prepare("SELECT nom, prenom, age, sexe, pays_dorigine, type, etat, divers, id_camp FROM Refugie WHERE id_refugie = :idDb");
@@ -71,7 +71,7 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
 
     QObject::connect(this ,          SIGNAL(accepted()),    parent, SLOT(closeRefugeeInfo()));
     QObject::connect(this ,          SIGNAL(rejected()),    parent, SLOT(closeRefugeeInfo()));
-    QObject::connect(ui->btn_ok, SIGNAL(clicked(bool)),this,SLOT(insertOrUpdateRefugee()));
+    QObject::connect(ui->btn_ok,     SIGNAL(clicked(bool)), this,   SLOT(insertOrUpdateRefugee()));
     QObject::connect(ui->btn_ok ,    SIGNAL(clicked(bool)), parent, SLOT(OkRefugeeInfo()));
     QObject::connect(ui->btn_cancel, SIGNAL(clicked(bool)), parent, SLOT(closeRefugeeInfo()));
 }
@@ -79,12 +79,21 @@ RefugeeInfoWin::RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent, int idDb, Ope
 void RefugeeInfoWin::insertOrUpdateRefugee()
 {
     QSqlQuery AddorUpdateRefugee;
-    QSqlQuery requestNewId_Camp;
-    QString StartRequest, MidRequest, EndRequest;
-    StartRequest="Insert into Refugie (id_refugie,nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
-    MidRequest = "Values (:newid , :newname, :newfname , :newage , :newSexe , :newPays , :newtype , :newState , :newDivers , :newId_camp ) ";
-    EndRequest = "on Duplicate Key UPDATE nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
-    AddorUpdateRefugee.prepare( StartRequest + MidRequest + EndRequest);
+    QString StartRequest,MidRequest;
+	
+    if(m_openMode == creation)
+    {
+        StartRequest="Insert into Refugie(nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
+        MidRequest = "Values ( :newname, :newfname , :newage , :newSexe , :newPays , :newtype , :newState , :newDivers , :newId_camp )";
+
+    }
+    else
+    {
+        StartRequest = "Update Refugie set nom= :newname , prenom = :newfname , etat= :newState, id_camp = :newId_camp, divers = :newDivers";
+        MidRequest = "where id_refugie= :newid";
+    }
+
+    AddorUpdateRefugee.prepare( StartRequest + MidRequest);
 
     AddorUpdateRefugee.bindValue(":newid",      m_idDb);
     AddorUpdateRefugee.bindValue(":newname",    ui->text_lname->text());
@@ -96,9 +105,6 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     AddorUpdateRefugee.bindValue(":newState",   ui->combo_state->currentText());
     AddorUpdateRefugee.bindValue(":newDivers",  ui->text_misc->toPlainText());
     AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentIndex());
-
-    requestNewId_Camp.prepare("Select id_camp from Camp where nom_camp = :camp");
-    requestNewId_Camp.bindValue(":camp",ui->combo_curCamp->currentText());
 
     if(AddorUpdateRefugee.exec())
         qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;

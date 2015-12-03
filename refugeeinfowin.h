@@ -2,8 +2,8 @@
 #define REFUGEEINFOWIN_H
 
 #include <QDialog>
-#include <QtSql>
-#include <QSqlDatabase>
+
+#include "database.h"
 
 namespace Ui {
 class RefugeeInfoWin;
@@ -21,7 +21,7 @@ public:
         creation  = 2
     };
 
-    explicit RefugeeInfoWin(QSqlDatabase* db_, QWidget *parent= 0, int idDb= -1, OpenMode openMode= readOnly);
+    explicit RefugeeInfoWin(Database* db_, QWidget *parent= 0, int idDb= -1, OpenMode openMode= readOnly);
     ~RefugeeInfoWin();
     void fillFields(QSqlDatabase* db_);
 
@@ -30,6 +30,7 @@ public slots:
 
 private:
     Ui::RefugeeInfoWin *ui;
+    Database* m_db;
     OpenMode m_openMode;
     quint16 m_idDb;
 };

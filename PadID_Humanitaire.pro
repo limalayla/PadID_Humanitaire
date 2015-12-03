@@ -21,11 +21,13 @@ SOURCES +=  main.cpp\
             tab_management.cpp  \
             general.cpp \
             refugeeinfowin.cpp \
-            tools.cpp
+            tools.cpp \
+    database.cpp
 
 HEADERS  += mainwin.h \
             refugeeinfowin.h \
-            tools.h
+            tools.h \
+    database.h
 
 FORMS    += mainwin.ui \
             refugeeinfowin.ui

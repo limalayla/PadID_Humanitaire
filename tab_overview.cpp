@@ -22,7 +22,7 @@ void MainWin::campMod(bool)
             // Change it in the ui and the db if so
                 if(validName == Tools::Ok)
                 {
-                    QSqlQuery req_campMod(*db());
+                    QSqlQuery req_campMod(*m_db->access());
 
                     // ToDo : Update only differents fields
 
@@ -74,7 +74,7 @@ void MainWin::campModCancel(bool)
         ui->btn_campModCancel->setVisible(false);
         ui->btn_campMod->setText(tr("Modify Camp"));
 
-        overviewLoad(db(), true);
+        overviewLoad(m_db->access(), true);
     }
 }
 
@@ -102,7 +102,7 @@ void MainWin::campDel(bool)
 }
 void MainWin::overviewLoad(bool reload)
 {
-    overviewLoad(db(), reload);
+    overviewLoad(m_db->access(), reload);
 }
 
 void MainWin::overviewLoad(QSqlDatabase* db_, bool reload)
