@@ -8,7 +8,6 @@
 namespace Ui {
 class RefugeeInfoWin;
 }
-
 class RefugeeInfoWin : public QDialog
 {
     Q_OBJECT

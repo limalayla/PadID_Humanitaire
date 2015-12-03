@@ -1,7 +1,7 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMode openMode) :
+RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMode openMode) :
     QDialog(parent), ui(new Ui::RefugeeInfoWin), m_db(db_),
     m_openMode(openMode), m_idDb(-1)
 {
@@ -12,10 +12,13 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMod
     if(m_openMode != creation)
     {
         QSqlQuery req_refugeeinfo(*m_db->access());
+        QSqlQuery req_camp(*m_db->access());
         m_idDb = idDb;
 
         req_refugeeinfo.prepare("SELECT nom, prenom, age, sexe, pays_dorigine, type, etat, divers, id_camp FROM Refugie WHERE id_refugie = :idDb");
         req_refugeeinfo.bindValue(":idDb", m_idDb);
+
+
 
         if(req_refugeeinfo.exec())
         {
@@ -31,16 +34,25 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb, OpenMod
                 ui->combo_homeland->setCurrentIndex(ui->combo_homeland->findText(req_refugeeinfo.value(4).toString()));
 
                 ui->text_misc->setPlainText(req_refugeeinfo.value(7).toString());
-                ui->combo_curCamp->setCurrentIndex(req_refugeeinfo.value(8).toInt());
+                //Probleme ICi!
+                req_camp.prepare("Select nom_camp from Camps where id_camp = :idcamp ");
+                req_camp.bindValue(":idcamp",req_refugeeinfo.value(8).toInt());
+                qDebug() << req_refugeeinfo.value(0).toInt();
+                  qDebug() << req_camp.lastQuery();
+                if(req_camp.exec())
+                    ui->combo_curCamp->setCurrentIndex(ui->combo_curCamp->findText(req_camp.value(0).toString()));
+                else
+                    qDebug() << req_camp.lastError();
             }
         }
+        else
+            qDebug() << req_refugeeinfo.lastError();
     }
-	
     else
     {
         ui->combo_age->setCurrentIndex(-1);
         ui->combo_homeland->setCurrentIndex(-1);
-        ui->combo_curCamp->setCurrentIndex(-1);
+        ui->combo_curCamp->setCurrentIndex(-1); //Put on the good position at the beginning of the window
         ui->combo_sex->setCurrentIndex(-1);
         ui->combo_state->setCurrentIndex(-1);
         ui->combo_type->setCurrentIndex(-1);
@@ -80,7 +92,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
 {
     QSqlQuery AddorUpdateRefugee;
     QString StartRequest,MidRequest;
-	
+    bool ok=true;
     if(m_openMode == creation)
     {
         StartRequest="Insert into Refugie(nom,prenom,age,sexe,pays_dorigine,type,etat,divers,id_camp) ";
@@ -106,10 +118,54 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     AddorUpdateRefugee.bindValue(":newDivers",  ui->text_misc->toPlainText());
     AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentIndex());
 
-    if(AddorUpdateRefugee.exec())
-        qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
-    else
-        qDebug() << "[ERROR] refugeeinfowin.cpp::addOrUpdateRefugee() : Insertion Failed (" + AddorUpdateRefugee.lastError().text() + ")";
+    if(ui->text_fname->text()=="")
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the firstname"));
+    }
+    if(ui->text_lname->text()=="" && ok)
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the surname"));
+    }
+    if(ui->combo_age->currentText()=="" && ok)
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the age"));
+    }
+    if(ui->combo_sex->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the sex"));
+    }
+    if(ui->combo_homeland->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the homeland"));
+    }
+    if(ui->combo_type->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the type"));
+    }
+    if(ui->combo_state->currentText()=="" && ok)
+    {
+        ok=false;
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the state"));
+    }
+    if(ui->combo_curCamp->currentText()=="" && ok)
+    {
+        ok=false;
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the current Camp"));
+    }
+
+    if(ok)
+    {
+        if(AddorUpdateRefugee.exec())
+            qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
+        else
+            qDebug() << "[ERROR] refugeeinfowin.cpp::addOrUpdateRefugee() : Insertion Failed (" + AddorUpdateRefugee.lastError().text() + ")";
+    }
 }
 
 RefugeeInfoWin::~RefugeeInfoWin()
@@ -160,3 +216,4 @@ void RefugeeInfoWin::fillFields(QSqlDatabase* db_)
             ui->combo_state->addItem(req_allState.value(0).toString());
     }
 }
+
