@@ -12,6 +12,9 @@ void MainWin::suppliesInit(QSqlDatabase*)
         while(req_supplies.next())
                 {
                         QGridLayout *layout = new QGridLayout;
+                        layout->setColumnStretch(0,0);
+                        layout->setColumnStretch(1,1);
+                        layout->setSpacing(0);
                         ui->tabs_supplies->addTab(new QWidget(ui->tabs_supplies),req_supplies.value(0).toString());
                         ui->tabs_supplies->setCurrentIndex(i);
                         //Widget for every tabs
@@ -37,10 +40,10 @@ void MainWin::suppliesInit(QSqlDatabase*)
                         QSqlQuery req_typeSupplies(*m_db->access());
 
                         layout->addWidget(NomTab,0,0);
-                        layout->addWidget(Amount,0,2);
+                        layout->addWidget(Amount,0,1);
                         layout->addWidget(Type,1,0);
-                        layout->addWidget(AmountType,1,2);
-                         layout->addWidget(ButtonValidate,2,3);
+                        layout->addWidget(AmountType,1,1);
+                         layout->addWidget(ButtonValidate,2,2);
                         ui->tabs_supplies->currentWidget()->setLayout(layout);
                         i++;
                 }
