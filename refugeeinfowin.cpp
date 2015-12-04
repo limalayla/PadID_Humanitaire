@@ -12,13 +12,10 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
     if(m_openMode != creation)
     {
         QSqlQuery req_refugeeinfo(*m_db->access());
-        QSqlQuery req_camp(*m_db->access());
         m_idDb = idDb;
 
-        req_refugeeinfo.prepare("SELECT nom, prenom, age, sexe, pays_dorigine, type, etat, divers, id_camp FROM Refugie WHERE id_refugie = :idDb");
+        req_refugeeinfo.prepare("SELECT nom, prenom, age, sexe, pays_dorigine, type, etat, divers, nom_camp FROM Refugie, Camps WHERE id_refugie = :idDb and Refugie.id_camp = Camps.id_camp");
         req_refugeeinfo.bindValue(":idDb", m_idDb);
-
-
 
         if(req_refugeeinfo.exec())
         {
@@ -34,15 +31,7 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
                 ui->combo_homeland->setCurrentIndex(ui->combo_homeland->findText(req_refugeeinfo.value(4).toString()));
 
                 ui->text_misc->setPlainText(req_refugeeinfo.value(7).toString());
-                //Probleme ICi!
-                req_camp.prepare("Select nom_camp from Camps where id_camp = :idcamp ");
-                req_camp.bindValue(":idcamp",req_refugeeinfo.value(8).toInt());
-                qDebug() << req_refugeeinfo.value(0).toInt();
-                  qDebug() << req_camp.lastQuery();
-                if(req_camp.exec())
-                    ui->combo_curCamp->setCurrentIndex(ui->combo_curCamp->findText(req_camp.value(0).toString()));
-                else
-                    qDebug() << req_camp.lastError();
+                ui->combo_curCamp->setCurrentIndex(ui->combo_curCamp->findText(req_refugeeinfo.value(8).toString()));
             }
         }
         else
