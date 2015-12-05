@@ -35,6 +35,7 @@ class MainWin : public QMainWindow
         void changeTab(int);
         void campAdd(bool);
         void campSearch(QString);
+        void loadCampList(bool=false);
 
     private:
         Ui::MainWin *ui;
@@ -43,7 +44,6 @@ class MainWin : public QMainWindow
         QVector<int> m_campsIdDb;
 
         void initSlots();
-        void loadCampList();
 
 /* Overview Tab */
     public:
@@ -53,6 +53,7 @@ class MainWin : public QMainWindow
     private:
         bool m_campModOngoing;
         void campSetEnabledInput(bool);
+        void overviewCreation();
         void overviewLoad(bool= false);
         void overviewLoad(QSqlDatabase* db, bool= false);
 

@@ -1,6 +1,7 @@
 #include "tools.h"
 
-const QRegExp Tools::c_regex_campName = QRegExp("^[a-z](\\w|-)*$", Qt::CaseInsensitive);
+const QRegExp Tools::c_rgx_campName = QRegExp("^[a-z](\\w|-)*$", Qt::CaseInsensitive);
+const QRegExp Tools::c_rgx_alphaNumString = QRegExp("\\p{L}(\\p{L}|-|_| )*", Qt::CaseInsensitive);
 
 Tools::Tools(QObject *parent) : QObject(parent)
 {}

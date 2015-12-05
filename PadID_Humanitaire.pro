@@ -22,15 +22,17 @@ SOURCES +=  main.cpp\
             general.cpp \
             refugeeinfowin.cpp \
             tools.cpp \
-    database.cpp
+            database.cpp
 
 HEADERS  += mainwin.h \
             refugeeinfowin.h \
             tools.h \
-    database.h
+            database.h
 
 FORMS    += mainwin.ui \
             refugeeinfowin.ui
 
 TRANSLATIONS = lang/humanitaire_fr.ts \
                lang/humanitaire_en.ts
+
+RC_ICONS = img/icon.ico

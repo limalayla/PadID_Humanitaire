@@ -21,14 +21,11 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->btn_campModCancel->setVisible(false);
 
             // Get the camp list from database
+            ui->list_camp->clear();
             loadCampList();
 
-        /* Overview Tab */
-            ui->groupbox_campOther->setVisible(false);
-
-            ui->text_campPlaceMax->setValidator(new QIntValidator(this));
-            ui->text_campNbRefugee->setValidator(new QIntValidator(this));
-            ui->text_campPlaceRemaining->setValidator(new QIntValidator(this));
+        // Overview Tab
+            overviewCreation();
 
         /* Search Tab */
             for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
@@ -63,6 +60,7 @@ void MainWin::initSlots()
 {
     /* General */
         QObject::connect(ui->btn_campAdd,       SIGNAL(clicked(bool)),        this, SLOT(campAdd(bool)));
+        QObject::connect(ui->btn_campRefresh,   SIGNAL(clicked(bool)),        this, SLOT(loadCampList(bool)));
         QObject::connect(ui->tabs,              SIGNAL(currentChanged(int)),  this, SLOT(changeTab(int)));
         QObject::connect(ui->list_camp,         SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
         QObject::connect(ui->text_searchCamp,   SIGNAL(textChanged(QString)), this, SLOT(campSearch(QString)));

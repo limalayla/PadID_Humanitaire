@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>RefugeeInfoWin</class>
  <widget class="QDialog" name="RefugeeInfoWin">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="enabled">
    <bool>true</bool>
   </property>
