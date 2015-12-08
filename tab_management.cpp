@@ -119,6 +119,7 @@ void MainWin::closeRefugeeInfo()
         delete m_refugeeInfoWin;
         m_refugeeInfoWin = NULL;
     }
+
     managementLoad(m_db->access());
 }
 
@@ -129,5 +130,6 @@ void MainWin::OkRefugeeInfo()
         delete m_refugeeInfoWin;
         m_refugeeInfoWin = NULL;
     }
+
     managementLoad(m_db->access());
 }

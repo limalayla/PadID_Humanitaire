@@ -51,6 +51,9 @@ void MainWin::changeCamp(QModelIndex index)
         managementLoad(m_db->access());
         // ToDo: Other tabs loading
     }
+
+    ui->list_res_search->clear();
+    m_searchRefugeeIdDb.clear();
 }
 
 void MainWin::changeCampSearch(QModelIndex index)
@@ -100,20 +103,20 @@ void MainWin::campAdd(bool)
     if(ok)
     {
         // Add camp to Db
-        QSqlQuery requestAddCamp(*m_db->access());
+        QSqlQuery req_AddCamp(*m_db->access());
 
-        requestAddCamp.prepare("INSERT INTO Camps(nom_camp, localisation, nb_max, id_stock) Values (:newCampName, ' ', 0, 0)");
-        requestAddCamp.bindValue(":newCampName", ans);
+        req_AddCamp.prepare("INSERT INTO Camps(nom_camp, localisation, nb_max, id_stock) Values (:newCampName, ' ', 0, 0)");
+        req_AddCamp.bindValue(":newCampName", ans);
 
-        if(requestAddCamp.exec())
+        if(req_AddCamp.exec())
         {
             loadCampList();
             qDebug() <<  "[DEBUG] general.cpp::campAdd() : Insert Successful ("  + ans + ")";
         }
         else
         {
-            qWarning() << "[WARN ] general.cpp::campAdd() : Insert Failed" << requestAddCamp.lastError().text();
-            QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + requestAddCamp.lastError().text());
+            qWarning() << "[WARN ] general.cpp::campAdd() : Insert Failed" << req_AddCamp.lastError().text();
+            QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + req_AddCamp.lastError().text());
         }
 
         // ToDo : Initialize all off the new camp's attributes

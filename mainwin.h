@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QVector>
 #include <QInputDialog>
+#include <QMap>
 
 #include "refugeeinfowin.h"
 #include "database.h"
@@ -65,10 +66,19 @@ class MainWin : public QMainWindow
 
 /* Search Tab */
     public:
+        void searchClear();
+        void search_fillFields();
 
     public slots:
 
+    private:
+        quint16 m_curSearchRefugee;
+        QVector<int> m_searchRefugeeIdDb;
+
     private slots:
+        void refugeeSearch(bool);
+        void search_refugeeSet(QModelIndex);
+        void search_refugeeSee(QModelIndex);
 
 /* Management Tab */
     public:
