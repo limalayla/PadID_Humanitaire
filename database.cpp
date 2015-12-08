@@ -52,7 +52,7 @@ QSqlDatabase* Database::access(quint16 timeout)
             else
             {
                 qCritical() << "[ERROR] general.cpp::db() : " << m_db->lastError().text();
-                QMessageBox::critical(NULL, "Db Connection", "Error Connecting to Database:\n" +
+                QMessageBox::critical(NULL, tr("Db Connection"), tr("Error Connecting to Database:") + "\n" +
                                                                   m_db->lastError().text());
             }
     }
