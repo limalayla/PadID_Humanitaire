@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QVector>
 #include <QInputDialog>
+#include <QGridLayout>
 
 #include "refugeeinfowin.h"
 #include "database.h"
