@@ -185,7 +185,7 @@ void MainWin::loadCampList(bool)
         }
         else
         {
-            qWarning() << "[WARN ] general.cpp::loadCampList() : Insert Failed" << req_listCamp.lastError().text();
+            qWarning() << "[WARN ] general.cpp::loadCampList() : Query Failed" << req_listCamp.lastError().text();
             QMessageBox::warning(this, tr("Error Loading Camps"), tr("Error while getting the camps list : ") + req_listCamp.lastError().text());
         }
 
