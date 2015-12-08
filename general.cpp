@@ -33,8 +33,11 @@ void MainWin::changeCamp(QModelIndex index)
         ui->groupbox_campAll->setVisible  (m_curCamp == c_AllCampIndex);
         ui->groupbox_campOther->setVisible(m_curCamp != c_AllCampIndex);
 
-     // Cancel pending operation on db if any
-         campModCancel();
+    // Cancel pending operation on db if any
+        campModCancel();
+
+    // Load the overview tab consequently
+        overviewLoad();
 
     // Deactivate "Management" and "Supplies" tabs and switch to "Overview" tab when camp "All" is select
     if(m_curCamp == c_AllCampIndex)
@@ -45,10 +48,12 @@ void MainWin::changeCamp(QModelIndex index)
 
     else
     {
-        overviewLoad();
         managementLoad(m_db->access());
         // ToDo: Other tabs loading
     }
+
+    ui->list_res_search->clear();
+    m_searchRefugeeIdDb.clear();
 }
 
 void MainWin::changeCampSearch(QModelIndex index)
@@ -87,7 +92,7 @@ void MainWin::campAdd(bool)
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)
         {
-            validName = Tools::campNameValid(ans, *ui->list_camp, Tools::c_regex_campName, m_curCamp, 50);
+            validName = Tools::campNameValid(ans, *ui->list_camp, Tools::c_rgx_alphaNumString, m_curCamp, 50);
 
             if(validName != Tools::Ok)
                 Tools::dispErr(this, validName);
@@ -98,20 +103,20 @@ void MainWin::campAdd(bool)
     if(ok)
     {
         // Add camp to Db
-        QSqlQuery requestAddCamp(*m_db->access());
+        QSqlQuery req_AddCamp(*m_db->access());
 
-        requestAddCamp.prepare("INSERT INTO Camps(nom_camp, localisation, nb_max, id_stock) Values (:newCampName, ' ', 0, 0)");
-        requestAddCamp.bindValue(":newCampName", ans);
+        req_AddCamp.prepare("INSERT INTO Camps(nom_camp, localisation, nb_max, id_stock) Values (:newCampName, ' ', 0, 0)");
+        req_AddCamp.bindValue(":newCampName", ans);
 
-        if(requestAddCamp.exec())
+        if(req_AddCamp.exec())
         {
             loadCampList();
             qDebug() <<  "[DEBUG] general.cpp::campAdd() : Insert Successful ("  + ans + ")";
         }
         else
         {
-            qWarning() << "[WARN ] general.cpp::campAdd() : Insert Failed" << requestAddCamp.lastError().text();
-            QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + requestAddCamp.lastError().text());
+            qWarning() << "[WARN ] general.cpp::campAdd() : Insert Failed" << req_AddCamp.lastError().text();
+            QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + req_AddCamp.lastError().text());
         }
 
         // ToDo : Initialize all off the new camp's attributes
@@ -147,16 +152,19 @@ void MainWin::campSearch(QString searchString)
     }
 }
 
-void MainWin::loadCampList()
+void MainWin::loadCampList(bool)
 {
-    /*  Function
+    /*  SLOT
      *      Get a fresh list containing all the camps in the database
      *      Can be used for creation or update of the list
      *      m_idDb is an int vector used to make the link between the position of the camp in the list and its id in the db
     */
 
+    int newCampIDDb, prevCampIDDb = (m_curCamp == 0) ? -1 : m_campsIdDb[m_curCamp];
+
     // Clear the already existing camp list
         ui->list_camp->clear();
+
         m_campsIdDb.clear();
 
     // (Re)create the first item "All" (wich have a specific meaning : see a summary of all camps)
@@ -167,7 +175,7 @@ void MainWin::loadCampList()
 
     // Get the list of camps from the database
         QSqlQuery req_listCamp(*m_db->access());
-        if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps"))
+        if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps ORDER BY nom_camp ASC"))
         {
             while(req_listCamp.next())
             {
@@ -175,4 +183,16 @@ void MainWin::loadCampList()
                 ui->list_camp->addItem(req_listCamp.value(1).toString());   // Camp Name
             }
         }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::loadCampList() : Insert Failed" << req_listCamp.lastError().text();
+            QMessageBox::warning(this, tr("Error Loading Camps"), tr("Error while getting the camps list : ") + req_listCamp.lastError().text());
+        }
+
+    // To select the good camp in the list, search his db's id and if it doesn't exist, place the camp on "All"
+        if((newCampIDDb = m_campsIdDb.indexOf(prevCampIDDb)) == -1) m_curCamp = 0;
+        else m_curCamp = newCampIDDb;
+
+        ui->list_camp->setCurrentRow(m_curCamp);
+        changeCamp(QModelIndex());
 }

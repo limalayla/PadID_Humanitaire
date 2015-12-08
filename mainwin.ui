@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icon.png</normaloff>icon.png</iconset>
+    <normaloff>img/icon.png</normaloff>img/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="tabs">
@@ -1014,60 +1014,13 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QListWidget" name="list_camp">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>150</width>
-      <height>250</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="currentRow">
-     <number>-1</number>
-    </property>
-    <property name="sortingEnabled">
-     <bool>false</bool>
-    </property>
-    <item>
-     <property name="text">
-      <string>All</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QPushButton" name="btn_campAdd">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>440</y>
-      <width>150</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Add</string>
-    </property>
-    <property name="shortcut">
-     <string>Ctrl+A</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="text_searchCamp">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>250</y>
-      <width>150</width>
-      <height>20</height>
+      <y>270</y>
+      <width>101</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="font">
@@ -1088,13 +1041,166 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLineEdit" name="text_rechStock">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>455</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="maxLength">
+     <number>50</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>Search...</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_campRefresh">
+    <property name="geometry">
+     <rect>
+      <x>125</x>
+      <y>270</y>
+      <width>25</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="shortcut">
+     <string>F5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_campAdd">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>270</y>
+      <width>25</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+A</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_stockRefresh">
+    <property name="geometry">
+     <rect>
+      <x>125</x>
+      <y>455</y>
+      <width>25</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="shortcut">
+     <string>F5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_stockAdd">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>455</y>
+      <width>25</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+A</string>
+    </property>
+   </widget>
    <widget class="QListWidget" name="list_campSearch">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>150</width>
-      <height>250</height>
+      <height>270</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="currentRow">
+     <number>-1</number>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="list_camp">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>150</width>
+      <height>270</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="currentRow">
+     <number>-1</number>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="list_stockSearch">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>295</y>
+      <width>150</width>
+      <height>160</height>
      </rect>
     </property>
     <property name="font">
@@ -1113,62 +1219,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>269</y>
+      <y>295</y>
       <width>150</width>
-      <height>151</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="currentRow">
-     <number>-1</number>
-    </property>
-    <property name="sortingEnabled">
-     <bool>false</bool>
-    </property>
-    <item>
-     <property name="text">
-      <string>All</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLineEdit" name="text_rechStock">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>420</y>
-      <width>150</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="maxLength">
-     <number>50</number>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="placeholderText">
-     <string>Search...</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="list_stockSearch">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>269</y>
-      <width>150</width>
-      <height>151</height>
+      <height>160</height>
      </rect>
     </property>
     <property name="font">
@@ -1190,7 +1243,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">
@@ -1206,16 +1259,8 @@
     </property>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuProfile">
-    <property name="title">
-     <string>Profile</string>
-    </property>
-    <addaction name="actionConnexion"/>
-    <addaction name="actionDeconnexion"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLanguage"/>
-   <addaction name="menuProfile"/>
   </widget>
   <action name="actionFrench">
    <property name="text">
@@ -1230,16 +1275,6 @@
   <action name="actionExit">
    <property name="text">
     <string>Quit</string>
-   </property>
-  </action>
-  <action name="actionConnexion">
-   <property name="text">
-    <string>Log In</string>
-   </property>
-  </action>
-  <action name="actionDeconnexion">
-   <property name="text">
-    <string>Log out</string>
    </property>
   </action>
  </widget>

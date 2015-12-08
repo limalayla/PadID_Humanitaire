@@ -1,6 +1,20 @@
 #include "mainwin.h"
 #include "ui_mainwin.h"
 
+void MainWin::overviewCreation()
+{
+    ui->groupbox_campOther->setVisible(false);
+
+    ui->text_campName->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_campName));
+    ui->text_campLoc->setValidator (new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_campLoc));
+
+    ui->text_campPlaceMax->setValidator(new QIntValidator(this));
+    ui->text_campNbRefugee->setValidator(new QIntValidator(this));
+    ui->text_campPlaceRemaining->setValidator(new QIntValidator(this));
+
+    overviewLoad();
+}
+
 void MainWin::campMod(bool)
 {
     /*  SLOT
@@ -18,7 +32,7 @@ void MainWin::campMod(bool)
         if(m_campModOngoing)
         {
             // Check if new name is valid
-            validName = Tools::campNameValid(ui->text_campName->text(), *ui->list_camp, Tools::c_regex_campName, m_curCamp);
+            validName = Tools::campNameValid(ui->text_campName->text(), *ui->list_camp, Tools::c_rgx_alphaNumString, m_curCamp);
 
             // Change it in the ui and the db if so
                 if(validName == Tools::Ok)
@@ -147,37 +161,62 @@ void MainWin::overviewLoad(bool reload)
     overviewLoad(m_db->access(), reload);
 }
 
-void MainWin::overviewLoad(QSqlDatabase* db_, bool reload)
+void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
 {
-    QSqlQuery req_overview (*db_);
-    QSqlQuery req_nbRefugee(*db_);
-
-    req_overview.prepare("SELECT nom_camp, localisation, nb_max  FROM Camps WHERE id_camp= :id_courant");
-    req_overview.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
-
-    if(req_overview.exec())
+    if(m_curCamp == c_AllCampIndex)
     {
-        if(req_overview.next())
-        {
-            ui->text_campName->setText    (req_overview.value(0).toString());
-            ui->text_campLoc->setText     (req_overview.value(1).toString());
-            ui->text_campPlaceMax->setText(req_overview.value(2).toString());
-        }
+        QSqlQuery req_summary(*db);
+        bool ok(true);
 
-        if(!reload)
-        {
-            req_nbRefugee.prepare("SELECT count(*) FROM Refugie WHERE id_camp = :id_courant");
-            req_nbRefugee.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
-
-            if(req_nbRefugee.exec())
+        /* Get the camps count*/
+            if(req_summary.exec("Select COUNT(*) from Camps"))
             {
-                 if(req_nbRefugee.next())
-                 {
-                    int nbRefugee= req_nbRefugee.value(0).toInt();
-                    ui->text_campNbRefugee->setText(QString::number(nbRefugee));
-                    ui->text_campPlaceRemaining->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbRefugee));
-                 }
-            } else qCritical() << "[ERROR] onglet_overview.cpp::overviewLoad()::req_nbRefugee.exec() : " << req_nbRefugee.lastError();
+                req_summary.next();
+                qDebug() << "[DEBUG] tab_overview.cpp::overviewLoad() Camps summary loading successful";
+                ui->text_campCount->setText(req_summary.value(0).toString());
+                //ui->text_campTotalPlaceMax->setText(req_summary.value(0).toString());
+            }
+            else ok = false;
+
+        if(!ok)
+        {
+            qWarning() << "[WARN ] tab_overview.cpp::overviewLoad() Camps summary loading failed : " << req_summary.lastError().text();
+            QMessageBox::warning(this, tr("Error loading camps summary"), tr("Failed to load the camps summary : ") + req_summary.lastError().text());
         }
-    } else qCritical() << "[ERROR] onglet_overview.cpp::overviewLoad()::req_overview.exec() : " << req_overview.lastError();
+    }
+
+    else
+    {
+        QSqlQuery req_overview (*db);
+        QSqlQuery req_nbRefugee(*db);
+
+        req_overview.prepare("SELECT nom_camp, localisation, nb_max  FROM Camps WHERE id_camp= :id_courant");
+        req_overview.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+
+        if(req_overview.exec())
+        {
+            if(req_overview.next())
+            {
+                ui->text_campName->setText    (req_overview.value(0).toString());
+                ui->text_campLoc->setText     (req_overview.value(1).toString());
+                ui->text_campPlaceMax->setText(req_overview.value(2).toString());
+            }
+
+            if(!reload)
+            {
+                req_nbRefugee.prepare("SELECT count(*) FROM Refugie WHERE id_camp = :id_courant");
+                req_nbRefugee.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+
+                if(req_nbRefugee.exec())
+                {
+                     if(req_nbRefugee.next())
+                     {
+                        int nbRefugee= req_nbRefugee.value(0).toInt();
+                        ui->text_campNbRefugee->setText(QString::number(nbRefugee));
+                        ui->text_campPlaceRemaining->setText(QString::number(ui->text_campPlaceMax->text().toInt()-nbRefugee));
+                     }
+                } else qWarning() << "[WARN ] onglet_overview.cpp::overviewLoad()::req_nbRefugee.exec() : " << req_nbRefugee.lastError();
+            }
+        } else qWarning() << "[WARN ] onglet_overview.cpp::overviewLoad()::req_overview.exec() : " << req_overview.lastError();
+    }
 }
