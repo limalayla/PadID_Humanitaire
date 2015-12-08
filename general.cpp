@@ -52,8 +52,9 @@ void MainWin::changeCamp(QModelIndex index)
         // ToDo: Other tabs loading
     }
 
-    ui->list_res_search->clear();
-    m_searchRefugeeIdDb.clear();
+    // Clears the results of the search tab
+        ui->list_res_search->clear();
+        m_searchRefugeeIdDb.clear();
 }
 
 void MainWin::changeCampSearch(QModelIndex index)
