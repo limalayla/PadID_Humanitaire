@@ -25,6 +25,15 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             loadCampList();
             ui->list_manage->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
+            // Put the refresh icon on their buttons
+                if(!QFile::exists(qApp->applicationDirPath() + "/img/refresh.png"))
+                    qWarning() << "[WARN ] mainwin.cpp::MainWin() : " << qApp->applicationDirPath() + "/img/refresh.png" << "doesn't exist";
+
+                ui->btn_campRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
+                ui->btn_campRefresh->setIconSize(ui->btn_campRefresh->rect().size());
+                ui->btn_stockRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
+                ui->btn_stockRefresh->setIconSize(ui->btn_stockRefresh->rect().size());
+
         // Overview Tab
             overviewCreation();
 

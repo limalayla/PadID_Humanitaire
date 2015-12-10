@@ -7,6 +7,9 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
 {
     ui->setupUi(this);
 
+    ui->text_fname->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_fname));
+    ui->text_lname->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_lname));
+
     fillFields(m_db->access());
 
     if(m_openMode != creation)
@@ -106,86 +109,104 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
 {
     QSqlQuery AddorUpdateRefugee;
     QString StartRequest,MidRequest;
-    bool ok=true;
-    if(m_openMode == creation)
-    {
-        StartRequest="INSERT INTO Refugees ( name_refugee, firstname_refugee, sex, birth_date, id_origin_country, id_type, id_state,  id_camp, several_informations) ";
-        MidRequest = "Value(name_refugee = :newname , firstname_refugee = :newfname , sex= :newSexe, birth_date= :newBd, "
-                     "id_origin_country=(select id_country from Country where name_country=:newCountry),  "
-                     "id_type=(select id_type from Types where name_type= :newtype),  "
-                     "id_state= (select id_state from States where name_state= :newState) ,  "
-                     "id_camp =(select id_camp from Camps where name_camp= :newCamp),  "
-                     "several_informations = :newMisc )";
+    bool ok(true);
 
-
-    }
-    else
+    if(ui->text_fname->text().isEmpty())
     {
-        StartRequest = "Update Refugees set "
-                       " name_refugee= :newname ,"
-                       " firstname_refugee = :newfname ,"
-                       " Refugees.id_state= (select id_state from States where name_state=:newState) ,"
-                       " Refugees.id_camp = (select id_camp from Camps where name_camp=:newId_camp)"
-                       ", several_informations = :newMisc ";
-        MidRequest = " where id_refugee = :newid";
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the first name!"));
     }
-
-    AddorUpdateRefugee.prepare( StartRequest + MidRequest);
-
-    AddorUpdateRefugee.bindValue(":newid",      m_idDb);
-    AddorUpdateRefugee.bindValue(":newname",    ui->text_lname->text());
-    AddorUpdateRefugee.bindValue(":newfname",   ui->text_fname->text());
-    AddorUpdateRefugee.bindValue(":newBd",      ui->text_birthDate->text());
-    AddorUpdateRefugee.bindValue(":newSexe",    ui->combo_sex->currentText());
-    AddorUpdateRefugee.bindValue(":newCountry", ui->combo_homeland->currentText());
-    AddorUpdateRefugee.bindValue(":newtype",    ui->combo_type->currentText());
-    AddorUpdateRefugee.bindValue(":newState",   ui->combo_state->currentText());
-    AddorUpdateRefugee.bindValue(":newMisc",  ui->text_misc->toPlainText());
-    AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentText());
-
-    if(ui->text_fname->text()=="")
+    if(ok && ui->text_lname->text().isEmpty())
     {
-        ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the first name!"));
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the last name!"));
     }
-    if(ui->text_lname->text()=="" && ok)
+    if(ok && ui->text_birthDate->text().isEmpty())
     {
-        ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the last name!"));
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the age!"));
     }
-    if(ui->text_birthDate->text()=="" && ok)
+    if(ok && ui->combo_sex->currentText().isEmpty())
     {
-        ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the age!"));
+        ok = false;
+        QMessageBox::warning(this ,tr("Error"), tr("Please enter the sex!"));
     }
-    if(ui->combo_sex->currentText()=="" && ok)
+    if(ok && ui->combo_homeland->currentText().isEmpty())
     {
-        ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the sex!"));
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the homeland!"));
     }
-    if(ui->combo_homeland->currentText()=="" && ok)
+    if(ok && ui->combo_type->currentText().isEmpty())
     {
-        ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the homeland!"));
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the type!"));
     }
-    if(ui->combo_type->currentText()=="" && ok)
+    if(ok && ui->combo_state->currentText().isEmpty())
     {
-        ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the type!"));
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the state!"));
     }
-    if(ui->combo_state->currentText()=="" && ok)
+    if(ok && ui->combo_curCamp->currentText().isEmpty())
     {
-        ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the state!"));
-    }
-    if(ui->combo_curCamp->currentText()=="" && ok)
-    {
-        ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the current camp!"));
+        ok = false;
+        QMessageBox::warning(this, tr("Error"), tr("Please enter the current camp!"));
     }
 
     if(ok)
     {
+        QSqlQuery req_campFull("SELECT count(Refugees.id_refugee), Camps.nb_max "
+                               "FROM Refugees, Camps"
+                               "WHERE Camps.id_camp = Refugees.id_camp AND Camps.name_camp = :campname", *m_db->access());
+        req_campFull.bindValue(":campname", ui->combo_curCamp->currentText());
+        if(req_campFull.exec())
+        {
+            req_campFull.next();
+            if(req_campFull.value(1).toInt() >= req_campFull.value(2).toInt())
+            {
+                ok = false;
+                QMessageBox::warning(this, tr("Error"), tr("This camp is already full! Try another one."));
+            }
+        }
+    }
+
+    if(ok)
+    {
+        if(m_openMode == creation)
+        {
+            StartRequest="INSERT INTO Refugees ( name_refugee, firstname_refugee, sex, birth_date, id_origin_country, id_type, id_state,  id_camp, several_informations) ";
+            MidRequest = "Value(name_refugee = :newname , firstname_refugee = :newfname , sex= :newSexe, birth_date= :newBd, "
+                         "id_origin_country=(select id_country from Country where name_country=:newCountry),  "
+                         "id_type=(select id_type from Types where name_type= :newtype),  "
+                         "id_state= (select id_state from States where name_state= :newState) ,  "
+                         "id_camp =(select id_camp from Camps where name_camp= :newCamp),  "
+                         "several_informations = :newMisc )";
+
+
+        }
+        else
+        {
+            StartRequest = "Update Refugees set "
+                           " name_refugee= :newname ,"
+                           " firstname_refugee = :newfname ,"
+                           " Refugees.id_state= (select id_state from States where name_state=:newState) ,"
+                           " Refugees.id_camp = (select id_camp from Camps where name_camp=:newId_camp)"
+                           ", several_informations = :newMisc ";
+            MidRequest = " where id_refugee = :newid";
+        }
+
+        AddorUpdateRefugee.prepare( StartRequest + MidRequest);
+
+        AddorUpdateRefugee.bindValue(":newid",      m_idDb);
+        AddorUpdateRefugee.bindValue(":newname",    ui->text_lname->text());
+        AddorUpdateRefugee.bindValue(":newfname",   ui->text_fname->text());
+        AddorUpdateRefugee.bindValue(":newBd",      ui->text_birthDate->text());
+        AddorUpdateRefugee.bindValue(":newSexe",    ui->combo_sex->currentText());
+        AddorUpdateRefugee.bindValue(":newCountry", ui->combo_homeland->currentText());
+        AddorUpdateRefugee.bindValue(":newtype",    ui->combo_type->currentText());
+        AddorUpdateRefugee.bindValue(":newState",   ui->combo_state->currentText());
+        AddorUpdateRefugee.bindValue(":newMisc",    ui->text_misc->toPlainText());
+        AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentText());
+
         if(AddorUpdateRefugee.exec())
             qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
         else
