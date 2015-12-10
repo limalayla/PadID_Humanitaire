@@ -39,14 +39,14 @@ void MainWin::refugeeSearch(bool)
             query += queryArg["base"];
 
             if(queryArg.contains("camp"   )) query += "id_camp = :id_camp AND ";
-            if(queryArg.contains("lname"   )) query += "name_refugee = :lname AND";
+            if(queryArg.contains("lname"   )) query += "name_refugee = :lname AND ";
             if(queryArg.contains("fname"   )) query += "firstname_refugee = :fname AND ";
             if(queryArg.contains("misc"    )) query += "several_informations = :misc AND ";
             if(queryArg.contains("age"     )) query += "birth_date BETWEEN :StartYears AND :EndYears AND ";
             if(queryArg.contains("sex"     )) query += "sex = :sex AND ";
-            if(queryArg.contains("homeland")) query += "Refugees.id_origin_country = Country.id_country AND Country.name_country = :homeland AND";
-            if(queryArg.contains("type"    )) query += "Refugees.id_type = Types.id_type AND Types.name_type = :type AND";
-            if(queryArg.contains("state"   )) query += "Refugees.id_state = States.id_state AND States.name_state = :state AND";
+            if(queryArg.contains("homeland")) query += "Refugees.id_origin_country = Country.id_country AND Country.name_country = :homeland AND ";
+            if(queryArg.contains("type"    )) query += "Refugees.id_type = Types.id_type AND Types.name_type = :type AND ";
+            if(queryArg.contains("state"   )) query += "Refugees.id_state = States.id_state AND States.name_state = :state AND ";
 
             query.remove(query.length() -5, 5); // Deletes the last " AND "
             req_search.prepare(query);
