@@ -197,3 +197,49 @@ void MainWin::loadCampList(bool)
         ui->list_camp->setCurrentRow(m_curCamp);
         changeCamp(QModelIndex());
 }
+
+void MainWin::gen_translate(appLanguages l)
+{
+    bool ok(false);
+    QString lang;
+    switch (l)
+    {
+        case En : {
+            lang = "en";
+            break;
+        }
+
+        case Fr : {
+            lang = "fr";
+            break;
+        }
+    }
+
+    if(!m_configFile.isNull() && !m_configFile.isEmpty())
+    {
+        QFile configFile(qApp->applicationDirPath() + "/config.json");
+
+        if(configFile.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
+        {
+            QJsonDocument newConfile(m_configFile);
+            newConfile.object(.remove("lang");
+            newConfile.object().insert("lang", QJsonValue::fromVariant(QVariant::fromValue(lang)));
+            configFile.write(m_configFile.toJson());
+            configFile.close();
+            ok = true;
+        }
+    }
+
+    if(ok) QMessageBox::information(this, tr("Language Changing"), tr("Please quit and restart the application to change the language."));
+    else QMessageBox::warning(this, tr("Language Changing Failure"), tr("Cannot change the language, check your configuration file."));
+}
+
+void MainWin::gen_translateEn(bool)
+{
+    gen_translate(En);
+}
+
+void MainWin::gen_translateFr(bool)
+{
+    gen_translate(Fr);
+}

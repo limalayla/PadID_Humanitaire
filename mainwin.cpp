@@ -23,6 +23,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             // Get the camp list from database
             ui->list_camp->clear();
             loadCampList();
+            ui->list_manage->setSelectionMode(gfskuhgsugh);
 
         // Overview Tab
             overviewCreation();
@@ -53,7 +54,10 @@ void MainWin::initSlots()
         QObject::connect(ui->list_camp,         SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCamp(QModelIndex)));
         QObject::connect(ui->text_searchCamp,   SIGNAL(textChanged(QString)),       this, SLOT(campSearch(QString)));
         QObject::connect(ui->list_campSearch,   SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCampSearch(QModelIndex)));
+
         QObject::connect(ui->actionExit,        SIGNAL(triggered(bool)),            this, SLOT(close()));
+        QObject::connect(ui->actionEnglish,     SIGNAL(triggered(bool)),            this, SLOT(gen_translateEn(bool)));
+        QObject::connect(ui->actionFrench,      SIGNAL(triggered(bool)),            this, SLOT(gen_translateFr(bool)));
 
    /* Overview Tab */
         QObject::connect(ui->btn_campMod,       SIGNAL(clicked(bool)),              this, SLOT(campMod(bool)));

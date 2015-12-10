@@ -31,6 +31,12 @@ class MainWin : public QMainWindow
 
         static const quint8 c_AllCampIndex = 0;
 
+        enum appLanguages
+        {
+            En = 0,
+            Fr = 1
+        };
+
     public slots:
         void changeCamp      (QModelIndex);
         void changeCampSearch(QModelIndex);
@@ -39,6 +45,8 @@ class MainWin : public QMainWindow
         void campSearch(QString);
         void loadCampList(bool=false);
         void overview_setCampModOngoing();
+        void gen_translateEn(bool);
+        void gen_translateFr(bool);
 
     private:
         Ui::MainWin *ui;
@@ -47,6 +55,7 @@ class MainWin : public QMainWindow
         QVector<int> m_campsIdDb;
 
         void initSlots();
+        void gen_translate(appLanguages);
 
 /* Overview Tab */
     public:

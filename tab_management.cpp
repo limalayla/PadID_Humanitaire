@@ -83,13 +83,20 @@ void MainWin::refugeeDel(bool)
 {
     if(QMessageBox::question(this, tr("Are you sure ?"), tr("Delete this refugee ?")) == QMessageBox::Yes)
     {
-        QSqlQuery RemoveRefugee;
-        RemoveRefugee.prepare("DELETE FROM Refugie where id_refugie = :idDelete");
-        RemoveRefugee.bindValue(":idDelete", m_refugeeIdDb[m_curRefugee]);
-        if(RemoveRefugee.exec())
-            qDebug() << "Delete Successful";
-        else
-            qDebug() << RemoveRefugee.lastError();
+        QSqlQuery req_removeRef;
+        req_removeRef.prepare("DELETE FROM Refugie where id_refugie = :idDelete");
+
+        for(int i= 0; i< ui->list_manage->count(); i++)
+        {
+            if(ui->list_manage->item(i)->isSelected())
+            {
+                req_removeRef.bindValue(":idDelete", m_refugeeIdDb[i]);
+                if(req_removeRef.exec())
+                    qDebug() << "Delete Successful";
+                else
+                    qDebug() << req_removeRef.lastError();
+            }
+        }
         managementLoad(m_db->access());
     }
 }
