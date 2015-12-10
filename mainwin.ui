@@ -570,6 +570,21 @@
         <string>Unknown</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>M</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>F</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </item>
      </widget>
      <widget class="QComboBox" name="combo_searchHomeland">
       <property name="geometry">
@@ -1183,7 +1198,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">

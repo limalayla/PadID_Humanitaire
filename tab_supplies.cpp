@@ -5,7 +5,9 @@ void MainWin::suppliesInit(QSqlDatabase*)
 {
     QSqlQuery req_supplies (*m_db->access());
     int i=1; // put at 0 when we delete the example tab
-    req_supplies.prepare("SELECT nom_fourniture, truc, Amount FROM Fourniture");
+    req_supplies.prepare("SELECT name_category, quantity, name_supply from Supplies_categories, Supplies, Stock_camps"
+                         " where Supplies_categories.id_category = Supplies.id_category AND "
+                         " Supplies.id_supplies = Stock_camps.id_supplies");
 
     if(req_supplies.exec())
     {
@@ -24,8 +26,8 @@ void MainWin::suppliesInit(QSqlDatabase*)
             QLabel *Amount = new QLabel(tr("Amount"));
             QPushButton *ButtonValidate = new QPushButton(tr("Confirm"));
 
-            QCheckBox *Type = new QCheckBox(req_supplies.value(1).toString());
-            QLineEdit *AmountType = new QLineEdit(req_supplies.value(2).toString());
+            QCheckBox *Type = new QCheckBox(req_supplies.value(2).toString());
+            QLineEdit *AmountType = new QLineEdit(req_supplies.value(1).toString());
 
             /*
              *while(req_typeSupplies.next())
