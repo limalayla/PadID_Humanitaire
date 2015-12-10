@@ -7,7 +7,7 @@ void MainWin::managementLoad(QSqlDatabase* db_)
     ui->list_manageSearch->setVisible(false);
     ui->list_manage->clear();
     m_refugeeIdDb.clear();
-    req_management.prepare("SELECT name_refugee id_refugee FROM Refugees WHERE id_camp = :id_courant ORDER BY name_refugee ASC");
+    req_management.prepare("SELECT name_refugee id_refugee FROM Refugees WHERE id_camp = :id_courant ");
     req_management.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
     if(req_management.exec())

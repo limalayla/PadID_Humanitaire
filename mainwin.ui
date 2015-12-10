@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -587,12 +587,12 @@
       </item>
       <item>
        <property name="text">
-        <string>Man</string>
+        <string>M</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Woman</string>
+        <string>F</string>
        </property>
       </item>
      </widget>

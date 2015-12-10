@@ -45,7 +45,7 @@ void MainWin::campMod(bool)
                                         "Set name_camp = :nameCamp ,"
                                         "id_location = ( Select id_country FROM Country WHERE name_country = :nameCountry ),"
                                         "nb_max = :nbMax , id_center = (Select id_center FROM Centers WHERE name_center = :nameCenter) "
-                                        "WHERE id_camp = :id”)";
+                                        "WHERE id_camp = :id”)");
 
                     req_campMod.bindValue(":name_camp",     ui->text_campName->text());
                     req_campMod.bindValue(":nameCountry", ui->text_campLoc->text());

@@ -14,31 +14,31 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
         QSqlQuery req_refugeeinfo(*m_db->access());
         m_idDb = idDb;
 
-        req_refugeeinfo.prepare("SELECT"
+        req_refugeeinfo.prepare("SELECT "
                                 "Refugees.name_refugee,"
                                 "Refugees.firstname_refugee,"
-                                "Refugees.sex,"
-                                "Refugees.birth_date,"
-                                "Country.name_country,"
-                                "Types.name_type,"
+                                "Refugees.sex, "
+                                "Refugees.birth_date, "
+                                "Country.name_country, "
+                                "Types.name_type, "
                                 "States.name_state,"
                                 "Camps.name_camp, "
-                                "Refugees.several_informations"
+                                "Refugees.several_informations "
                                 "FROM "
-                                "Refugees,"
-                                "Country,"
-                                "Types,"
+                                "Refugees, "
+                                "Country, "
+                                "Types, "
                                 "States,"
-                                "Camps"
-                                "WHERE"
+                                "Camps "
+                                "WHERE "
                                 "id_refugee = :idDb"
-                                "and"
-                                "Refugees.id_camp = Camps.id_camp"
-                                "and"
-                                "Refugees.id_origin_country = Country.id_country"
-                                "and"
-                                "Refugees.id_type = Types.id_type"
-                                "and"
+                                "and "
+                                "Refugees.id_camp = Camps.id_camp "
+                                "and "
+                                "Refugees.id_origin_country = Country.id_country "
+                                "and "
+                                "Refugees.id_type = Types.id_type "
+                                "and "
                                 "Refugees.id_state = States.id_state");
 
         req_refugeeinfo.bindValue(":idDb", m_idDb);
@@ -88,7 +88,7 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
 
     if(m_openMode == RefugeeInfoWin::creation)
     {
-        ui->combo_age->setEnabled(true);
+        ui->text_birthDate->setEnabled(true);
         ui->combo_sex->setEnabled(true);
         ui->combo_homeland->setEnabled(true);
         ui->combo_type->setEnabled(true);
@@ -152,7 +152,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
         ok=false;
         QMessageBox::critical(this,tr("Error"),tr("Please enter the last name!"));
     }
-    if(ui->combo_age->currentText()=="" && ok)
+    if(ui->text_birthDate->text()=="" && ok)
     {
         ok=false;
         QMessageBox::critical(this,tr("Error"),tr("Please enter the age!"));
