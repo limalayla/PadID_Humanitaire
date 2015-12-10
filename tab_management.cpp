@@ -7,7 +7,7 @@ void MainWin::managementLoad(QSqlDatabase* db_)
     ui->list_manageSearch->setVisible(false);
     ui->list_manage->clear();
     m_refugeeIdDb.clear();
-    req_management.prepare("SELECT Refugie.nom,Refugie.id_refugie FROM Refugie WHERE Refugie.id_camp = :id_courant");
+    req_management.prepare("SELECT name_refugee id_refugee FROM Refugees WHERE id_camp = :id_courant ORDER BY name_refugee ASC");
     req_management.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
     if(req_management.exec())
@@ -84,7 +84,7 @@ void MainWin::refugeeDel(bool)
     if(QMessageBox::question(this, tr("Are you sure ?"), tr("Delete this refugee ?")) == QMessageBox::Yes)
     {
         QSqlQuery RemoveRefugee;
-        RemoveRefugee.prepare("DELETE FROM Refugie where id_refugie = :idDelete");
+        RemoveRefugee.prepare("DELETE FROM Refugees where id_refugee = :idDelete");
         RemoveRefugee.bindValue(":idDelete", m_refugeeIdDb[m_curRefugee]);
         if(RemoveRefugee.exec())
             qDebug() << "Delete Successful";

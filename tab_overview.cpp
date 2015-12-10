@@ -41,10 +41,14 @@ void MainWin::campMod(bool)
 
                     // ToDo : Update only differents fields
 
-                    req_campMod.prepare("UPDATE Camps SET nom_camp = :nom_camp, localisation = :localisation, nb_max = :nb_max WHERE id_camp = :id");
+                    req_campMod.prepare("UPDATE Camps "
+                                        "Set name_camp = :nameCamp ,"
+                                        "id_location = ( Select id_country FROM Country WHERE name_country = :nameCountry ),"
+                                        "nb_max = :nbMax , id_center = (Select id_center FROM Centers WHERE name_center = :nameCenter) "
+                                        "WHERE id_camp = :id”)";
 
-                    req_campMod.bindValue(":nom_camp",     ui->text_campName->text());
-                    req_campMod.bindValue(":localisation", ui->text_campLoc->text());
+                    req_campMod.bindValue(":name_camp",     ui->text_campName->text());
+                    req_campMod.bindValue(":nameCountry", ui->text_campLoc->text());
                     req_campMod.bindValue(":nb_max",       ui->text_campPlaceMax->text());
                     req_campMod.bindValue(":id",           m_campsIdDb[m_curCamp]);
 
@@ -131,7 +135,7 @@ void MainWin::campDel(bool)
         req_delcamp_camp.prepare("DELETE FROM Camps  WHERE id_camp= :id2Del");
         req_delcamp_camp.bindValue(":id2Del", m_campsIdDb[m_curCamp]);
 
-        req_delcamp_pers.prepare("DELETE FROM Refugie  WHERE id_camp= :id2Del");
+        req_delcamp_pers.prepare("DELETE FROM Refugees  WHERE id_camp= :id2Del");
         req_delcamp_pers.bindValue(":id2Del", m_campsIdDb[m_curCamp]);
 
         if(req_delcamp_camp.exec())
@@ -190,7 +194,7 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
         QSqlQuery req_overview (*db);
         QSqlQuery req_nbRefugee(*db);
 
-        req_overview.prepare("SELECT nom_camp, localisation, nb_max  FROM Camps WHERE id_camp= :id_courant");
+        req_overview.prepare("SELECT name_camp, name_country, nb_max FROM Camps,Country WHERE id_camp= :id_courant AND Camps.id_location = Country.id_country");
         req_overview.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
         if(req_overview.exec())
@@ -204,7 +208,7 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
 
             if(!reload)
             {
-                req_nbRefugee.prepare("SELECT count(*) FROM Refugie WHERE id_camp = :id_courant");
+                req_nbRefugee.prepare("SELECT count(*) FROM Refugees WHERE id_camp = :id_courant");
                 req_nbRefugee.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
                 if(req_nbRefugee.exec())

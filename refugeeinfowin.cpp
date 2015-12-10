@@ -40,6 +40,7 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
                                 "Refugees.id_type = Types.id_type"
                                 "and"
                                 "Refugees.id_state = States.id_state");
+
         req_refugeeinfo.bindValue(":idDb", m_idDb);
 
         if(req_refugeeinfo.exec())
