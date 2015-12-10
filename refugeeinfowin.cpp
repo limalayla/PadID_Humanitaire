@@ -21,7 +21,8 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
         {
             if(req_refugeeinfo.next())
             {
-                ui->text_lname->setText(req_refugeeinfo.value(0).toString() + " #" + QString::number(idDb));
+                ui->label_id->setText(" #" + QString::number(idDb));
+                ui->text_lname->setText(req_refugeeinfo.value(0).toString());
                 ui->text_fname->setText(req_refugeeinfo.value(1).toString());
                 ui->combo_age->setCurrentIndex(req_refugeeinfo.value(2).toInt() - 1);
 

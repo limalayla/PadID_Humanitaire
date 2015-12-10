@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     {
         QString translation = "humanitaire_" + configFile->object()["lang"].toString() + ".qm";
 
-        qDebug() << "[DEBUG] main.cpp::main() : config file path = " << app.applicationDirPath() + "/lang/" + translation;
         if(!QFile::exists(app.applicationDirPath() + "/lang/" + translation))
             QMessageBox::warning(NULL, QObject::tr("No Translation File"),
                                        QObject::tr("No translation file for the requested language (%1), please search for it on the application website or contribute by creating it !").arg(configFile->object()["lang"].toString()));
