@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>RefugeeInfoWin</class>
  <widget class="QDialog" name="RefugeeInfoWin">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -78,7 +81,7 @@
     <rect>
      <x>40</x>
      <y>330</y>
-     <width>100</width>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
@@ -88,7 +91,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Age:</string>
+    <string>Birth Date:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_ok">
@@ -132,7 +135,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Sex :</string>
+    <string>Gender:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_homeland">
@@ -265,19 +268,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="combo_age">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>330</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPlainTextEdit" name="text_misc">
    <property name="enabled">
     <bool>false</bool>
@@ -292,6 +282,40 @@
    </property>
    <property name="plainText">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="text_birthDate">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>330</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_id">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>95</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string notr="true">#</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

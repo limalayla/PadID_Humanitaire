@@ -33,8 +33,11 @@ void MainWin::changeCamp(QModelIndex index)
         ui->groupbox_campAll->setVisible  (m_curCamp == c_AllCampIndex);
         ui->groupbox_campOther->setVisible(m_curCamp != c_AllCampIndex);
 
-     // Cancel pending operation on db if any
-         campModCancel();
+    // Cancel pending operation on db if any
+        campModCancel();
+
+    // Load the overview tab consequently
+        overviewLoad();
 
     // Deactivate "Management" and "Supplies" tabs and switch to "Overview" tab when camp "All" is select
     if(m_curCamp == c_AllCampIndex)
@@ -45,10 +48,13 @@ void MainWin::changeCamp(QModelIndex index)
 
     else
     {
-        overviewLoad();
         managementLoad(m_db->access());
         // ToDo: Other tabs loading
     }
+
+    // Clears the results of the search tab
+        ui->list_res_search->clear();
+        m_searchRefugeeIdDb.clear();
 }
 
 void MainWin::changeCampSearch(QModelIndex index)
@@ -82,12 +88,12 @@ void MainWin::campAdd(bool)
 
     do
     {
-        ans = QInputDialog::getText(this, tr("New Camp"), tr("Camp name : "), QLineEdit::Normal, QString(), &ok);
+        ans = QInputDialog::getText(this, tr("New Camp"), tr("Please enter the name you want for the new camp:"), QLineEdit::Normal, QString(), &ok);
 
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)
         {
-            validName = Tools::campNameValid(ans, *ui->list_camp, Tools::c_regex_campName, m_curCamp, 50);
+            validName = Tools::campNameValid(ans, *ui->list_camp, m_curCamp, 50);
 
             if(validName != Tools::Ok)
                 Tools::dispErr(this, validName);
@@ -97,10 +103,22 @@ void MainWin::campAdd(bool)
 
     if(ok)
     {
-        // ToDo : Add camp to Db
+        // Add camp to Db
+        QSqlQuery req_AddCamp(*m_db->access());
 
-        ui->list_camp->addItem(ans);
-        m_campsIdDb.push_back(0 /* Id Sql*/);
+        req_AddCamp.prepare("INSERT INTO Camps (name_camp,nb_max,id_location,id_center) Values (':newCampName',0,0,0)");
+        req_AddCamp.bindValue(":newCampName", ans);
+
+        if(req_AddCamp.exec())
+        {
+            loadCampList();
+            qDebug() <<  "[DEBUG] general.cpp::campAdd() : Insert Successful ("  + ans + ")";
+        }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::campAdd() : Insert Failed" << req_AddCamp.lastError().text();
+            QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + req_AddCamp.lastError().text());
+        }
 
         // ToDo : Initialize all off the new camp's attributes
     }
@@ -133,4 +151,96 @@ void MainWin::campSearch(QString searchString)
         // Then show it
             ui->list_campSearch->setVisible(true);
     }
+}
+
+void MainWin::loadCampList(bool)
+{
+    /*  SLOT
+     *      Get a fresh list containing all the camps in the database
+     *      Can be used for creation or update of the list
+     *      m_idDb is an int vector used to make the link between the position of the camp in the list and its id in the db
+    */
+
+    int newCampIDDb, prevCampIDDb = (m_curCamp == 0) ? -1 : m_campsIdDb[m_curCamp];
+
+    // Clear the already existing camp list
+        ui->list_camp->clear();
+
+        m_campsIdDb.clear();
+
+    // (Re)create the first item "All" (wich have a specific meaning : see a summary of all camps)
+        ui->list_camp->addItem(tr("All"));
+        ui->list_camp->item(0)->setFont(QFont("Arial", 11));
+        ui->list_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
+        m_campsIdDb.push_back(-1);
+
+    // Get the list of camps from the database
+        QSqlQuery req_listCamp(*m_db->access());
+        if(req_listCamp.exec("SELECT id_camp, name_camp FROM Camps ORDER BY name_camp ASC"))
+        {
+            while(req_listCamp.next())
+            {
+                m_campsIdDb.push_back(req_listCamp.value(0).toInt());       // ID
+                ui->list_camp->addItem(req_listCamp.value(1).toString());   // Camp Name
+            }
+        }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::loadCampList() : Query Failed" << req_listCamp.lastError().text();
+            QMessageBox::warning(this, tr("Error Loading Camps"), tr("Error while getting the camps list : ") + req_listCamp.lastError().text());
+        }
+
+    // To select the good camp in the list, search his db's id and if it doesn't exist, place the camp on "All"
+        if((newCampIDDb = m_campsIdDb.indexOf(prevCampIDDb)) == -1) m_curCamp = 0;
+        else m_curCamp = newCampIDDb;
+
+        ui->list_camp->setCurrentRow(m_curCamp);
+        changeCamp(QModelIndex());
+}
+
+void MainWin::gen_translate(appLanguages l)
+{
+    bool ok(false);
+    QString lang;
+    switch (l)
+    {
+        case En : {
+            lang = "en";
+            break;
+        }
+
+        case Fr : {
+            lang = "fr";
+            break;
+        }
+    }
+
+    if(!m_configFile.isNull() && !m_configFile.isEmpty())
+    {
+        QFile configFile(qApp->applicationDirPath() + "/config.json");
+
+        if(configFile.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
+        {
+            QJsonObject newConfile;
+            newConfile["db"] = m_configFile.object().value("db");
+            newConfile["lang"] = lang;
+
+            configFile.write(QJsonDocument(newConfile).toJson());
+            configFile.close();
+            ok = true;
+        }
+    }
+
+    if(ok) QMessageBox::information(this, tr("Language Changing"), tr("Please quit and restart the application to change the language."));
+    else QMessageBox::warning(this, tr("Language Changing Failure"), tr("Cannot change the language, check your configuration file."));
+}
+
+void MainWin::gen_translateEn(bool)
+{
+    gen_translate(En);
+}
+
+void MainWin::gen_translateFr(bool)
+{
+    gen_translate(Fr);
 }

@@ -24,12 +24,14 @@ public slots:
 
 private:
     QSqlDatabase* m_db;
-    bool m_wakedUp;
-    QTimer m_timer;
+    QTimer m_accessTimer;
+    QTimer m_errorTimer;
     QJsonDocument m_configFile;
+    bool m_dispError;
 
 private slots:
     void privateclose();
+    void doDispErr();
 };
 
 #endif // DATABASE_H

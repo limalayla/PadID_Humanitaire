@@ -5,6 +5,9 @@
 #include <QListWidgetItem>
 #include <QVector>
 #include <QInputDialog>
+#include <QGridLayout>
+#include <QMap>
+#include <QDate>
 
 #include "refugeeinfowin.h"
 #include "database.h"
@@ -29,12 +32,22 @@ class MainWin : public QMainWindow
 
         static const quint8 c_AllCampIndex = 0;
 
+        enum appLanguages
+        {
+            En = 0,
+            Fr = 1
+        };
+
     public slots:
         void changeCamp      (QModelIndex);
         void changeCampSearch(QModelIndex);
         void changeTab(int);
         void campAdd(bool);
         void campSearch(QString);
+        void loadCampList(bool=false);
+        void overview_setCampModOngoing();
+        void gen_translateEn(bool);
+        void gen_translateFr(bool);
 
     private:
         Ui::MainWin *ui;
@@ -42,7 +55,8 @@ class MainWin : public QMainWindow
         quint16 m_curTab;
         QVector<int> m_campsIdDb;
 
-        void    initSlots();
+        void initSlots();
+        void gen_translate(appLanguages);
 
 /* Overview Tab */
     public:
@@ -52,6 +66,7 @@ class MainWin : public QMainWindow
     private:
         bool m_campModOngoing;
         void campSetEnabledInput(bool);
+        void overviewCreation();
         void overviewLoad(bool= false);
         void overviewLoad(QSqlDatabase* db, bool= false);
 
@@ -63,10 +78,19 @@ class MainWin : public QMainWindow
 
 /* Search Tab */
     public:
+        void searchClear();
+        void search_fillFields();
 
     public slots:
 
+    private:
+        quint16 m_curSearchRefugee;
+        QVector<int> m_searchRefugeeIdDb;
+
     private slots:
+        void refugeeSearch(bool);
+        void search_refugeeSet(QModelIndex);
+        void search_refugeeSee(QModelIndex);
 
 /* Management Tab */
     public:
@@ -100,8 +124,8 @@ class MainWin : public QMainWindow
     public slots:
 
     private slots:
-        void suppliesLoad(QSqlDatabase* db);
-        void suppliesInit(QSqlDatabase * db);
+        void suppliesLoad(QSqlDatabase& db);
+        void suppliesInit(QSqlDatabase& db);
 };
 
 #endif // MAINWIN_H

@@ -18,7 +18,8 @@ class Tools : public QObject
 public:
     explicit Tools(QObject *parent = 0);
 
-    static const QRegExp c_regex_campName;
+    static const QRegExp c_rgx_campName;
+    static const QRegExp c_rgx_alphaNumString;
 
     enum StringEvalCode
     {
@@ -30,8 +31,7 @@ public:
     };
 
     static StringEvalCode campNameValid(const QString& s,
-                                        const QListWidget&   list,
-                                        const QRegExp& regex,
+                                        const QListWidget& list,
                                         quint16 curCamp,
                                         quint16 sizeMax= 50);
 

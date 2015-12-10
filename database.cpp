@@ -2,9 +2,10 @@
 
 Database::Database(QObject *parent, QJsonDocument configFile) :
     QObject(parent),
-    m_db(NULL), m_wakedUp(false), m_configFile(configFile)
+    m_db(NULL), m_accessTimer(), m_errorTimer(), m_configFile(configFile), m_dispError(true)
 {
-
+    QObject::connect(&m_errorTimer,  SIGNAL(timeout()), this, SLOT(doDispErr()));
+    QObject::connect(&m_accessTimer, SIGNAL(timeout()), this, SLOT(close()));
 }
 
 QSqlDatabase* Database::access(quint16 timeout)
@@ -52,13 +53,19 @@ QSqlDatabase* Database::access(quint16 timeout)
             else
             {
                 qCritical() << "[ERROR] general.cpp::db() : " << m_db->lastError().text();
-                QMessageBox::critical(NULL, "Db Connection", "Error Connecting to Database:\n" +
-                                                                  m_db->lastError().text());
+
+                if(m_dispError)
+                {
+                    QMessageBox::critical(NULL, tr("Database Connection Error"),
+                                                tr("An Error has occured while connecting to the database:\n%0").arg(m_db->lastError().text()) );
+                    m_errorTimer.start(5000);
+                    m_dispError = false;
+                }
             }
     }
 
     // Start or restart its timer
-    m_timer.start(timeout * 1000);
+    m_accessTimer.start(timeout * 1000);
 
     return m_db;
 }
@@ -75,7 +82,7 @@ void Database::close()
         if(m_db->isOpen())
         {
             m_db->close();
-            m_timer.stop();
+            m_accessTimer.stop();
             qDebug() << "[DEBUG] database.cpp::close() : Db closed";
         }
         else qDebug() << "[DEBUG] database.cpp::close() : Db can't be closed (not opened)";
@@ -91,4 +98,14 @@ void Database::privateclose()
     */
 
     close();
+}
+
+void Database::doDispErr()
+{
+    /*  SLOT
+     *      ACTIVATION  : When the dispErr timer runs out
+     *      ACTIONS     : Close the db and stop its timer if the db is instantiated and open
+    */
+
+    m_dispError = true;
 }

@@ -20,48 +20,32 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->list_campSearch->setVisible(false);
             ui->btn_campModCancel->setVisible(false);
 
-            // Customize the ui->list_camp's "All" item
-                ui->list_camp->item(0)->setFont(QFont("Arial", 11));
-                ui->list_camp->item(0)->setTextAlignment(Qt::AlignHCenter);
-                m_campsIdDb.push_back(-1);
-
             // Get the camp list from database
-                QSqlQuery req_listCamp(*m_db->access());
-                if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps"))
-                {
-                    while(req_listCamp.next())
-                    {
-                        QVariant res_campID  (req_listCamp.value(0));
-                        QVariant res_campName(req_listCamp.value(1));
+            ui->list_camp->clear();
+            loadCampList();
+            ui->list_manage->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-                        m_campsIdDb.push_back(res_campID.toInt());
-                        ui->list_camp->addItem(res_campName.toString());
-                    }
-                }
+            // Put the refresh icon on their buttons
+                if(!QFile::exists(qApp->applicationDirPath() + "/img/refresh.png"))
+                    qWarning() << "[WARN ] mainwin.cpp::MainWin() : " << qApp->applicationDirPath() + "/img/refresh.png" << "doesn't exist";
 
-        /* Overview Tab */
-            ui->groupbox_campOther->setVisible(false);
+                ui->btn_campRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
+                ui->btn_campRefresh->setIconSize(ui->btn_campRefresh->rect().size());
+                ui->btn_stockRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
+                ui->btn_stockRefresh->setIconSize(ui->btn_stockRefresh->rect().size());
+
+        // Overview Tab
+            overviewCreation();
 
         /* Search Tab */
-            for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
+            search_fillFields();
 
-            // Get the list of the differents country from db and put it in ui->combo_searchCountry
-            QSqlQuery req_countryList(*m_db->access());
-            if(req_countryList.exec("SELECT nom_pays FROM Pays"))
-            {
-                while(req_countryList.next())
-                {
-                    QVariant res_countryList(req_countryList.value(0));
-
-                    ui->combo_searchHomeland->addItem(res_countryList.toString());
-                }
-            }
-     /*Initiating tab_supplies */
-            suppliesInit(m_db->access());
+         /* Supplies Tab */
+            suppliesInit(*m_db->access());
             ui->tabs_supplies->setVisible(true);
-     /* Initiating the signals - slots */
-        initSlots();
 
+         /* Initiating the signals - slots */
+            initSlots();
 }
 
 MainWin::~MainWin()
@@ -73,17 +57,26 @@ MainWin::~MainWin()
 void MainWin::initSlots()
 {
     /* General */
-        QObject::connect(ui->btn_campAdd,       SIGNAL(clicked(bool)),        this, SLOT(campAdd(bool)));
-        QObject::connect(ui->tabs,              SIGNAL(currentChanged(int)),  this, SLOT(changeTab(int)));
-        QObject::connect(ui->list_camp,         SIGNAL(clicked(QModelIndex)), this, SLOT(changeCamp(QModelIndex)));
-        QObject::connect(ui->text_searchCamp,   SIGNAL(textChanged(QString)), this, SLOT(campSearch(QString)));
-        QObject::connect(ui->list_campSearch,   SIGNAL(clicked(QModelIndex)), this, SLOT(changeCampSearch(QModelIndex)));
-        QObject::connect(ui->actionExit,        SIGNAL(triggered(bool)),      this, SLOT(close()));
+        QObject::connect(ui->btn_campAdd,       SIGNAL(clicked(bool)),              this, SLOT(campAdd(bool)));
+        QObject::connect(ui->btn_campRefresh,   SIGNAL(clicked(bool)),              this, SLOT(loadCampList(bool)));
+        QObject::connect(ui->tabs,              SIGNAL(currentChanged(int)),        this, SLOT(changeTab(int)));
+        QObject::connect(ui->list_camp,         SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCamp(QModelIndex)));
+        QObject::connect(ui->text_searchCamp,   SIGNAL(textChanged(QString)),       this, SLOT(campSearch(QString)));
+        QObject::connect(ui->list_campSearch,   SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCampSearch(QModelIndex)));
+
+        QObject::connect(ui->actionExit,        SIGNAL(triggered(bool)),            this, SLOT(close()));
+        QObject::connect(ui->actionEnglish,     SIGNAL(triggered(bool)),            this, SLOT(gen_translateEn(bool)));
+        QObject::connect(ui->actionFrench,      SIGNAL(triggered(bool)),            this, SLOT(gen_translateFr(bool)));
 
    /* Overview Tab */
-        QObject::connect(ui->btn_campMod,       SIGNAL(clicked(bool)), this, SLOT(campMod(bool)));
-        QObject::connect(ui->btn_campModCancel, SIGNAL(clicked(bool)), this, SLOT(campModCancel(bool)));
-        QObject::connect(ui->btn_campDel,       SIGNAL(clicked(bool)), this, SLOT(campDel(bool)));
+        QObject::connect(ui->btn_campMod,       SIGNAL(clicked(bool)),              this, SLOT(campMod(bool)));
+        QObject::connect(ui->btn_campModCancel, SIGNAL(clicked(bool)),              this, SLOT(campModCancel(bool)));
+        QObject::connect(ui->btn_campDel,       SIGNAL(clicked(bool)),              this, SLOT(campDel(bool)));
+
+    /* Search Tab */
+        QObject::connect(ui->btn_search,        SIGNAL(clicked(bool)),              this, SLOT(refugeeSearch(bool)));
+        QObject::connect(ui->list_res_search,   SIGNAL(clicked(QModelIndex)),       this, SLOT(search_refugeeSet(QModelIndex)));
+        QObject::connect(ui->list_res_search,   SIGNAL(doubleClicked(QModelIndex)), this, SLOT(search_refugeeSee(QModelIndex)));
 
    /* Manage Tab */
         QObject::connect(ui->btn_manageAdd,     SIGNAL(clicked(bool)),              this, SLOT(refugeeAdd(bool)));
@@ -93,4 +86,6 @@ void MainWin::initSlots()
         QObject::connect(ui->list_manage,       SIGNAL(doubleClicked(QModelIndex)), this, SLOT(refugeeSee(QModelIndex)));
         QObject::connect(ui->text_searchManage, SIGNAL(textChanged(QString)),       this, SLOT(manageSearch(QString)));
         QObject::connect(ui->list_manageSearch, SIGNAL(clicked(QModelIndex)),       this, SLOT(changeManageSearch(QModelIndex)));
+
+    /* Supplies Tab */
 }
