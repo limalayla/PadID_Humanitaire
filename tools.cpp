@@ -1,12 +1,12 @@
 #include "tools.h"
 
 const QRegExp Tools::c_rgx_campName = QRegExp("^[a-z](\\w|-)*$", Qt::CaseInsensitive);
-const QRegExp Tools::c_rgx_alphaNumString = QRegExp("\\p{L}(\\p{L}|-|_| )*", Qt::CaseInsensitive);
+const QRegExp Tools::c_rgx_alphaNumString = QRegExp("^\\w(\\w| |-|_)*\\w&", Qt::CaseInsensitive);
 
 Tools::Tools(QObject *parent) : QObject(parent)
 {}
 
-Tools::StringEvalCode Tools::campNameValid(const QString& s, const QListWidget& list, const QRegExp& regex, quint16 curCamp, quint16 sizeMax)
+Tools::StringEvalCode Tools::campNameValid(const QString& s, const QListWidget& list, quint16 curCamp, quint16 sizeMax)
 {
     /*  TOOL
      *      USE         : To check if a string is valid (to a certain patern wich should be precised)
@@ -16,8 +16,6 @@ Tools::StringEvalCode Tools::campNameValid(const QString& s, const QListWidget& 
 
     if(s.isEmpty()) return Tools::EmptyStr;
     if(s.length() >= sizeMax) return Tools::TooLong;
-
-    if(!regex.exactMatch(s))  return Tools::BadFormat;
 
     for(quint16 i= 0; i< list.count(); i++)
         if(s.compare(list.item(i)->text(), Qt::CaseInsensitive) == 0 && i != curCamp)

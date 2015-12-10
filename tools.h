@@ -32,7 +32,6 @@ public:
 
     static StringEvalCode campNameValid(const QString& s,
                                         const QListWidget&   list,
-                                        const QRegExp& regex,
                                         quint16 curCamp,
                                         quint16 sizeMax= 50);
 

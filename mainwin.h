@@ -38,6 +38,7 @@ class MainWin : public QMainWindow
         void campAdd(bool);
         void campSearch(QString);
         void loadCampList(bool=false);
+        void overview_setCampModOngoing();
 
     private:
         Ui::MainWin *ui;

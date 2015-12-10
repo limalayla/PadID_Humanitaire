@@ -93,7 +93,7 @@ void MainWin::campAdd(bool)
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)
         {
-            validName = Tools::campNameValid(ans, *ui->list_camp, Tools::c_rgx_alphaNumString, m_curCamp, 50);
+            validName = Tools::campNameValid(ans, *ui->list_camp, m_curCamp, 50);
 
             if(validName != Tools::Ok)
                 Tools::dispErr(this, validName);
