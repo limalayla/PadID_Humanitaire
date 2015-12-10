@@ -23,7 +23,7 @@ void MainWin::refugeeSearch(bool)
         if(!ui->text_searchFName->text().isEmpty())       queryArg["fname"] = ui->text_searchFName->text();
         if(!ui->text_searchMisc->toPlainText().isEmpty()) queryArg["misc" ] = ui->text_searchMisc->toPlainText();
 
-        if(ui->combo_searchAge->currentIndex()      != 0) queryArg["age"     ] = ui->combo_searchAge->currentText();
+        if(ui->text_searchBD->text().isEmpty()) queryArg["age"     ] = ui->text_searchBD->text();
         if(ui->combo_searchSex->currentIndex()      != 0) queryArg["sex"     ] = ui->combo_searchSex->currentText();
         if(ui->combo_searchHomeland->currentIndex() != 0) queryArg["homeland"] = ui->combo_searchHomeland->currentText();
         if(ui->combo_searchType->currentIndex()     != 0) queryArg["type"    ] = ui->combo_searchType->currentText();
@@ -39,14 +39,14 @@ void MainWin::refugeeSearch(bool)
             query += queryArg["base"];
 
             if(queryArg.contains("camp"   )) query += "id_camp = :id_camp AND ";
-            if(queryArg.contains("lname"   )) query += "name_refugee = :lname AND";
+            if(queryArg.contains("lname"   )) query += "name_refugee = :lname AND ";
             if(queryArg.contains("fname"   )) query += "firstname_refugee = :fname AND ";
             if(queryArg.contains("misc"    )) query += "several_informations = :misc AND ";
-            if(queryArg.contains("age"     )) query += "birth_date BETWEEN :StartYears AND :EndYears AND ";
+            if(queryArg.contains("age"     )) query += "birth_date = :BD AND ";
             if(queryArg.contains("sex"     )) query += "sex = :sex AND ";
-            if(queryArg.contains("homeland")) query += "Refugees.id_origin_country = Country.id_country AND Country.name_country = :homeland AND";
-            if(queryArg.contains("type"    )) query += "Refugees.id_type = Types.id_type AND Types.name_type = :type AND";
-            if(queryArg.contains("state"   )) query += "Refugees.id_state = States.id_state AND States.name_state = :state AND";
+            if(queryArg.contains("homeland")) query += "Refugees.id_origin_country = Country.id_country AND Country.name_country = :homeland AND ";
+            if(queryArg.contains("type"    )) query += "Refugees.id_type = Types.id_type AND Types.name_type = :type AND ";
+            if(queryArg.contains("state"   )) query += "Refugees.id_state = States.id_state AND States.name_state = :state AND ";
 
             query.remove(query.length() -5, 5); // Deletes the last " AND "
             req_search.prepare(query);
@@ -57,12 +57,7 @@ void MainWin::refugeeSearch(bool)
             if(queryArg.contains("lname"   )) req_search.bindValue(":lname",    queryArg["lname"   ]);
             if(queryArg.contains("fname"   )) req_search.bindValue(":fname",    queryArg["fname"   ]);
             if(queryArg.contains("misc"    )) req_search.bindValue(":misc",     queryArg["misc"    ]);
-            if(queryArg.contains("age"     ))
-            {
-                int YearOfBirth = QDate::currentDate().year() - queryArg["age" ].toInt();
-                req_search.bindValue(":age",   QString::number(YearOfBirth) + "-12-31");
-                req_search.bindValue(":EndYears",   QString::number(YearOfBirth) + "-01-01");
-            }
+            if(queryArg.contains("age"     )) req_search.bindValue(":BD", queryArg["age"    ]);
             if(queryArg.contains("sex"     )) req_search.bindValue(":sex",      queryArg["sex"     ]);
             if(queryArg.contains("homeland")) req_search.bindValue(":homeland", queryArg["homeland"]);
             if(queryArg.contains("type"    )) req_search.bindValue(":type",     queryArg["type"    ]);
@@ -94,7 +89,7 @@ void MainWin::searchClear()
     ui->text_searchFName->clear();
     ui->text_searchMisc->clear();
 
-    ui->combo_searchAge->clear();
+    ui->text_searchBD->clear();
     ui->combo_searchSex->clear();
     ui->combo_searchHomeland->clear();
     ui->combo_searchType->clear();
@@ -105,15 +100,30 @@ void MainWin::searchClear()
 
 void MainWin::search_fillFields()
 {
-    for(quint8 i= 1; i<= 100; i++) ui->combo_searchAge->addItem(QString::number(i));
 
     // Get the list of the differents country from db and put it in ui->combo_searchCountry
     QSqlQuery req_countryList(*m_db->access());
-    if(req_countryList.exec("SELECT nom_pays FROM Pays"))
+    QSqlQuery req_TypeList(*m_db->access());
+    QSqlQuery req_StateList(*m_db->access());
+    if(req_countryList.exec("SELECT DISTINCT name_country from Country"))
     {
         while(req_countryList.next())
         {
             ui->combo_searchHomeland->addItem(req_countryList.value(0).toString());
+        }
+    }
+    if(req_TypeList.exec("SELECT DISTINCT name_type from Types"))
+    {
+        while(req_TypeList.next())
+        {
+            ui->combo_searchType->addItem(req_TypeList.value(0).toString());
+        }
+    }
+    if(req_StateList.exec("SELECT DISTINCT name_state from States"))
+    {
+        while(req_StateList.next())
+        {
+            ui->combo_searchState->addItem(req_StateList.value(0).toString());
         }
     }
 }
