@@ -112,12 +112,15 @@ void MainWin::campModCancel(bool)
 
 void MainWin::campDel(bool)
 {
-    bool campEmpty = false; // Si personne n'est dans le camp (Camp.nbPersonne == 0)
+    bool campEmpty = ui->text_campNbRefugee->text().toInt() == 0; // Si personne n'est dans le camp
     bool success(true);
 
-    if( campEmpty ||
-        QMessageBox::question(this, tr("Delete ?"), tr("Are you sure you want to delete the camp ?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes
-      )
+    if(!campEmpty)
+    {
+        QMessageBox::warning(this, tr("Deletion Forbidden"), tr("You cannot delete this camp, there is still refugee(s) in it."));
+    }
+
+    else
     {
         QSqlQuery req_delcamp_camp(*m_db->access());
         QSqlQuery req_delcamp_pers(*m_db->access());
