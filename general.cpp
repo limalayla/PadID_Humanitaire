@@ -221,10 +221,11 @@ void MainWin::gen_translate(appLanguages l)
 
         if(configFile.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
         {
-            QJsonDocument newConfile(m_configFile);
-            newConfile.object(.remove("lang");
-            newConfile.object().insert("lang", QJsonValue::fromVariant(QVariant::fromValue(lang)));
-            configFile.write(m_configFile.toJson());
+            QJsonObject newConfile;
+            newConfile["db"] = m_configFile.object().value("db");
+            newConfile["lang"] = lang;
+
+            configFile.write(QJsonDocument(newConfile).toJson());
             configFile.close();
             ok = true;
         }

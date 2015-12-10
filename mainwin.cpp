@@ -23,7 +23,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             // Get the camp list from database
             ui->list_camp->clear();
             loadCampList();
-            ui->list_manage->setSelectionMode(gfskuhgsugh);
+            ui->list_manage->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
         // Overview Tab
             overviewCreation();
