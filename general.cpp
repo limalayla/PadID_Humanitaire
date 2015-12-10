@@ -93,7 +93,7 @@ void MainWin::campAdd(bool)
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)
         {
-            validName = Tools::campNameValid(ans, *ui->list_camp, Tools::c_rgx_alphaNumString, m_curCamp, 50);
+            validName = Tools::campNameValid(ans, *ui->list_camp, m_curCamp, 50);
 
             if(validName != Tools::Ok)
                 Tools::dispErr(this, validName);
@@ -196,4 +196,51 @@ void MainWin::loadCampList(bool)
 
         ui->list_camp->setCurrentRow(m_curCamp);
         changeCamp(QModelIndex());
+}
+
+void MainWin::gen_translate(appLanguages l)
+{
+    bool ok(false);
+    QString lang;
+    switch (l)
+    {
+        case En : {
+            lang = "en";
+            break;
+        }
+
+        case Fr : {
+            lang = "fr";
+            break;
+        }
+    }
+
+    if(!m_configFile.isNull() && !m_configFile.isEmpty())
+    {
+        QFile configFile(qApp->applicationDirPath() + "/config.json");
+
+        if(configFile.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
+        {
+            QJsonObject newConfile;
+            newConfile["db"] = m_configFile.object().value("db");
+            newConfile["lang"] = lang;
+
+            configFile.write(QJsonDocument(newConfile).toJson());
+            configFile.close();
+            ok = true;
+        }
+    }
+
+    if(ok) QMessageBox::information(this, tr("Language Changing"), tr("Please quit and restart the application to change the language."));
+    else QMessageBox::warning(this, tr("Language Changing Failure"), tr("Cannot change the language, check your configuration file."));
+}
+
+void MainWin::gen_translateEn(bool)
+{
+    gen_translate(En);
+}
+
+void MainWin::gen_translateFr(bool)
+{
+    gen_translate(Fr);
 }

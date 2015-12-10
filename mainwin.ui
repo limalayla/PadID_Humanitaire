@@ -585,16 +585,6 @@
         <string>Unknown</string>
        </property>
       </item>
-      <item>
-       <property name="text">
-        <string>M</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>F</string>
-       </property>
-      </item>
      </widget>
      <widget class="QComboBox" name="combo_searchHomeland">
       <property name="geometry">

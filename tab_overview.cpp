@@ -32,7 +32,7 @@ void MainWin::campMod(bool)
         if(m_campModOngoing)
         {
             // Check if new name is valid
-            validName = Tools::campNameValid(ui->text_campName->text(), *ui->list_camp, Tools::c_rgx_alphaNumString, m_curCamp);
+            validName = Tools::campNameValid(ui->text_campName->text(), *ui->list_camp, m_curCamp);
 
             // Change it in the ui and the db if so
                 if(validName == Tools::Ok)
@@ -54,8 +54,10 @@ void MainWin::campMod(bool)
 
                     if(req_campMod.exec())
                     {
-                        qDebug()    << "[DEBUG] Camp modifying: successful";
+                        qDebug()    << "[DEBUG] tab_overview.cpp::campMod() : Camp modifying successful";
                         ui->list_camp->item(m_curCamp)->setText(ui->text_campName->text());
+                        loadCampList();
+                        m_campModOngoing = true;
                     }
                     else qCritical() << "[ERROR] Camp modifying: Updating infos (" << req_campMod.lastError() << ")";
                 }
@@ -81,15 +83,13 @@ void MainWin::campMod(bool)
                 }
         }
 
+        qDebug() << validName << " = " << Tools::Ok << " " << placesMaxOk;
     /* 1st and 2nd states */
         if(validName == Tools::Ok && placesMaxOk)
         {
             // Toggle the state and ui
                 m_campModOngoing = !m_campModOngoing;
-                campSetEnabledInput(m_campModOngoing);
-
-                ui->btn_campModCancel->setVisible(m_campModOngoing);
-                ui->btn_campMod->setText(m_campModOngoing ? tr("Validate Changes") : tr("Modify Camp"));
+                overview_setCampModOngoing();
         }
 }
 
@@ -105,19 +105,9 @@ void MainWin::campModCancel(bool)
     if(m_campModOngoing)
     {
         m_campModOngoing = false;
-        campSetEnabledInput(false);
-        ui->btn_campModCancel->setVisible(false);
-        ui->btn_campMod->setText(tr("Modify Camp"));
-
+        overview_setCampModOngoing();
         overviewLoad(m_db->access(), true);
     }
-}
-
-void MainWin::campSetEnabledInput(bool b)
-{
-    ui->text_campName->setEnabled(b);
-    ui->text_campLoc->setEnabled(b);
-    ui->text_campPlaceMax->setEnabled(b);
 }
 
 void MainWin::campDel(bool)
@@ -223,4 +213,19 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
             }
         } else qWarning() << "[WARN ] onglet_overview.cpp::overviewLoad()::req_overview.exec() : " << req_overview.lastError();
     }
+}
+
+void MainWin::overview_setCampModOngoing()
+{
+    campSetEnabledInput(m_campModOngoing);
+
+    ui->btn_campModCancel->setVisible(m_campModOngoing);
+    ui->btn_campMod->setText(m_campModOngoing ? tr("Validate Changes") : tr("Modify Camp"));
+}
+
+void MainWin::campSetEnabledInput(bool b)
+{
+    ui->text_campName->setEnabled(b);
+    ui->text_campLoc->setEnabled(b);
+    ui->text_campPlaceMax->setEnabled(b);
 }
