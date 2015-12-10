@@ -31,7 +31,7 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
                                 "States,"
                                 "Camps "
                                 "WHERE "
-                                "id_refugee = :idDb"
+                                "id_refugee = :idDb "
                                 "and "
                                 "Refugees.id_camp = Camps.id_camp "
                                 "and "
@@ -108,25 +108,25 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     bool ok=true;
     if(m_openMode == creation)
     {
-        StartRequest="INSERT INTO Refugees ( `name_refugee`, `firstname_refugee`, `sex`, `birth_date`, `id_origin_country`, `id_type`, `id_state`, `id_camp`, `several_informations`)";
-        MidRequest = "Value(name_refugee = :newname , firstname_refugee = :newfname , sex= :newSexe, birth_date= :newBd,"
-                     "id_origin_country=(select id_country from Country wherename_country=:newCountry), "
-                     "id_type=(select id_type from Types where name_type= :newtype), "
-                     "id_state= (select id_state from States where name_state= :newState) , "
-                     "id_camp =(select id_camp from Camps where name_camp= :newCamp), "
+        StartRequest="INSERT INTO Refugees ( name_refugee, firstname_refugee, sex, birth_date, id_origin_country, id_type, id_state,  id_camp, several_informations) ";
+        MidRequest = "Value(name_refugee = :newname , firstname_refugee = :newfname , sex= :newSexe, birth_date= :newBd, "
+                     "id_origin_country=(select id_country from Country where name_country=:newCountry),  "
+                     "id_type=(select id_type from Types where name_type= :newtype),  "
+                     "id_state= (select id_state from States where name_state= :newState) ,  "
+                     "id_camp =(select id_camp from Camps where name_camp= :newCamp),  "
                      "several_informations = :newMisc )";
 
 
     }
     else
     {
-        StartRequest = "Update Refugees set"
+        StartRequest = "Update Refugees set "
                        " name_refugee= :newname ,"
                        " firstname_refugee = :newfname ,"
                        " Refugees.id_state= (select id_state from States where name_state=:newState) ,"
                        " Refugees.id_camp = (select id_camp from Camps where name_camp=:newId_camp)"
                        ", several_informations = :newMisc ";
-        MidRequest = " where id_refugie = :newid";
+        MidRequest = " where id_refugee = :newid";
     }
 
     AddorUpdateRefugee.prepare( StartRequest + MidRequest);
