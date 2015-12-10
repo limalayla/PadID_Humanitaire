@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Humanitary 2.0</string>
+   <string>Humanitarian 2.0</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -170,7 +170,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Localisation:</string>
+        <string>Location:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campRefugeeCount">
@@ -260,7 +260,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Modify camp</string>
+        <string>Modify Camp</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_campDel">
@@ -278,7 +278,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Delete camp</string>
+        <string>Delete Camp</string>
        </property>
        <property name="shortcut">
         <string>Del</string>
@@ -323,7 +323,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Maximum Places: </string>
+        <string>Maximum Places:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_campTotalRefugee">
@@ -499,7 +499,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Sex:</string>
+       <string>Gender:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchType">
@@ -587,12 +587,12 @@
       </item>
       <item>
        <property name="text">
-        <string>Men</string>
+        <string>Man</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Women</string>
+        <string>Woman</string>
        </property>
       </item>
      </widget>
@@ -627,7 +627,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Caucasus</string>
+        <string>Caucasian</string>
        </property>
       </item>
       <item>
@@ -647,7 +647,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Native American / Indian</string>
+        <string>Native American</string>
        </property>
       </item>
      </widget>
@@ -750,7 +750,7 @@
     </widget>
     <widget class="QWidget" name="tab_manage">
      <attribute name="title">
-      <string>Human Hanagement</string>
+      <string>Human Management</string>
      </attribute>
      <widget class="QListWidget" name="list_manage">
       <property name="geometry">
@@ -839,7 +839,7 @@
     </widget>
     <widget class="QWidget" name="tab_supplies">
      <attribute name="title">
-      <string>Stocks</string>
+      <string>Supplies</string>
      </attribute>
      <widget class="QTabWidget" name="tabs_supplies">
       <property name="geometry">
@@ -1086,7 +1086,7 @@
      <string/>
     </property>
     <property name="shortcut">
-     <string>F5</string>
+     <string notr="true">F5</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_campAdd">
@@ -1104,10 +1104,10 @@
      </font>
     </property>
     <property name="text">
-     <string>+</string>
+     <string notr="true">+</string>
     </property>
     <property name="shortcut">
-     <string>Ctrl+A</string>
+     <string notr="true">Ctrl+A</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_stockRefresh">
@@ -1149,7 +1149,7 @@
      <string>+</string>
     </property>
     <property name="shortcut">
-     <string>Ctrl+A</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QListWidget" name="list_campSearch">

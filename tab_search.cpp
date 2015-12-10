@@ -18,7 +18,7 @@ void MainWin::refugeeSearch(bool)
     /* Get all the informations that are given */
         queryArg["base"] = "SELECT id_refugie, nom, prenom FROM Refugie WHERE ";
 
-        if(m_curCamp != c_AllCampIndex)                   queryArg["camp" ] = m_campsIdDb[m_curCamp];
+        if(m_curCamp != c_AllCampIndex)                   queryArg["camp" ] = QString::number(m_campsIdDb[m_curCamp]);
         if(!ui->text_searchLName->text().isEmpty())       queryArg["lname"] = ui->text_searchLName->text();
         if(!ui->text_searchFName->text().isEmpty())       queryArg["fname"] = ui->text_searchFName->text();
         if(!ui->text_searchMisc->toPlainText().isEmpty()) queryArg["misc" ] = ui->text_searchMisc->toPlainText();
@@ -63,8 +63,8 @@ void MainWin::refugeeSearch(bool)
             if(queryArg.contains("type"    )) req_search.bindValue(":type",     queryArg["type"    ]);
             if(queryArg.contains("state"   )) req_search.bindValue(":lname",    queryArg["state"   ]);
 
-        qDebug() << "[DEBUG] tab_search.cpp::refugeeSearch() : queryArg = " << queryArg;
         qDebug() << "[DEBUG] tab_search.cpp::refugeeSearch() : query = "    << query;
+        qDebug() << "[DEBUG] tab_search.cpp::refugeeSearch() : queryArg = " << queryArg;
         qDebug() << "";
 
         /* Then execute it, and put the results in ui->list_res_search */
@@ -77,7 +77,7 @@ void MainWin::refugeeSearch(bool)
                     ui->list_res_search->addItem(req_search.value(1).toString() + " " + req_search.value(2).toString());
                 }
 
-                if(ui->list_res_search->count() == 0) QMessageBox::information(this, tr("No Search Result"), tr("No Refugee found with those parameters"));
+                if(ui->list_res_search->count() == 0) QMessageBox::information(this, tr("No Search Result"), tr("No Refugee were found with those parameters"));
             }
             else qWarning() << "[WARN ] tab_search.cpp::refugeeSearch() : Search Failed : " << req_search.lastError().text();
     }
@@ -115,10 +115,11 @@ void MainWin::search_fillFields()
 
 void MainWin::search_refugeeSee(QModelIndex)
 {
+    qDebug() << "[DEBUG] tab_search.cpp::search_refugeeSee() : " << m_curSearchRefugee << " -> " << m_searchRefugeeIdDb[m_curSearchRefugee];
     openRefugeeInfo(RefugeeInfoWin::readOnly, m_searchRefugeeIdDb[m_curSearchRefugee]);
 }
 
 void MainWin::search_refugeeSet(QModelIndex index)
 {
-    if(index.isValid()) m_curRefugee = index.row();
+    if(index.isValid()) m_curSearchRefugee = index.row();
 }

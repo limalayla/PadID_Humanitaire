@@ -88,7 +88,7 @@ void MainWin::campAdd(bool)
 
     do
     {
-        ans = QInputDialog::getText(this, tr("New Camp"), tr("Camp name : "), QLineEdit::Normal, QString(), &ok);
+        ans = QInputDialog::getText(this, tr("New Camp"), tr("Please enter the name you want for the new camp:"), QLineEdit::Normal, QString(), &ok);
 
         // If actually clicked on the "ok" button and not just exited the window or cancelled
         if(ok)

@@ -135,7 +135,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Sex :</string>
+    <string>Gender:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_homeland">

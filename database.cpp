@@ -56,8 +56,8 @@ QSqlDatabase* Database::access(quint16 timeout)
 
                 if(m_dispError)
                 {
-                    QMessageBox::critical(NULL, tr("Db Connection Error"),
-                                                tr("Error Connecting to Database:\n%0").arg(m_db->lastError().text()) );
+                    QMessageBox::critical(NULL, tr("Database Connection Error"),
+                                                tr("An Error has occured while connecting to the database:\n%0").arg(m_db->lastError().text()) );
                     m_errorTimer.start(5000);
                     m_dispError = false;
                 }

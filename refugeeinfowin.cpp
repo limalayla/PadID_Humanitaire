@@ -110,42 +110,42 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     if(ui->text_fname->text()=="")
     {
         ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the firstname"));
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the first name!"));
     }
     if(ui->text_lname->text()=="" && ok)
     {
         ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the surname"));
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the last name!"));
     }
     if(ui->combo_age->currentText()=="" && ok)
     {
         ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the age"));
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the age!"));
     }
     if(ui->combo_sex->currentText()=="" && ok)
     {
         ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the sex"));
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the sex!"));
     }
     if(ui->combo_homeland->currentText()=="" && ok)
     {
         ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the homeland"));
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the homeland!"));
     }
     if(ui->combo_type->currentText()=="" && ok)
     {
         ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the type"));
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the type!"));
     }
     if(ui->combo_state->currentText()=="" && ok)
     {
         ok=false;
-         QMessageBox::critical(this,tr("Error"),tr("Please enter the state"));
+         QMessageBox::critical(this,tr("Error"),tr("Please enter the state!"));
     }
     if(ui->combo_curCamp->currentText()=="" && ok)
     {
         ok=false;
-        QMessageBox::critical(this,tr("Error"),tr("Please enter the current Camp"));
+        QMessageBox::critical(this,tr("Error"),tr("Please enter the current camp!"));
     }
 
     if(ok)

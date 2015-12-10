@@ -22,7 +22,7 @@ void MainWin::suppliesInit(QSqlDatabase*)
             //Widget for every tabs
             QLabel *NomTab = new QLabel(req_supplies.value(0).toString());
             QLabel *Amount = new QLabel(tr("Amount"));
-            QPushButton *ButtonValidate = new QPushButton(tr("Validate"));
+            QPushButton *ButtonValidate = new QPushButton(tr("Confirm"));
 
             QCheckBox *Type = new QCheckBox(req_supplies.value(1).toString());
             QLineEdit *AmountType = new QLineEdit(req_supplies.value(2).toString());
