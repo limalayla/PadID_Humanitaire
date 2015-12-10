@@ -106,7 +106,7 @@ void MainWin::campAdd(bool)
         // Add camp to Db
         QSqlQuery req_AddCamp(*m_db->access());
 
-        req_AddCamp.prepare("INSERT INTO Camps(nom_camp, localisation, nb_max, id_stock) Values (:newCampName, ' ', 0, 0)");
+        req_AddCamp.prepare("INSERT INTO Camps (name_camp,nb_max,id_location,id_center) Values (':newCampName',0,0,0)");
         req_AddCamp.bindValue(":newCampName", ans);
 
         if(req_AddCamp.exec())
@@ -176,7 +176,7 @@ void MainWin::loadCampList(bool)
 
     // Get the list of camps from the database
         QSqlQuery req_listCamp(*m_db->access());
-        if(req_listCamp.exec("SELECT id_camp, nom_camp FROM Camps ORDER BY nom_camp ASC"))
+        if(req_listCamp.exec("SELECT id_camp, name_camp FROM Camps ORDER BY name_camp ASC"))
         {
             while(req_listCamp.next())
             {

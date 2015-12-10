@@ -16,7 +16,7 @@ void MainWin::refugeeSearch(bool)
     m_searchRefugeeIdDb.clear();
 
     /* Get all the informations that are given */
-        queryArg["base"] = "SELECT id_refugie, nom, prenom FROM Refugie WHERE ";
+        queryArg["base"] = "SELECT DISTINCT id_refugee, name_refugee, firstname_refugee FROM Refugees,Types,States,Country WHERE ";
 
         if(m_curCamp != c_AllCampIndex)                   queryArg["camp" ] = QString::number(m_campsIdDb[m_curCamp]);
         if(!ui->text_searchLName->text().isEmpty())       queryArg["lname"] = ui->text_searchLName->text();
@@ -38,15 +38,15 @@ void MainWin::refugeeSearch(bool)
         /* Prepare the query (add "field = :field") when there's someting to search for */
             query += queryArg["base"];
 
-            if(queryArg.contains("camp"   )) query += "id_camp = :camp AND ";
-            if(queryArg.contains("lname"   )) query += "nom = :lname AND ";
-            if(queryArg.contains("fname"   )) query += "prenom = :fname AND ";
-            if(queryArg.contains("misc"    )) query += "divers = :misc AND ";
-            if(queryArg.contains("age"     )) query += "age = :age AND ";
-            if(queryArg.contains("sex"     )) query += "sexe = :sex AND ";
-            if(queryArg.contains("homeland")) query += "pays_dorigine = :homeland AND ";
-            if(queryArg.contains("type"    )) query += "type = :type AND ";
-            if(queryArg.contains("state"   )) query += "etat = :state AND ";
+            if(queryArg.contains("camp"   )) query += "id_camp = :id_camp AND ";
+            if(queryArg.contains("lname"   )) query += "name_refugee = :lname AND";
+            if(queryArg.contains("fname"   )) query += "firstname_refugee = :fname AND ";
+            if(queryArg.contains("misc"    )) query += "several_informations = :misc AND ";
+            if(queryArg.contains("age"     )) query += "birth_date BETWEEN :StartYears AND :EndYears AND ";
+            if(queryArg.contains("sex"     )) query += "sex = :sex AND ";
+            if(queryArg.contains("homeland")) query += "Refugees.id_origin_country = Country.id_country AND Country.name_country = :homeland AND";
+            if(queryArg.contains("type"    )) query += "Refugees.id_type = Types.id_type AND Types.name_type = :type AND";
+            if(queryArg.contains("state"   )) query += "Refugees.id_state = States.id_state AND States.name_state = :state AND";
 
             query.remove(query.length() -5, 5); // Deletes the last " AND "
             req_search.prepare(query);
@@ -57,7 +57,12 @@ void MainWin::refugeeSearch(bool)
             if(queryArg.contains("lname"   )) req_search.bindValue(":lname",    queryArg["lname"   ]);
             if(queryArg.contains("fname"   )) req_search.bindValue(":fname",    queryArg["fname"   ]);
             if(queryArg.contains("misc"    )) req_search.bindValue(":misc",     queryArg["misc"    ]);
-            if(queryArg.contains("age"     )) req_search.bindValue(":age",      queryArg["age"     ]);
+            if(queryArg.contains("age"     ))
+            {
+                int YearOfBirth = QDate::currentDate().year() - queryArg["age" ].toInt();
+                req_search.bindValue(":age",   QString::number(YearOfBirth) + "-12-31");
+                req_search.bindValue(":EndYears",   QString::number(YearOfBirth) + "-01-01");
+            }
             if(queryArg.contains("sex"     )) req_search.bindValue(":sex",      queryArg["sex"     ]);
             if(queryArg.contains("homeland")) req_search.bindValue(":homeland", queryArg["homeland"]);
             if(queryArg.contains("type"    )) req_search.bindValue(":type",     queryArg["type"    ]);
