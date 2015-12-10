@@ -18,6 +18,8 @@ void MainWin::suppliesInit(QSqlDatabase*)
         while(req_supplies.next())
         {
             QGridLayout *layout = new QGridLayout;
+            QCheckBox *Type;
+             QLineEdit *AmountType ;
             layout->setColumnStretch(0,0);
             layout->setColumnStretch(1,1);
             layout->setSpacing(0);
@@ -29,9 +31,15 @@ void MainWin::suppliesInit(QSqlDatabase*)
             QLabel *NomTab = new QLabel(req_supplies.value(0).toString());
             QLabel *Amount = new QLabel(tr("Amount"));
             QPushButton *ButtonValidate = new QPushButton(tr("Confirm"));
+            if(req_AmountSupplies.exec())
+            {
+                if(req_AmountSupplies.next())
+                {
+                    Type = new QCheckBox(req_AmountSupplies.value(1).toString());
+                    AmountType = new QLineEdit(req_AmountSupplies.value(0).toString());
+                }
+            }
 
-            QCheckBox *Type = new QCheckBox(req_AmountSupplies.value(1).toString());
-            QLineEdit *AmountType = new QLineEdit(req_AmountSupplies.value(0).toString());
 
             /*
              *while(req_typeSupplies.next())
@@ -43,9 +51,6 @@ void MainWin::suppliesInit(QSqlDatabase*)
              * layout->addWidget(AmountType,y,2);
              *
              * } */
-
-
-            QSqlQuery req_typeSupplies(*m_db->access());
 
             layout->addWidget(NomTab,0,0);
             layout->addWidget(Amount,0,1);
