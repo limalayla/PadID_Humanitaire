@@ -625,31 +625,6 @@
         <string>Unknown</string>
        </property>
       </item>
-      <item>
-       <property name="text">
-        <string>Caucasian</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>African</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Asian</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Australian</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Native American</string>
-       </property>
-      </item>
      </widget>
      <widget class="QComboBox" name="combo_searchState">
       <property name="geometry">
@@ -663,26 +638,6 @@
       <item>
        <property name="text">
         <string>Unknown</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Missing</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Healthy</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Sick</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Dead</string>
        </property>
       </item>
      </widget>
@@ -1243,7 +1198,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">

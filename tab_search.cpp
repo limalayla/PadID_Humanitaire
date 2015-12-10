@@ -109,7 +109,7 @@ void MainWin::search_fillFields()
 
     // Get the list of the differents country from db and put it in ui->combo_searchCountry
     QSqlQuery req_countryList(*m_db->access());
-    if(req_countryList.exec("SELECT nom_pays FROM Pays"))
+    if(req_countryList.exec("SELECT DISTINCT name_country from Country"))
     {
         while(req_countryList.next())
         {

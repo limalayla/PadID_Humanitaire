@@ -208,7 +208,7 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
 
             if(!reload)
             {
-                req_nbRefugee.prepare("SELECT count(*) FROM Refugees WHERE id_camp = :id_courant");
+                req_nbRefugee.prepare("SELECT count(*) FROM Refugees, States WHERE id_camp = :id_courant  AND Refugees.id_state = States.id_state AND name_state <> 'Death' ");
                 req_nbRefugee.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
                 if(req_nbRefugee.exec())
