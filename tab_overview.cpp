@@ -160,6 +160,8 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
     if(m_curCamp == c_AllCampIndex)
     {
         QSqlQuery req_summary(*db);
+        QSqlQuery req_TotalPlaceMax(*db);
+        QSqlQuery req_TotalRefugiee(*db);
         bool ok(true);
 
         /* Get the camps count*/
@@ -171,6 +173,22 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
                 //ui->text_campTotalPlaceMax->setText(req_summary.value(0).toString());
             }
             else ok = false;
+            if(req_TotalPlaceMax.exec("Select SUM(nb_max) from Camps"))
+            {
+                 req_TotalPlaceMax.next();
+                ui->text_campTotalPlaceMax->setText(req_TotalPlaceMax.value(0).toString());
+            }
+            else qWarning() << "[WARN ] tab_overview.cpp::overviewLoad() Camps summary loading failed : " << req_TotalPlaceMax.lastError().text();
+
+            if(req_TotalRefugiee.exec("SELECT count(*) FROM Refugees"))
+            {
+                req_TotalRefugiee.next();
+               ui->text_campTotalRefugeeCount->setText(req_TotalRefugiee.value(0).toString());
+            }
+            else qWarning() << "[WARN ] tab_overview.cpp::overviewLoad() Camps summary loading failed : " << req_TotalRefugiee.lastError().text();
+            int Remaining = req_TotalPlaceMax.value(0).toInt()- req_TotalRefugiee.value(0).toInt();
+            qDebug() << Remaining;
+            ui->text_campTotalRemainingPlaces->setText( QString::number(Remaining) );
 
         if(!ok)
         {
