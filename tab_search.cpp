@@ -23,7 +23,7 @@ void MainWin::refugeeSearch(bool)
         if(!ui->text_searchFName->text().isEmpty())       queryArg["fname"] = ui->text_searchFName->text();
         if(!ui->text_searchMisc->toPlainText().isEmpty()) queryArg["misc" ] = ui->text_searchMisc->toPlainText();
 
-        if(ui->text_searchBD->text().isEmpty()) queryArg["age"     ] = ui->text_searchBD->text();
+        if(!ui->text_searchBD->text().isEmpty()) queryArg["age"     ] = ui->text_searchBD->text();
         if(ui->combo_searchSex->currentIndex()      != 0) queryArg["sex"     ] = ui->combo_searchSex->currentText();
         if(ui->combo_searchHomeland->currentIndex() != 0) queryArg["homeland"] = ui->combo_searchHomeland->currentText();
         if(ui->combo_searchType->currentIndex()     != 0) queryArg["type"    ] = ui->combo_searchType->currentText();
