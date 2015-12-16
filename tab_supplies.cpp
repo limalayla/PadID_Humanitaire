@@ -46,13 +46,14 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
     {
         while(req_supplies.next())
         {
+            m_pointeur.append(QVector<QLineEdit*>());
             req_AmountSupplies.bindValue(":id_category",i);
              req_AmountInCenter.bindValue(":id_category",i);
             QGridLayout *layout = new QGridLayout();
             QScrollArea *Area= new QScrollArea();
             QWidget *tab = new QWidget();
             QLabel *Type;
-            QLineEdit *AmountType, *Command, *AmountInCenter;
+           // QLineEdit *AmountType, *Command, *AmountInCenter;
 
             //Widget for every tabs
             QLabel *NomTab = new QLabel(req_supplies.value(0).toString());
@@ -66,33 +67,34 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
             layout->addWidget(LabelAmountInCenter,0,2);
             layout->addWidget(LabelCommand,0,3);
 
-            int y=1;
+            int y=1,x=0;
             if(req_AmountSupplies.exec())
             {
                 while(req_AmountSupplies.next())
                 {
 
                     Type = new QLabel(req_AmountSupplies.value(1).toString());
-                    AmountType = new QLineEdit(req_AmountSupplies.value(0).toString());
-                    Command = new QLineEdit();
-                    AmountType->setEnabled(false);
+                    m_pointeur[i].push_back(new QLineEdit(req_AmountSupplies.value(0).toString()));
+                    m_pointeur[i].push_back(new QLineEdit());
+                    m_pointeur[i][x]->setEnabled(false);
 
                     layout->addWidget(Type,y,0);
-                    layout->addWidget(AmountType,y,1);
-                    layout->addWidget(Command,y,3);
+                    layout->addWidget(m_pointeur[i][x],y,1);
+                    layout->addWidget(m_pointeur[i][x+1],y,3);
 
                     if(req_AmountInCenter.exec())
                     {
                         while(req_AmountInCenter.next())
                         {
-                            AmountInCenter=new QLineEdit(req_AmountInCenter.value(0).toString());
-                            AmountInCenter->setEnabled(false);
-                            layout->addWidget(AmountInCenter,y,2);
+                            m_pointeur[i].push_back(new QLineEdit(req_AmountInCenter.value(0).toString()));
+                            m_pointeur[i][x+2]->setEnabled(false);
+                            layout->addWidget(m_pointeur[i][x+2],y,2);
                         }
                     }
                     else
                         qDebug() << req_AmountInCenter.lastError();
                     y++;
+                    x+=3;
                 }
             }
             else
@@ -115,6 +117,14 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
 
 void MainWin::CommandStock(bool)
 {
-    qDebug()<<"YO";
+    qDebug()<< m_pointeur[1][1]->text();
+    int curTabs=ui->tabs_supplies->currentIndex()+1;
+    if(m_pointeur[curTabs][1]->text().toInt()>m_pointeur[curTabs][2]->text().toInt())
+        QMessageBox::warning(this, tr("Error"), tr("The center can't assure the command"));
+    else
+    {
+           // QSqlQuery req_supplies(db);
+    }
+
 }
 

@@ -128,6 +128,9 @@ class MainWin : public QMainWindow
         void suppliesLoad(QSqlDatabase& db);
         void suppliesInit(QSqlDatabase& db);
         void CommandStock(bool);
+
+    private:
+         QVector< QVector<QLineEdit*> > m_pointeur;
 };
 
 #endif // MAINWIN_H
