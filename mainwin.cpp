@@ -41,7 +41,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             search_fillFields();
 
          /* Supplies Tab */
-            suppliesInit(*m_db->access());
+            suppliesLoad(*m_db->access());
             ui->tabs_supplies->setVisible(true);
 
          /* Initiating the signals - slots */
