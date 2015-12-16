@@ -39,12 +39,15 @@ class MainWin : public QMainWindow
         };
 
     public slots:
-        void changeCamp      (QModelIndex);
-        void changeCampSearch(QModelIndex);
+        void changeCamp        (QModelIndex);
+        void changeCampSearch  (QModelIndex);
+        void changeCenter      (QModelIndex);
+        void changeCenterSearch(QModelIndex);
         void changeTab(int);
         void campAdd(bool);
         void campSearch(QString);
         void loadCampList(bool=false);
+        void loadCenterList(bool=false);
         void overview_setCampModOngoing();
         void gen_translateEn(bool);
         void gen_translateFr(bool);
@@ -52,8 +55,10 @@ class MainWin : public QMainWindow
     private:
         Ui::MainWin *ui;
         quint16 m_curCamp;
+        quint16 m_curCenter;
         quint16 m_curTab;
         QVector<int> m_campsIdDb;
+        QVector<int> m_centerIdDb;
 
         void initSlots();
         void gen_translate(appLanguages);

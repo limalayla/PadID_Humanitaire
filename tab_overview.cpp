@@ -115,6 +115,7 @@ void MainWin::campDel(bool)
     bool campEmpty = ui->text_campNbRefugee->text().toInt() == 0; // Si personne n'est dans le camp
     bool success(true);
 
+    qDebug() << "[DEBUG] onglet_overview.cpp::campDel() : inside da function";
     if(!campEmpty)
     {
         QMessageBox::warning(this, tr("Deletion Forbidden"), tr("You cannot delete this camp, there is still refugee(s) in it."));
@@ -171,7 +172,6 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
             if(req_summary.exec("Select COUNT(*) from Camps"))
             {
                 req_summary.next();
-                qDebug() << "[DEBUG] tab_overview.cpp::overviewLoad() Camps summary loading successful";
                 ui->text_campCount->setText(req_summary.value(0).toString());
                 //ui->text_campTotalPlaceMax->setText(req_summary.value(0).toString());
             }
@@ -190,7 +190,6 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
             }
             else qWarning() << "[WARN ] tab_overview.cpp::overviewLoad() Camps summary loading failed : " << req_TotalRefugiee.lastError().text();
             int Remaining = req_TotalPlaceMax.value(0).toInt()- req_TotalRefugiee.value(0).toInt();
-            qDebug() << Remaining;
             ui->text_campTotalRemainingPlaces->setText( QString::number(Remaining) );
 
         if(!ok)

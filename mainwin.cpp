@@ -4,7 +4,7 @@
 MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
     QMainWindow(parent), m_refugeeInfoWin(NULL), m_configFile(configFile),
     m_db(new Database(this, configFile)), ui(new Ui::MainWin),
-    m_curCamp(0), m_curTab(0), m_campModOngoing(false)
+    m_curCamp(0), m_curTab(0), m_campModOngoing(false), m_curCenter(0)
 {
     /*  CONSTRUCTOR
      *          Called once at the beginning of the program
@@ -25,14 +25,16 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             loadCampList();
             ui->list_manage->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
+            loadCenterList();
+
             // Put the refresh icon on their buttons
                 if(!QFile::exists(qApp->applicationDirPath() + "/img/refresh.png"))
                     qWarning() << "[WARN ] mainwin.cpp::MainWin() : " << qApp->applicationDirPath() + "/img/refresh.png" << "doesn't exist";
 
                 ui->btn_campRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
                 ui->btn_campRefresh->setIconSize(ui->btn_campRefresh->rect().size());
-                ui->btn_stockRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
-                ui->btn_stockRefresh->setIconSize(ui->btn_stockRefresh->rect().size());
+                ui->btn_centerRefresh->setIcon(QIcon(qApp->applicationDirPath() + "/img/refresh.png"));
+                ui->btn_centerRefresh->setIconSize(ui->btn_centerRefresh->rect().size());
 
         // Overview Tab
             overviewCreation();
@@ -46,6 +48,9 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
 
          /* Initiating the signals - slots */
             initSlots();
+
+            ui->groupbox_campAll->setVisible(true);
+            ui->groupbox_center->setVisible(false);
 }
 
 MainWin::~MainWin()
@@ -63,6 +68,12 @@ void MainWin::initSlots()
         QObject::connect(ui->list_camp,         SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCamp(QModelIndex)));
         QObject::connect(ui->text_searchCamp,   SIGNAL(textChanged(QString)),       this, SLOT(campSearch(QString)));
         QObject::connect(ui->list_campSearch,   SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCampSearch(QModelIndex)));
+
+        QObject::connect(ui->btn_centerAdd,     SIGNAL(clicked(bool)),              this, SLOT(centerAdd(bool)));
+        QObject::connect(ui->btn_centerRefresh, SIGNAL(clicked(bool)),              this, SLOT(loadCenterList(bool)));
+        QObject::connect(ui->list_center,       SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCenter(QModelIndex)));
+        QObject::connect(ui->text_searchCenter, SIGNAL(textChanged(QString)),       this, SLOT(centerSearch(QString)));
+        QObject::connect(ui->list_centerSearch, SIGNAL(clicked(QModelIndex)),       this, SLOT(changeCenterSearch(QModelIndex)));
 
         QObject::connect(ui->actionExit,        SIGNAL(triggered(bool)),            this, SLOT(close()));
         QObject::connect(ui->actionEnglish,     SIGNAL(triggered(bool)),            this, SLOT(gen_translateEn(bool)));

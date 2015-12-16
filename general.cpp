@@ -32,6 +32,7 @@ void MainWin::changeCamp(QModelIndex index)
     // Switching UI : When camp "All" is selected or not
         ui->groupbox_campAll->setVisible  (m_curCamp == c_AllCampIndex);
         ui->groupbox_campOther->setVisible(m_curCamp != c_AllCampIndex);
+        ui->groupbox_center->setVisible(false);
 
     // Cancel pending operation on db if any
         campModCancel();
@@ -43,7 +44,6 @@ void MainWin::changeCamp(QModelIndex index)
     if(m_curCamp == c_AllCampIndex)
     {
         if(m_curTab == 2 || m_curTab == 3) m_curTab = 0;
-        // ToDo: SQL
     }
 
     else
@@ -196,6 +196,90 @@ void MainWin::loadCampList(bool)
 
         ui->list_camp->setCurrentRow(m_curCamp);
         changeCamp(QModelIndex());
+}
+
+void MainWin::loadCenterList(bool)
+{
+    /*  SLOT
+     *      Get a fresh list containing all the stocks in the database
+     *      Can be used for creation or update of the list
+     *      m_idDb is an int vector used to make the link between the position of the stock in the list and its id in the db
+    */
+
+    int newCenterIDDb, prevCenterIDDb = (m_curCenter == 0) ? -1 : m_centerIdDb[m_curCenter];
+
+    // Clear the already existing camp list
+        ui->list_center->clear();
+
+        m_centerIdDb.clear();
+
+    // Get the list of centers from the database
+        QSqlQuery req_listCenter(*m_db->access());
+        if(req_listCenter.exec("SELECT id_center, name_center FROM Centers ORDER BY name_center ASC"))
+        {
+            while(req_listCenter.next())
+            {
+                m_centerIdDb.push_back(req_listCenter.value(0).toInt());       // ID
+                ui->list_center->addItem(req_listCenter.value(1).toString());   // Camp Name
+            }
+        }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::loadCenterList() : Query Failed" << req_listCenter.lastError().text();
+            QMessageBox::warning(this, tr("Error Loading Centers"), tr("Error while getting the center list : ") + req_listCenter.lastError().text());
+        }
+
+    // To select the good center in the list, search his db's id and if it doesn't exist, place onthe first
+        if((newCenterIDDb = m_centerIdDb.indexOf(prevCenterIDDb)) == -1) m_curCenter = 0;
+        else m_curCenter = newCenterIDDb;
+
+        ui->list_center->setCurrentRow(m_curCenter);
+        changeCenter(QModelIndex());
+}
+
+void MainWin::changeCenter(QModelIndex index)
+{
+    /*  SLOT
+     *      ACTIVATION  : When a center of ui->list_center is clicked
+     *      ACTIONS     : Gets the new center index
+     *                    Changes and load the UI based on this center
+     *                    Cancels pending operation on previous camp or center if any
+     *      WARNING     : Never use index directly, can be wrong, use m_curCamp instead
+    */
+
+    if(index.isValid()) m_curCamp = index.row();
+
+    // Deactivate "search", "Management" and "supplies" tabs
+        ui->tabs->setTabEnabled(2, false);
+        ui->tabs->setTabEnabled(3, false);
+        ui->tabs->setTabEnabled(4, false);
+
+    // Switching UI : When camp "All" is selected or not
+        ui->groupbox_campAll->setVisible  (false);
+        ui->groupbox_campOther->setVisible(false);
+        ui->groupbox_center->setVisible   (true );
+
+    // Cancel pending operation on db if any
+        campModCancel();
+
+    // Load the overview tab consequently
+        overviewLoad();
+}
+
+void MainWin::changeCenterSearch(QModelIndex index)
+{
+    /*  SLOT
+     *      ACTIVATION  : When a Center of ui->list_centerSearch is clicked
+     *      ACTIONS     : Gets the searched center index (via its label, can't find another way)
+     *                    Selects the corresponding camp on ui->list_center
+     *                    Calls the normal changeCenter()
+    */
+
+    m_curCenter = ui->list_centerSearch->item(index.row())->text().split(" : ").at(0).toInt();
+    ui->list_camp->setCurrentRow(m_curCenter);
+
+    // Call the center changing slot with a null parameter (checked there)
+    changeCenter(QModelIndex());
 }
 
 void MainWin::gen_translate(appLanguages l)

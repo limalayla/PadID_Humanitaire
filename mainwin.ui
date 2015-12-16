@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -294,6 +294,9 @@
         <height>461</height>
        </rect>
       </property>
+      <property name="toolTipDuration">
+       <number>-1</number>
+      </property>
       <property name="title">
        <string/>
       </property>
@@ -404,9 +407,135 @@
         </rect>
        </property>
       </widget>
+      <zorder>label_campCount</zorder>
+      <zorder>label_campTotalPlaceMax</zorder>
+      <zorder>label_campTotalRefugee</zorder>
+      <zorder>label_totalPlacesRemaining</zorder>
+      <zorder>text_campCount</zorder>
+      <zorder>text_campTotalRefugeeCount</zorder>
+      <zorder>text_campTotalPlaceMax</zorder>
+      <zorder>text_campTotalRemainingPlaces</zorder>
+      <zorder>groupbox_center</zorder>
+     </widget>
+     <widget class="QGroupBox" name="groupbox_center">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>-10</y>
+        <width>661</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QListWidget" name="listWidget">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>150</y>
+         <width>250</width>
+         <height>200</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_centerDependance">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>110</y>
+         <width>200</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Camps Depending On This Center :</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_centerAddCamp">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>350</y>
+         <width>150</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Add Camp</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_centerDel">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>380</y>
+         <width>170</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Delete Center</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="text_centerName">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>60</y>
+         <width>120</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_centerName">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>60</y>
+         <width>140</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Center Name:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_centerMod">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>320</y>
+         <width>170</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Modify Center</string>
+       </property>
+      </widget>
      </widget>
      <zorder>groupbox_campAll</zorder>
      <zorder>groupbox_campOther</zorder>
+     <zorder>groupbox_center</zorder>
     </widget>
     <widget class="QWidget" name="tab_search">
      <attribute name="title">
@@ -996,7 +1125,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="text_rechStock">
+   <widget class="QLineEdit" name="text_searchCenter">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -1065,7 +1194,7 @@
      <string notr="true">Ctrl+A</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_stockRefresh">
+   <widget class="QPushButton" name="btn_centerRefresh">
     <property name="geometry">
      <rect>
       <x>125</x>
@@ -1086,7 +1215,7 @@
      <string>F5</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_stockAdd">
+   <widget class="QPushButton" name="btn_centerAdd">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -1149,7 +1278,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QListWidget" name="list_stockSearch">
+   <widget class="QListWidget" name="list_centerSearch">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -1170,7 +1299,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QListWidget" name="list_stock">
+   <widget class="QListWidget" name="list_center">
     <property name="geometry">
      <rect>
       <x>0</x>
