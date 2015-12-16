@@ -1,23 +1,6 @@
 #include "mainwin.h"
 #include "ui_mainwin.h"
 
-void MainWin::suppliesInit(QSqlDatabase& db)
-{
-    QSqlQuery req_supplies(db);
-    req_supplies.prepare("SELECT DISTINCT name_category from Supplies_categories ORDER BY id_category");
-
-    if(req_supplies.exec())
-    {
-        while(req_supplies.next())
-        {
-            ui->tabs_supplies->addTab(new QWidget(ui->tabs_supplies),req_supplies.value(0).toString());
-        }
-    }
-    else
-        qDebug() << req_supplies.lastError();
-
-}
-
 
 void MainWin::suppliesLoad(QSqlDatabase& db)
 {    
@@ -27,6 +10,15 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
     QSqlQuery req_AmountInCenter(db);
     int i=1; // put at 0 when we delete the example tab
     ui->tabs_supplies->clear();
+ /*   for(int i= 0; i< m_pointeur.length(); i++)
+    {
+      for(int j= 0; j< m_pointeur[i].length(); j++)
+      {
+        delete m_pointeur[i][j];
+      }
+      m_pointeur[i].clear();
+    }
+    m_pointeur.clear();*/
     req_supplies.prepare("SELECT DISTINCT name_category from Supplies_categories ORDER BY id_category");
     req_AmountSupplies.prepare("Select quantity, name_supply "
                                                 " from Stock_camps, Supplies "
@@ -39,20 +31,22 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
                                                     " where Stock_centers.id_center = Camps.id_center AND "
                                                     " Stock_centers.id_supplies = Supplies.id_supplies AND "
                                                     " Supplies.id_category = :id_category AND "
-                                                    " Camps.id_camp = :id_courant");
+                                                    " Camps.id_camp = :id_courant"
+                                                    " ORDER BY Supplies.id_supplies");
     req_AmountInCenter.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
     if(req_supplies.exec())
     {
         while(req_supplies.next())
         {
+            m_pointeurLabel.append(QVector<QLabel*>());
             m_pointeur.append(QVector<QLineEdit*>());
             req_AmountSupplies.bindValue(":id_category",i);
              req_AmountInCenter.bindValue(":id_category",i);
             QGridLayout *layout = new QGridLayout();
             QScrollArea *Area= new QScrollArea();
             QWidget *tab = new QWidget();
-            QLabel *Type;
+            //QLabel *Type;
            // QLineEdit *AmountType, *Command, *AmountInCenter;
 
             //Widget for every tabs
@@ -73,12 +67,12 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
                 while(req_AmountSupplies.next())
                 {
 
-                    Type = new QLabel(req_AmountSupplies.value(1).toString());
+                    m_pointeurLabel[i].push_back(new QLabel(req_AmountSupplies.value(1).toString()));
                     m_pointeur[i].push_back(new QLineEdit(req_AmountSupplies.value(0).toString()));
                     m_pointeur[i].push_back(new QLineEdit());
                     m_pointeur[i][x]->setEnabled(false);
 
-                    layout->addWidget(Type,y,0);
+                    layout->addWidget(m_pointeurLabel[i][x],y,0);
                     layout->addWidget(m_pointeur[i][x],y,1);
                     layout->addWidget(m_pointeur[i][x+1],y,3);
 
@@ -118,13 +112,51 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
 void MainWin::CommandStock(bool)
 {
     qDebug()<< m_pointeur[1][1]->text();
+    bool ok=true;
     int curTabs=ui->tabs_supplies->currentIndex()+1;
-    if(m_pointeur[curTabs][1]->text().toInt()>m_pointeur[curTabs][2]->text().toInt())
-        QMessageBox::warning(this, tr("Error"), tr("The center can't assure the command"));
-    else
+    for(int i=0;i<m_pointeur[curTabs].length();i+=3)
     {
-           // QSqlQuery req_supplies(db);
-    }
+        if(m_pointeur[curTabs][i+1]->text().toInt()>m_pointeur[curTabs][i+2]->text().toInt())
+        {
+            ok=false;
+            QMessageBox::warning(this, tr("Error"), tr("The center can't assure the command"));
+        }
+     }
 
+    if(ok)
+        {
+               for(int i=0;i<m_pointeur[curTabs].length();i+=3)
+               {
+                   QSqlQuery updt_supplies(*m_db->access());
+                   QSqlQuery updt_Center(*m_db->access());
+                   updt_supplies.prepare("Update Stock_camps set "
+                                                     " quantity = :new_quantity "
+                                                     " where id_camp = :id_courant AND "
+                                                     " id_supplies = (Select  id_supplies from Supplies where name_supply = :Type)");
+                   updt_supplies.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+                   updt_supplies.bindValue(":Type",m_pointeurLabel[curTabs][i]->text());
+                   updt_supplies.bindValue(":new_quantity", m_pointeur[curTabs][i]->text().toInt()+m_pointeur[curTabs][i+1]->text().toInt());
+
+                   if(updt_supplies.exec())
+                       qDebug() << updt_supplies.lastQuery();
+                   else
+                       qDebug() << updt_supplies.lastError();
+
+                   updt_Center.prepare("Update Stock_centers SET"
+                                                    " quantity = :new_quantity "
+                                                    " where id_supplies = (Select  id_supplies from Supplies where name_supply = :Type) AND"
+                                                    " id_center = (SELECT id_center from Camps Where id_camp = :id_courant)   ");
+                   updt_supplies.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+                   updt_supplies.bindValue(":Type",m_pointeurLabel[curTabs][i]->text());
+                   updt_supplies.bindValue(":new_quantity", m_pointeur[curTabs][i+2]->text().toInt()-m_pointeur[curTabs][i]->text().toInt());
+
+                   if(updt_Center.exec())
+                       qDebug() << updt_Center.lastQuery();
+                   else
+                       qDebug() << updt_Center.lastError();
+               }
+               suppliesLoad(*m_db->access());
+        }
 }
+
 
