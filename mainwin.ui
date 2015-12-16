@@ -45,7 +45,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -453,7 +453,7 @@
        <rect>
         <x>70</x>
         <y>120</y>
-        <width>100</width>
+        <width>111</width>
         <height>20</height>
        </rect>
       </property>
@@ -463,7 +463,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Birth Date: </string>
+       <string>Birth Date:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchHomeland">
@@ -1198,7 +1198,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">
