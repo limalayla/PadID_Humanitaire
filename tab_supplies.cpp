@@ -146,9 +146,9 @@ void MainWin::CommandStock(bool)
                                                     " quantity = :new_quantity "
                                                     " where id_supplies = (Select  id_supplies from Supplies where name_supply = :Type) AND"
                                                     " id_center = (SELECT id_center from Camps Where id_camp = :id_courant)   ");
-                   updt_supplies.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
-                   updt_supplies.bindValue(":Type",m_pointeurLabel[curTabs][i]->text());
-                   updt_supplies.bindValue(":new_quantity", m_pointeur[curTabs][i+2]->text().toInt()-m_pointeur[curTabs][i]->text().toInt());
+                   updt_Center.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
+                   updt_Center.bindValue(":Type",m_pointeurLabel[curTabs][i]->text());
+                   updt_Center.bindValue(":new_quantity", m_pointeur[curTabs][i+2]->text().toInt()-m_pointeur[curTabs][i+1]->text().toInt());
 
                    if(updt_Center.exec())
                        qDebug() << updt_Center.lastQuery();
