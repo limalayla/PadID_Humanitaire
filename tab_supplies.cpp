@@ -78,7 +78,7 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
             ui->tabs_supplies->addTab(Area,req_supplies.value(0).toString());
             ui->tabs_supplies->setCurrentIndex(i);
             i++;
-            QObject::connect(ButtonValidate,     SIGNAL(clicked(bool)),              this, SLOT(CommandeStock(bool)));
+            QObject::connect(ButtonValidate,     SIGNAL(clicked(bool)),              this, SLOT(CommandStock(bool)));
         }
 
     }
@@ -87,9 +87,9 @@ void MainWin::suppliesLoad(QSqlDatabase& db)
     ui->tabs_supplies->setCurrentIndex(0);
 
 }
-/*
-void MainWin::CommandeStock(bool)
-{
 
+void MainWin::CommandStock(bool)
+{
+    qDebug()<<"YO";
 }
-*/
+

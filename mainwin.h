@@ -127,7 +127,7 @@ class MainWin : public QMainWindow
     private slots:
         void suppliesLoad(QSqlDatabase& db);
         void suppliesInit(QSqlDatabase& db);
-        //void CommandStock(bool);
+        void CommandStock(bool);
 };
 
 #endif // MAINWIN_H
