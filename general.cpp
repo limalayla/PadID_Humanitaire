@@ -249,14 +249,14 @@ void MainWin::changeCenter(QModelIndex index)
      *      WARNING     : Never use index directly, can be wrong, use m_curCamp instead
     */
 
-    if(index.isValid()) m_curCamp = index.row();
+    if(index.isValid()) m_curCenter = index.row();
 
     // Deactivate "search", "Management" and "supplies" tabs
         ui->tabs->setTabEnabled(1, false);
         ui->tabs->setTabEnabled(2, false);
         ui->tabs->setTabEnabled(3, false);
 
-    // Switching UI : When camp "All" is selected or not
+    // Switching UI
         ui->groupbox_campAll->setVisible  (false);
         ui->groupbox_campOther->setVisible(false);
         ui->groupbox_center->setVisible   (true );
@@ -265,7 +265,7 @@ void MainWin::changeCenter(QModelIndex index)
         campModCancel();
 
     // Load the overview tab consequently
-        overviewLoad();
+        overview_centerLoad(m_db->access());
 }
 
 void MainWin::changeCenterSearch(QModelIndex index)

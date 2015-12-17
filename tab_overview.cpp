@@ -177,7 +177,7 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
             else ok = false;
             if(req_TotalPlaceMax.exec("Select SUM(nb_max) from Camps"))
             {
-                 req_TotalPlaceMax.next();
+                req_TotalPlaceMax.next();
                 ui->text_campTotalPlaceMax->setText(req_TotalPlaceMax.value(0).toString());
             }
             else qWarning() << "[WARN ] tab_overview.cpp::overviewLoad() Camps summary loading failed : " << req_TotalPlaceMax.lastError().text();
@@ -189,7 +189,7 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
             }
             else qWarning() << "[WARN ] tab_overview.cpp::overviewLoad() Camps summary loading failed : " << req_TotalRefugiee.lastError().text();
             int Remaining = req_TotalPlaceMax.value(0).toInt()- req_TotalRefugiee.value(0).toInt();
-            ui->text_campTotalRemainingPlaces->setText( QString::number(Remaining) );
+            ui->text_campTotalRemainingPlaces->setText(QString::number(Remaining));
 
         if(!ok)
         {
@@ -203,7 +203,12 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
         QSqlQuery req_overview (*db);
         QSqlQuery req_nbRefugee(*db);
 
-        req_overview.prepare("SELECT name_camp, name_country, nb_max FROM Camps,Country WHERE id_camp= :id AND Camps.id_location = Country.id_country");
+        req_overview.prepare("SELECT name_camp, name_country, nb_max, name_center"
+                             "  FROM Camps, Country, Centers "
+                             " WHERE id_camp           = :id "
+                             "   AND Camps.id_location = Country.id_country "
+                             "   AND Camps.id_center   = Centers.id_center");
+
         req_overview.bindValue(":id", m_campsIdDb[m_curCamp]);
 
         if(req_overview.exec())
@@ -213,6 +218,7 @@ void MainWin::overviewLoad(QSqlDatabase* db, bool reload)
                 ui->text_campName->setText    (req_overview.value(0).toString());
                 ui->text_campLoc->setText     (req_overview.value(1).toString());
                 ui->text_campPlaceMax->setText(req_overview.value(2).toString());
+                ui->text_center->setText      (req_overview.value(3).toString());
             }
 
             if(!reload)
@@ -251,6 +257,8 @@ void MainWin::campSetEnabledInput(bool b)
 
 void MainWin::overview_centerLoad(QSqlDatabase* db)
 {
+    ui->list_centerCamps->clear();
+
     QSqlQuery req_centerName (*db);
     QSqlQuery req_centerCamps(*db);
 
@@ -261,8 +269,10 @@ void MainWin::overview_centerLoad(QSqlDatabase* db)
     {
         if(req_centerName.next()) ui->text_centerName->setText(req_centerName.value(0).toString());
 
-        req_centerCamps.prepare("SELECT  FROM Centers WHERE id_camp = :id_courant  AND Refugees.id_state = States.id_state AND name_state <> 'Death' ");
-        req_centerCamps.bindValue(":id", m_campsIdDb[m_curCamp]);
+        req_centerCamps.prepare("SELECT name_camp FROM Camps WHERE id_center = :id");
+        req_centerCamps.bindValue(":id", m_centerIdDb[m_curCenter]);
+
+        qDebug() << "[DEBUG] onglet_overview.cpp::overview_centerLoad()::idDb[curCenter]: " << m_centerIdDb[m_curCenter];
 
         if(req_centerCamps.exec())
         {
