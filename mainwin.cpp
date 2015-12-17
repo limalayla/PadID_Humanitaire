@@ -20,7 +20,6 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
 
             ui->list_campSearch->  setVisible(false);
             ui->list_centerSearch->setVisible(false);
-
             ui->btn_campModCancel->setVisible(false);
 
             // Get the camp list from database
@@ -54,6 +53,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
 
             ui->groupbox_campAll->setVisible(true);
             ui->groupbox_center->setVisible(false);
+            ui->tabs->setTabEnabled(1, true);
 }
 
 MainWin::~MainWin()

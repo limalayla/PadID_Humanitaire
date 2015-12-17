@@ -81,22 +81,43 @@ void MainWin::refugeeMod(bool)
 
 void MainWin::refugeeDel(bool)
 {
+
+    quint16 nbRefugeeDeleted(1);
+
     if(QMessageBox::question(this, tr("Are you sure ?"), tr("Delete this refugee ?")) == QMessageBox::Yes)
     {
         QSqlQuery req_removeRef;
         req_removeRef.prepare("DELETE FROM Refugees where id_refugee = :idDelete");
 
+        QProgressDialog progress(tr("Deleting Refugees.."), tr("Cancel"), 0, ui->list_manage->selectedItems().count(), this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.show();
+
         for(int i= 0; i< ui->list_manage->count(); i++)
         {
             if(ui->list_manage->item(i)->isSelected())
             {
+                progress.setValue(nbRefugeeDeleted);
+                QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
                 req_removeRef.bindValue(":idDelete", m_refugeeIdDb[i]);
                 if(req_removeRef.exec())
-                    qDebug() << "Delete Successful";
+                    qDebug()   << "[DEBUG] tab_management::refugeeDel() : (" << nbRefugeeDeleted << "/"
+                                                                             << ui->list_manage->selectedItems().count()
+                                                                             << ") : Deletion sucessful";
                 else
-                    qDebug() << req_removeRef.lastError();
+                    qWarning() << "[WARN ] tab_management::refugeeDel() : (" << nbRefugeeDeleted + "/"
+                                                                              + ui->list_manage->selectedItems().count()
+                                                                             << ") : Error : " << req_removeRef.lastError().text();
+
+                nbRefugeeDeleted++;
+
+                if(progress.wasCanceled())
+                    break;
             }
         }
+
+        progress.setValue(nbRefugeeDeleted);
 
         managementLoad(m_db->access());
     }

@@ -26,6 +26,7 @@ void MainWin::changeCamp(QModelIndex index)
     if(index.isValid()) m_curCamp = index.row();
 
     // Deactivating "Management" and "supplies" when camp "All" is selected
+        ui->tabs->setTabEnabled(1, true);
         ui->tabs->setTabEnabled(2, m_curCamp != c_AllCampIndex);
         ui->tabs->setTabEnabled(3, m_curCamp != c_AllCampIndex);
 
@@ -250,9 +251,9 @@ void MainWin::changeCenter(QModelIndex index)
     if(index.isValid()) m_curCamp = index.row();
 
     // Deactivate "search", "Management" and "supplies" tabs
+        ui->tabs->setTabEnabled(1, false);
         ui->tabs->setTabEnabled(2, false);
         ui->tabs->setTabEnabled(3, false);
-        ui->tabs->setTabEnabled(4, false);
 
     // Switching UI : When camp "All" is selected or not
         ui->groupbox_campAll->setVisible  (false);

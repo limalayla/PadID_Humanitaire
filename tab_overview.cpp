@@ -136,8 +136,8 @@ void MainWin::campDel(bool)
             if(req_delcamp_pers.exec())
             {
                 qDebug() << "[DEBUG] onglet_overview.cpp::campDel() : Deletion successful";
-                loadCampList();
                 m_curCamp--;
+                loadCampList();
                 changeCamp(QModelIndex());
             }
             else success = false;

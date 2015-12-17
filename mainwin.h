@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <QMap>
 #include <QDate>
+#include <QProgressDialog>
 
 #include "refugeeinfowin.h"
 #include "database.h"
