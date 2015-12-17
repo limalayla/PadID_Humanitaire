@@ -26,12 +26,14 @@ void MainWin::changeCamp(QModelIndex index)
     if(index.isValid()) m_curCamp = index.row();
 
     // Deactivating "Management" and "supplies" when camp "All" is selected
+        ui->tabs->setTabEnabled(1, true);
         ui->tabs->setTabEnabled(2, m_curCamp != c_AllCampIndex);
         ui->tabs->setTabEnabled(3, m_curCamp != c_AllCampIndex);
 
     // Switching UI : When camp "All" is selected or not
         ui->groupbox_campAll->setVisible  (m_curCamp == c_AllCampIndex);
         ui->groupbox_campOther->setVisible(m_curCamp != c_AllCampIndex);
+        ui->groupbox_center->setVisible(false);
 
     // Cancel pending operation on db if any
         campModCancel();
@@ -43,7 +45,6 @@ void MainWin::changeCamp(QModelIndex index)
     if(m_curCamp == c_AllCampIndex)
     {
         if(m_curTab == 2 || m_curTab == 3) m_curTab = 0;
-        // ToDo: SQL
     }
 
     else
@@ -120,7 +121,7 @@ void MainWin::campAdd(bool)
             QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + req_AddCamp.lastError().text());
         }
 
-        // ToDo : Initialize all off the new camp's attributes
+        // ToDo : Initialize all of the new camp's attributes
     }
 }
 
@@ -196,6 +197,168 @@ void MainWin::loadCampList(bool)
 
         ui->list_camp->setCurrentRow(m_curCamp);
         changeCamp(QModelIndex());
+}
+
+void MainWin::loadCenterList(bool)
+{
+    /*  SLOT
+     *      Get a fresh list containing all the stocks in the database
+     *      Can be used for creation or update of the list
+     *      m_idDb is an int vector used to make the link between the position of the stock in the list and its id in the db
+    */
+
+    int newCenterIDDb, prevCenterIDDb = (m_curCenter == 0) ? -1 : m_centerIdDb[m_curCenter];
+
+    // Clear the already existing camp list
+        ui->list_center->clear();
+
+        m_centerIdDb.clear();
+
+    // Get the list of centers from the database
+        QSqlQuery req_listCenter(*m_db->access());
+        if(req_listCenter.exec("SELECT id_center, name_center FROM Centers ORDER BY name_center ASC"))
+        {
+            while(req_listCenter.next())
+            {
+                m_centerIdDb.push_back(req_listCenter.value(0).toInt());       // ID
+                ui->list_center->addItem(req_listCenter.value(1).toString());   // Camp Name
+            }
+        }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::loadCenterList() : Query Failed" << req_listCenter.lastError().text();
+            QMessageBox::warning(this, tr("Error Loading Centers"), tr("Error while getting the center list : ") + req_listCenter.lastError().text());
+        }
+
+    // To select the good center in the list, search his db's id and if it doesn't exist, place onthe first
+        if((newCenterIDDb = m_centerIdDb.indexOf(prevCenterIDDb)) == -1) m_curCenter = 0;
+        else m_curCenter = newCenterIDDb;
+
+        ui->list_center->setCurrentRow(m_curCenter);
+        changeCenter(QModelIndex());
+}
+
+void MainWin::changeCenter(QModelIndex index)
+{
+    /*  SLOT
+     *      ACTIVATION  : When a center of ui->list_center is clicked
+     *      ACTIONS     : Gets the new center index
+     *                    Changes and load the UI based on this center
+     *                    Cancels pending operation on previous camp or center if any
+     *      WARNING     : Never use index directly, can be wrong, use m_curCamp instead
+    */
+
+    if(index.isValid()) m_curCamp = index.row();
+
+    // Deactivate "search", "Management" and "supplies" tabs
+        ui->tabs->setTabEnabled(1, false);
+        ui->tabs->setTabEnabled(2, false);
+        ui->tabs->setTabEnabled(3, false);
+
+    // Switching UI : When camp "All" is selected or not
+        ui->groupbox_campAll->setVisible  (false);
+        ui->groupbox_campOther->setVisible(false);
+        ui->groupbox_center->setVisible   (true );
+
+    // Cancel pending operation on db if any
+        campModCancel();
+
+    // Load the overview tab consequently
+        overviewLoad();
+}
+
+void MainWin::changeCenterSearch(QModelIndex index)
+{
+    /*  SLOT
+     *      ACTIVATION  : When a Center of ui->list_centerSearch is clicked
+     *      ACTIONS     : Gets the searched center index (via its label, can't find another way)
+     *                    Selects the corresponding camp on ui->list_center
+     *                    Calls the normal changeCenter()
+    */
+
+    m_curCenter = ui->list_centerSearch->item(index.row())->text().split(" : ").at(0).toInt();
+    ui->list_camp->setCurrentRow(m_curCenter);
+
+    // Call the center changing slot with a null parameter (checked there)
+    changeCenter(QModelIndex());
+}
+
+void MainWin::centerSearch(QString searchString)
+{
+    /*  SLOT
+     *      ACTIVATION  : When the text inside ui->text_searchCenter changes
+     *      ACTIONS     : Show or hide a list of results (ui->list_centerSearch) if the input is empty or not
+     *                    Search in all ui->list_center's labels, and if it starts with searchString, add it to the results
+    */
+
+    // If the string inside ui->text_searchCenter is empty, hide the result list
+    if(searchString.isEmpty()) ui->list_centerSearch->setVisible(false);
+    else
+    {
+        // Else, clear that result list
+            ui->list_centerSearch->clear();
+
+        // Then search in all the camps (exept "All" and if corresponds, add it to the result list
+            for(quint16 i= 1; i< ui->list_center->count(); i++)
+            {
+                if(ui->list_center->item(i)->text().startsWith(searchString, Qt::CaseInsensitive))
+                {
+                    ui->list_centerSearch->addItem(QString::number(i) + " : " + ui->list_center->item(i)->text());
+                }
+            }
+
+        // Then show it
+            ui->list_centerSearch->setVisible(true);
+    }
+}
+
+void MainWin::centerAdd(bool)
+{
+    /*  SLOT
+     *      ACTIVATION  : When the ui->btn_centerAdd button is clicked
+     *      ACTIONS     : Opens a popup to ask the name of the new center
+     *                    Checks if that name is correct
+     *                    If so, adds it to the database and to the application
+    */
+
+    bool ok;
+    Tools::StringEvalCode validName;
+    QString ans;
+
+    do
+    {
+        ans = QInputDialog::getText(this, tr("New Center"), tr("Please enter the name you want for the new center:"), QLineEdit::Normal, QString(), &ok);
+
+        // If actually clicked on the "ok" button and not just exited the window or cancelled
+        if(ok)
+        {
+            validName = Tools::campNameValid(ans, *ui->list_center, m_curCenter, 50);
+
+            if(validName != Tools::Ok)
+                Tools::dispErr(this, validName);
+        }
+    }
+    while(ok && validName != Tools::Ok);
+
+    if(ok)
+    {
+        // Add center to Db
+        QSqlQuery req_addCenter(*m_db->access());
+
+        req_addCenter.prepare("INSERT INTO Center (name_camp,nb_max,id_location,id_center) VALUES (:newCenterName, 0, 0, 0)");
+        req_addCenter.bindValue(":newCenterName", ans);
+
+        if(req_addCenter.exec())
+        {
+            loadCenterList();
+            qDebug() <<  "[DEBUG] general.cpp::campCenter() : Insert Successful ("  + ans + ")";
+        }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::campCenter() : Insert Failed" << req_addCenter.lastError().text();
+            QMessageBox::warning(this, tr("Error Center Add"), tr("Error inserting this new center : ") + req_addCenter.lastError().text());
+        }
+    }
 }
 
 void MainWin::gen_translate(appLanguages l)
