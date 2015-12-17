@@ -4,7 +4,7 @@
 MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
     QMainWindow(parent), m_refugeeInfoWin(NULL), m_configFile(configFile),
     m_db(new Database(this, configFile)), ui(new Ui::MainWin),
-    m_curCamp(0), m_curTab(0), m_campModOngoing(false), m_curCenter(0)
+    m_curCamp(0), m_curCenter(0), m_curTab(0), m_campModOngoing(false)
 {
     /*  CONSTRUCTOR
      *          Called once at the beginning of the program
@@ -17,7 +17,10 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->tabs->setCurrentIndex(0);
             ui->tabs->setTabEnabled(2, false);
             ui->tabs->setTabEnabled(3, false);
-            ui->list_campSearch->setVisible(false);
+
+            ui->list_campSearch->  setVisible(false);
+            ui->list_centerSearch->setVisible(false);
+
             ui->btn_campModCancel->setVisible(false);
 
             // Get the camp list from database

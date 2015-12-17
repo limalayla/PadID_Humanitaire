@@ -43,12 +43,20 @@ class MainWin : public QMainWindow
         void changeCampSearch  (QModelIndex);
         void changeCenter      (QModelIndex);
         void changeCenterSearch(QModelIndex);
+
         void changeTab(int);
-        void campAdd(bool);
-        void campSearch(QString);
-        void loadCampList(bool=false);
+
+        void campAdd  (bool);
+        void centerAdd(bool);
+
+        void campSearch  (QString);
+        void centerSearch(QString);
+
+        void loadCampList  (bool=false);
         void loadCenterList(bool=false);
+
         void overview_setCampModOngoing();
+
         void gen_translateEn(bool);
         void gen_translateFr(bool);
 
@@ -74,6 +82,7 @@ class MainWin : public QMainWindow
         void overviewCreation();
         void overviewLoad(bool= false);
         void overviewLoad(QSqlDatabase* db, bool= false);
+        void overview_centerLoad(QSqlDatabase* db);
 
     private slots:
         void campMod(bool);

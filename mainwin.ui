@@ -429,7 +429,7 @@
       <property name="title">
        <string/>
       </property>
-      <widget class="QListWidget" name="listWidget">
+      <widget class="QListWidget" name="list_centerCamps">
        <property name="geometry">
         <rect>
          <x>60</x>
@@ -474,7 +474,7 @@
        <property name="geometry">
         <rect>
          <x>450</x>
-         <y>380</y>
+         <y>365</y>
          <width>170</width>
          <height>50</height>
         </rect>
@@ -518,7 +518,7 @@
        <property name="geometry">
         <rect>
          <x>450</x>
-         <y>320</y>
+         <y>315</y>
          <width>170</width>
          <height>50</height>
         </rect>
@@ -533,9 +533,6 @@
        </property>
       </widget>
      </widget>
-     <zorder>groupbox_campAll</zorder>
-     <zorder>groupbox_campOther</zorder>
-     <zorder>groupbox_center</zorder>
     </widget>
     <widget class="QWidget" name="tab_search">
      <attribute name="title">
@@ -1320,6 +1317,17 @@
      <bool>false</bool>
     </property>
    </widget>
+   <zorder>tabs</zorder>
+   <zorder>text_searchCamp</zorder>
+   <zorder>text_searchCenter</zorder>
+   <zorder>btn_campRefresh</zorder>
+   <zorder>btn_campAdd</zorder>
+   <zorder>btn_centerRefresh</zorder>
+   <zorder>btn_centerAdd</zorder>
+   <zorder>list_campSearch</zorder>
+   <zorder>list_camp</zorder>
+   <zorder>list_center</zorder>
+   <zorder>list_centerSearch</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

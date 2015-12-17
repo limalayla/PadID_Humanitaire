@@ -120,7 +120,7 @@ void MainWin::campAdd(bool)
             QMessageBox::warning(this, tr("Error Camp Add"), tr("Error inserting this new camp : ") + req_AddCamp.lastError().text());
         }
 
-        // ToDo : Initialize all off the new camp's attributes
+        // ToDo : Initialize all of the new camp's attributes
     }
 }
 
@@ -280,6 +280,84 @@ void MainWin::changeCenterSearch(QModelIndex index)
 
     // Call the center changing slot with a null parameter (checked there)
     changeCenter(QModelIndex());
+}
+
+void MainWin::centerSearch(QString searchString)
+{
+    /*  SLOT
+     *      ACTIVATION  : When the text inside ui->text_searchCenter changes
+     *      ACTIONS     : Show or hide a list of results (ui->list_centerSearch) if the input is empty or not
+     *                    Search in all ui->list_center's labels, and if it starts with searchString, add it to the results
+    */
+
+    // If the string inside ui->text_searchCenter is empty, hide the result list
+    if(searchString.isEmpty()) ui->list_centerSearch->setVisible(false);
+    else
+    {
+        // Else, clear that result list
+            ui->list_centerSearch->clear();
+
+        // Then search in all the camps (exept "All" and if corresponds, add it to the result list
+            for(quint16 i= 1; i< ui->list_center->count(); i++)
+            {
+                if(ui->list_center->item(i)->text().startsWith(searchString, Qt::CaseInsensitive))
+                {
+                    ui->list_centerSearch->addItem(QString::number(i) + " : " + ui->list_center->item(i)->text());
+                }
+            }
+
+        // Then show it
+            ui->list_centerSearch->setVisible(true);
+    }
+}
+
+void MainWin::centerAdd(bool)
+{
+    /*  SLOT
+     *      ACTIVATION  : When the ui->btn_centerAdd button is clicked
+     *      ACTIONS     : Opens a popup to ask the name of the new center
+     *                    Checks if that name is correct
+     *                    If so, adds it to the database and to the application
+    */
+
+    bool ok;
+    Tools::StringEvalCode validName;
+    QString ans;
+
+    do
+    {
+        ans = QInputDialog::getText(this, tr("New Center"), tr("Please enter the name you want for the new center:"), QLineEdit::Normal, QString(), &ok);
+
+        // If actually clicked on the "ok" button and not just exited the window or cancelled
+        if(ok)
+        {
+            validName = Tools::campNameValid(ans, *ui->list_center, m_curCenter, 50);
+
+            if(validName != Tools::Ok)
+                Tools::dispErr(this, validName);
+        }
+    }
+    while(ok && validName != Tools::Ok);
+
+    if(ok)
+    {
+        // Add center to Db
+        QSqlQuery req_addCenter(*m_db->access());
+
+        req_addCenter.prepare("INSERT INTO Center (name_camp,nb_max,id_location,id_center) VALUES (:newCenterName, 0, 0, 0)");
+        req_addCenter.bindValue(":newCenterName", ans);
+
+        if(req_addCenter.exec())
+        {
+            loadCenterList();
+            qDebug() <<  "[DEBUG] general.cpp::campCenter() : Insert Successful ("  + ans + ")";
+        }
+        else
+        {
+            qWarning() << "[WARN ] general.cpp::campCenter() : Insert Failed" << req_addCenter.lastError().text();
+            QMessageBox::warning(this, tr("Error Center Add"), tr("Error inserting this new center : ") + req_addCenter.lastError().text());
+        }
+    }
 }
 
 void MainWin::gen_translate(appLanguages l)
