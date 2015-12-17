@@ -415,7 +415,6 @@
       <zorder>text_campTotalRefugeeCount</zorder>
       <zorder>text_campTotalPlaceMax</zorder>
       <zorder>text_campTotalRemainingPlaces</zorder>
-      <zorder>groupbox_center</zorder>
      </widget>
      <widget class="QGroupBox" name="groupbox_center">
       <property name="geometry">

@@ -34,6 +34,9 @@ int main(int argc, char *argv[])
     else
     {
         qCritical() << "[ERROR] Couldn't open the configuration file";
+        QMessageBox::critical(NULL, QObject::tr("Can't open config file"),
+                                    QObject::tr("The config file can't be opened, download a good version on the team's drive"));
+        return -1;
     }
 
     MainWin w(0, ok ? *configFile : QJsonDocument());
