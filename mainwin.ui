@@ -579,7 +579,7 @@
        <rect>
         <x>70</x>
         <y>120</y>
-        <width>100</width>
+        <width>111</width>
         <height>20</height>
        </rect>
       </property>
@@ -589,7 +589,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Birth Date: </string>
+       <string>Birth Date:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_searchHomeland">
@@ -773,7 +773,7 @@
      <widget class="QPushButton" name="btn_search">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>460</x>
         <y>370</y>
         <width>170</width>
         <height>50</height>
@@ -791,7 +791,7 @@
      <widget class="QListWidget" name="list_res_search">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>450</x>
         <y>20</y>
         <width>171</width>
         <height>251</height>
@@ -1335,7 +1335,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">

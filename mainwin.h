@@ -138,9 +138,14 @@ class MainWin : public QMainWindow
 
     public slots:
 
+
     private slots:
         void suppliesLoad(QSqlDatabase& db);
-        void suppliesInit(QSqlDatabase& db);
+        void CommandStock(bool);
+
+    private:
+         QVector< QVector<QLineEdit*> > m_pointeur;
+         QVector< QVector<QLabel*> > m_pointeurLabel;
 };
 
 #endif // MAINWIN_H

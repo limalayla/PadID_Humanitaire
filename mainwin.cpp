@@ -21,7 +21,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->list_campSearch->  setVisible(false);
             ui->list_centerSearch->setVisible(false);
             ui->btn_campModCancel->setVisible(false);
-
+            ui->text_searchBD->setToolTip(tr("Mettre au format AAAA-MM-JJ"));
             // Get the camp list from database
             ui->list_camp->clear();
             loadCampList();
@@ -45,7 +45,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             search_fillFields();
 
          /* Supplies Tab */
-            suppliesInit(*m_db->access());
+            suppliesLoad(*m_db->access());
             ui->tabs_supplies->setVisible(true);
 
          /* Initiating the signals - slots */

@@ -50,6 +50,7 @@ void MainWin::changeCamp(QModelIndex index)
     else
     {
         managementLoad(m_db->access());
+        suppliesLoad(*m_db->access());
         // ToDo: Other tabs loading
     }
 
