@@ -284,6 +284,32 @@
         <string>Del</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_center">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>370</y>
+         <width>130</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Attributed Center:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="text_center">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>370</y>
+         <width>130</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="groupbox_campAll">
       <property name="geometry">
@@ -407,19 +433,11 @@
         </rect>
        </property>
       </widget>
-      <zorder>label_campCount</zorder>
-      <zorder>label_campTotalPlaceMax</zorder>
-      <zorder>label_campTotalRefugee</zorder>
-      <zorder>label_totalPlacesRemaining</zorder>
-      <zorder>text_campCount</zorder>
-      <zorder>text_campTotalRefugeeCount</zorder>
-      <zorder>text_campTotalPlaceMax</zorder>
-      <zorder>text_campTotalRemainingPlaces</zorder>
      </widget>
      <widget class="QGroupBox" name="groupbox_center">
       <property name="geometry">
        <rect>
-        <x>-10</x>
+        <x>0</x>
         <y>-10</y>
         <width>661</width>
         <height>471</height>
@@ -472,7 +490,7 @@
       <widget class="QPushButton" name="btn_centerDel">
        <property name="geometry">
         <rect>
-         <x>450</x>
+         <x>440</x>
          <y>365</y>
          <width>170</width>
          <height>50</height>
@@ -516,7 +534,7 @@
       <widget class="QPushButton" name="btn_centerMod">
        <property name="geometry">
         <rect>
-         <x>450</x>
+         <x>440</x>
          <y>315</y>
          <width>170</width>
          <height>50</height>
@@ -1316,6 +1334,7 @@
      <bool>false</bool>
     </property>
    </widget>
+   <zorder>list_camp</zorder>
    <zorder>tabs</zorder>
    <zorder>text_searchCamp</zorder>
    <zorder>text_searchCenter</zorder>
@@ -1323,10 +1342,9 @@
    <zorder>btn_campAdd</zorder>
    <zorder>btn_centerRefresh</zorder>
    <zorder>btn_centerAdd</zorder>
-   <zorder>list_campSearch</zorder>
-   <zorder>list_camp</zorder>
    <zorder>list_center</zorder>
    <zorder>list_centerSearch</zorder>
+   <zorder>list_campSearch</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1334,7 +1352,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLanguage">

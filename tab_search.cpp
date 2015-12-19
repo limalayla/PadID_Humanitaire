@@ -100,6 +100,7 @@ void MainWin::searchClear()
 
 void MainWin::search_fillFields()
 {
+    ui->text_searchBD->setValidator(new QRegExpValidator(Tools::c_rgx_date, ui->text_searchBD));
 
     // Get the list of the differents country from db and put it in ui->combo_searchCountry
     QSqlQuery req_countryList(*m_db->access());

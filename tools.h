@@ -20,6 +20,7 @@ public:
 
     static const QRegExp c_rgx_campName;
     static const QRegExp c_rgx_alphaNumString;
+    static const QRegExp c_rgx_date;
 
     enum StringEvalCode
     {

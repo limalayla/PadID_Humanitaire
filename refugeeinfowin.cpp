@@ -1,14 +1,15 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMode openMode) :
+RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMode openMode, int curCamp) :
     QDialog(parent), ui(new Ui::RefugeeInfoWin), m_db(db_),
-    m_openMode(openMode), m_idDb(-1)
+    m_openMode(openMode), m_idDb(-1), m_curCamp(curCamp)
 {
     ui->setupUi(this);
 
-    ui->text_fname->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_fname));
-    ui->text_lname->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_lname));
+    ui->text_fname->setValidator(    new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_fname));
+    ui->text_lname->setValidator(    new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_lname));
+    ui->text_birthDate->setValidator(new QRegExpValidator(Tools::c_rgx_date, ui->text_birthDate));
 
     fillFields(m_db->access());
 
@@ -165,15 +166,15 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
         if(m_openMode == creation)
         {
             query = "INSERT INTO Refugees(name_refugee, firstname_refugee, sex, birth_date, id_origin_country, id_type, id_state, id_camp, several_informations)"
-                    "VALUE (name_refugee         = :newname, "
-                    "       firstname_refugee    = :newfname, "
-                    "       sex                  = :newSexe, "
-                    "       birth_date           = :newBd, "
-                    "       id_origin_country    = (SELECT id_country FROM Country WHERE name_country = :newCountry), "
-                    "       id_type              = (SELECT id_type    FROM Types   WHERE name_type    = :newtype), "
-                    "       id_state             = (SELECT id_state   FROM States  WHERE name_state   = :newState), "
-                    "       id_camp              = (SELECT id_camp    FROM Camps   WHERE name_camp    = :newCamp), "
-                    "       several_informations = :newMisc)";
+                    "VALUE (:newname, "
+                    "       :newfname, "
+                    "       :newSexe, "
+                    "       :newBd, "
+                    "       (SELECT id_country FROM Country WHERE name_country = :newCountry), "
+                    "       (SELECT id_type    FROM Types   WHERE name_type    = :newtype), "
+                    "       (SELECT id_state   FROM States  WHERE name_state   = :newState), "
+                    "       (SELECT id_camp    FROM Camps   WHERE name_camp    = :newCamp), "
+                    "       :newMisc)";
         }
 
         else
@@ -214,6 +215,8 @@ RefugeeInfoWin::~RefugeeInfoWin()
 
 void RefugeeInfoWin::fillFields(QSqlDatabase* db_)
 {
+    ui->text_birthDate->setToolTip(tr("Format: %1").arg("AAAA-MM-JJ"));
+
     /* List of sql querys needed */
         QSqlQuery req_allcamp(*db_);
         QSqlQuery req_allSexe(*db_);
@@ -228,10 +231,16 @@ void RefugeeInfoWin::fillFields(QSqlDatabase* db_)
             ui->combo_sex->addItem(req_allSexe.value(0).toString());
     }
 
-    if(req_allcamp.exec("SELECT DISTINCT name_camp FROM Camps"))
+    if(req_allcamp.exec("SELECT DISTINCT id_camp, name_camp FROM Camps"))
     {
+        int i= 0, camp(-1);
         while(req_allcamp.next())
-            ui->combo_curCamp->addItem(req_allcamp.value(0).toString());
+        {
+            ui->combo_curCamp->addItem(req_allcamp.value(1).toString());
+            if(m_curCamp == req_allcamp.value(0).toInt()) camp = i;
+            i++;
+        }
+        if(camp != -1) ui->combo_curCamp->setCurrentIndex(camp);
     }
 
     if(req_allCountry.exec("SELECT DISTINCT name_country FROM Country"))

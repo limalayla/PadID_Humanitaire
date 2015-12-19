@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+#include "tools.h"
 #include "database.h"
 
 namespace Ui {
@@ -20,7 +21,7 @@ public:
         creation  = 2
     };
 
-    explicit RefugeeInfoWin(Database* db_, QWidget *parent= 0, int idDb= -1, OpenMode openMode= readOnly);
+    explicit RefugeeInfoWin(Database* db_, QWidget *parent= 0, int idDb= -1, OpenMode openMode= readOnly, int curCamp= -1);
     ~RefugeeInfoWin();
     void fillFields(QSqlDatabase* db_);
 
@@ -32,6 +33,7 @@ private:
     Database* m_db;
     OpenMode m_openMode;
     quint16 m_idDb;
+    quint16 m_curCamp;
 };
 
 #endif // REFUGEEINFOWIN_H
