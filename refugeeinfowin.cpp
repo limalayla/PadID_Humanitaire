@@ -1,14 +1,15 @@
 #include "refugeeinfowin.h"
 #include "ui_refugeeinfowin.h"
 
-RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMode openMode) :
+RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMode openMode, int curCamp) :
     QDialog(parent), ui(new Ui::RefugeeInfoWin), m_db(db_),
-    m_openMode(openMode), m_idDb(-1)
+    m_openMode(openMode), m_idDb(-1), m_curCamp(curCamp)
 {
     ui->setupUi(this);
 
-    ui->text_fname->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_fname));
-    ui->text_lname->setValidator(new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_lname));
+    ui->text_fname->setValidator(    new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_fname));
+    ui->text_lname->setValidator(    new QRegExpValidator(Tools::c_rgx_alphaNumString, ui->text_lname));
+    ui->text_birthDate->setValidator(new QRegExpValidator(Tools::c_rgx_date, ui->text_birthDate));
 
     fillFields(m_db->access());
 
@@ -27,24 +28,14 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
                                 "States.name_state,"
                                 "Camps.name_camp, "
                                 "Refugees.several_informations "
-                                "FROM "
-                                "Refugees, "
-                                "Country, "
-                                "Types, "
-                                "States,"
-                                "Camps "
-                                "WHERE "
-                                "id_refugee = :idDb "
-                                "and "
-                                "Refugees.id_camp = Camps.id_camp "
-                                "and "
-                                "Refugees.id_origin_country = Country.id_country "
-                                "and "
-                                "Refugees.id_type = Types.id_type "
-                                "and "
-                                "Refugees.id_state = States.id_state");
+                                "FROM Refugees, Country, Types, States, Camps "
+                                "WHERE id_refugee = :id "
+                                "AND Refugees.id_camp = Camps.id_camp "
+                                "AND Refugees.id_origin_country = Country.id_country "
+                                "AND Refugees.id_type = Types.id_type "
+                                "AND Refugees.id_state = States.id_state");
 
-        req_refugeeinfo.bindValue(":idDb", m_idDb);
+        req_refugeeinfo.bindValue(":id", m_idDb);
 
         if(req_refugeeinfo.exec())
         {
@@ -64,7 +55,7 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
             }
         }
         else
-            qDebug() << req_refugeeinfo.lastError();
+            qWarning() << "[WARN ] refugeeinfowin.cpp::RefugeeInfoWin() : Loading failed : " << req_refugeeinfo.lastError().text();
     }
     else
     {
@@ -107,8 +98,8 @@ RefugeeInfoWin::RefugeeInfoWin(Database* db_, QWidget *parent, int idDb,  OpenMo
 
 void RefugeeInfoWin::insertOrUpdateRefugee()
 {
-    QSqlQuery AddorUpdateRefugee;
-    QString StartRequest,MidRequest;
+    QSqlQuery addOrUpdateRefugee(*m_db->access());
+    QString query;
     bool ok(true);
 
     if(ui->text_fname->text().isEmpty())
@@ -158,6 +149,7 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
                                "FROM Refugees, Camps"
                                "WHERE Camps.id_camp = Refugees.id_camp AND Camps.name_camp = :campname", *m_db->access());
         req_campFull.bindValue(":campname", ui->combo_curCamp->currentText());
+
         if(req_campFull.exec())
         {
             req_campFull.next();
@@ -173,44 +165,46 @@ void RefugeeInfoWin::insertOrUpdateRefugee()
     {
         if(m_openMode == creation)
         {
-            StartRequest="INSERT INTO Refugees ( name_refugee, firstname_refugee, sex, birth_date, id_origin_country, id_type, id_state,  id_camp, several_informations) ";
-            MidRequest = "Value(name_refugee = :newname , firstname_refugee = :newfname , sex= :newSexe, birth_date= :newBd, "
-                         "id_origin_country=(select id_country from Country where name_country=:newCountry),  "
-                         "id_type=(select id_type from Types where name_type= :newtype),  "
-                         "id_state= (select id_state from States where name_state= :newState) ,  "
-                         "id_camp =(select id_camp from Camps where name_camp= :newCamp),  "
-                         "several_informations = :newMisc )";
-
-
+            query = "INSERT INTO Refugees(name_refugee, firstname_refugee, sex, birth_date, id_origin_country, id_type, id_state, id_camp, several_informations)"
+                    "VALUE (:newname, "
+                    "       :newfname, "
+                    "       :newSexe, "
+                    "       :newBd, "
+                    "       (SELECT id_country FROM Country WHERE name_country = :newCountry), "
+                    "       (SELECT id_type    FROM Types   WHERE name_type    = :newtype), "
+                    "       (SELECT id_state   FROM States  WHERE name_state   = :newState), "
+                    "       (SELECT id_camp    FROM Camps   WHERE name_camp    = :newCamp), "
+                    "       :newMisc)";
         }
+
         else
         {
-            StartRequest = "Update Refugees set "
-                           " name_refugee= :newname ,"
-                           " firstname_refugee = :newfname ,"
-                           " Refugees.id_state= (select id_state from States where name_state=:newState) ,"
-                           " Refugees.id_camp = (select id_camp from Camps where name_camp=:newId_camp)"
-                           ", several_informations = :newMisc ";
-            MidRequest = " where id_refugee = :newid";
+            query = "UPDATE Refugees SET "
+                    "name_refugee         = :newname, "
+                    "firstname_refugee    = :newfname, "
+                    "Refugees.id_state    = (SELECT id_state FROM States WHERE name_state=:newState) ,"
+                    "Refugees.id_camp     = (SELECT id_camp  FROM Camps WHERE name_camp=:newId_camp) ,"
+                    "several_informations = :newMisc "
+                    "WHERE id_refugee     = :id";
         }
 
-        AddorUpdateRefugee.prepare( StartRequest + MidRequest);
+        addOrUpdateRefugee.prepare(query);
 
-        AddorUpdateRefugee.bindValue(":newid",      m_idDb);
-        AddorUpdateRefugee.bindValue(":newname",    ui->text_lname->text());
-        AddorUpdateRefugee.bindValue(":newfname",   ui->text_fname->text());
-        AddorUpdateRefugee.bindValue(":newBd",      ui->text_birthDate->text());
-        AddorUpdateRefugee.bindValue(":newSexe",    ui->combo_sex->currentText());
-        AddorUpdateRefugee.bindValue(":newCountry", ui->combo_homeland->currentText());
-        AddorUpdateRefugee.bindValue(":newtype",    ui->combo_type->currentText());
-        AddorUpdateRefugee.bindValue(":newState",   ui->combo_state->currentText());
-        AddorUpdateRefugee.bindValue(":newMisc",    ui->text_misc->toPlainText());
-        AddorUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentText());
+        addOrUpdateRefugee.bindValue(":id",         m_idDb);
+        addOrUpdateRefugee.bindValue(":newname",    ui->text_lname->text());
+        addOrUpdateRefugee.bindValue(":newfname",   ui->text_fname->text());
+        addOrUpdateRefugee.bindValue(":newBd",      ui->text_birthDate->text());
+        addOrUpdateRefugee.bindValue(":newSexe",    ui->combo_sex->currentText());
+        addOrUpdateRefugee.bindValue(":newCountry", ui->combo_homeland->currentText());
+        addOrUpdateRefugee.bindValue(":newtype",    ui->combo_type->currentText());
+        addOrUpdateRefugee.bindValue(":newState",   ui->combo_state->currentText());
+        addOrUpdateRefugee.bindValue(":newMisc",    ui->text_misc->toPlainText());
+        addOrUpdateRefugee.bindValue(":newId_camp", ui->combo_curCamp->currentText());
 
-        if(AddorUpdateRefugee.exec())
-            qDebug() << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee() : Refugee Insertion Successful : " + m_idDb;
+        if(addOrUpdateRefugee.exec())
+            qDebug()   << "[DEBUG] refugeeinfowin.cpp::addOrUpdateRefugee().exec() : Refugee Update Successful : " << addOrUpdateRefugee.lastQuery();
         else
-            qDebug() << "[ERROR] refugeeinfowin.cpp::addOrUpdateRefugee() : Insertion Failed (" + AddorUpdateRefugee.lastError().text() + ")";
+            qWarning() << "[WARN ] refugeeinfowin.cpp::addOrUpdateRefugee().exec() : Insertion Failed : " << addOrUpdateRefugee.lastError().text();
     }
 }
 
@@ -221,6 +215,8 @@ RefugeeInfoWin::~RefugeeInfoWin()
 
 void RefugeeInfoWin::fillFields(QSqlDatabase* db_)
 {
+    ui->text_birthDate->setToolTip(tr("Format: %1").arg("AAAA-MM-JJ"));
+
     /* List of sql querys needed */
         QSqlQuery req_allcamp(*db_);
         QSqlQuery req_allSexe(*db_);
@@ -235,10 +231,16 @@ void RefugeeInfoWin::fillFields(QSqlDatabase* db_)
             ui->combo_sex->addItem(req_allSexe.value(0).toString());
     }
 
-    if(req_allcamp.exec("SELECT DISTINCT name_camp FROM Camps"))
+    if(req_allcamp.exec("SELECT DISTINCT id_camp, name_camp FROM Camps"))
     {
+        int i= 0, camp(-1);
         while(req_allcamp.next())
-            ui->combo_curCamp->addItem(req_allcamp.value(0).toString());
+        {
+            ui->combo_curCamp->addItem(req_allcamp.value(1).toString());
+            if(m_curCamp == req_allcamp.value(0).toInt()) camp = i;
+            i++;
+        }
+        if(camp != -1) ui->combo_curCamp->setCurrentIndex(camp);
     }
 
     if(req_allCountry.exec("SELECT DISTINCT name_country FROM Country"))

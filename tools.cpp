@@ -1,10 +1,13 @@
 #include "tools.h"
 
-const QRegExp Tools::c_rgx_campName = QRegExp("^[a-z](\\w|-)*$", Qt::CaseInsensitive);
-const QRegExp Tools::c_rgx_alphaNumString = QRegExp("^\\w(\\w| |-|_)*\\w&", Qt::CaseInsensitive);
+const QRegExp Tools::c_rgx_campName       = QRegExp("^[a-z](\\w|-)*$",              Qt::CaseInsensitive);
+const QRegExp Tools::c_rgx_alphaNumString = QRegExp("^\\w(\\w| |-|_)*\\w&",         Qt::CaseInsensitive);
+const QRegExp Tools::c_rgx_date           = QRegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}&", Qt::CaseInsensitive);
 
 Tools::Tools(QObject *parent) : QObject(parent)
-{}
+{
+
+}
 
 Tools::StringEvalCode Tools::campNameValid(const QString& s, const QListWidget& list, quint16 curCamp, quint16 sizeMax)
 {

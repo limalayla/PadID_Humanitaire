@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>Database</name>
     <message>
@@ -19,10 +19,6 @@
 <context>
     <name>MainWin</name>
     <message>
-        <source>Humanitary 2.0</source>
-        <translation>Humanitaire 2.0</translation>
-    </message>
-    <message>
         <location filename="../mainwin.ui" line="58"/>
         <source>Overview</source>
         <translation>Vue d&apos;Ensemble</translation>
@@ -34,20 +30,15 @@
         <translation>Nom :</translation>
     </message>
     <message>
-        <source>Localisation:</source>
-        <oldsource>Localisation :</oldsource>
-        <translation>Localisation :</translation>
-    </message>
-    <message>
         <location filename="../mainwin.ui" line="209"/>
-        <location filename="../mainwin.ui" line="326"/>
+        <location filename="../mainwin.ui" line="355"/>
         <source>Maximum Places:</source>
         <oldsource>Maximum number of places :</oldsource>
         <translation>Nombre de Places Maximum :</translation>
     </message>
     <message>
         <location filename="../mainwin.ui" line="227"/>
-        <location filename="../mainwin.ui" line="352"/>
+        <location filename="../mainwin.ui" line="381"/>
         <source>Remaining Places:</source>
         <oldsource>Number of space remaining :</oldsource>
         <translation>Nombre de Places Restantes :</translation>
@@ -58,457 +49,471 @@
         <translation>Annuler les Modifications</translation>
     </message>
     <message>
-        <source>Modify camp</source>
-        <translation>Modifier le Camp</translation>
-    </message>
-    <message>
-        <source>Delete camp</source>
-        <translation>Supprimer le Camp</translation>
-    </message>
-    <message>
         <location filename="../mainwin.ui" line="284"/>
         <source>Del</source>
         <translation>Suppr</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="313"/>
+        <location filename="../mainwin.ui" line="342"/>
         <source>Camp Count:</source>
         <oldsource>Total Camps :</oldsource>
         <translation>Nombre de Camps :</translation>
     </message>
     <message>
-        <source>Maximum Places: </source>
-        <oldsource>Number max of space: </oldsource>
-        <translation>Nombre de Places Maximum :</translation>
-    </message>
-    <message>
         <location filename="../mainwin.ui" line="191"/>
-        <location filename="../mainwin.ui" line="339"/>
+        <location filename="../mainwin.ui" line="368"/>
         <source>Refugee Count:</source>
         <oldsource>Total Refugiees :</oldsource>
         <translation>Nombre de Réfugiés :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="413"/>
-        <location filename="../mainwin.ui" line="717"/>
+        <location filename="../mainwin.ui" line="297"/>
+        <source>Attributed Center:</source>
+        <translation>Centre Attribué :</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="469"/>
+        <source>Camps Depending On This Center :</source>
+        <translation>Camp Dépendants De Ce Centre :</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="487"/>
+        <source>Add Camp</source>
+        <translation>Ajouter Camp</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="505"/>
+        <source>Delete Center</source>
+        <translation>Supprimer Camp</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="531"/>
+        <source>Center Name:</source>
+        <translation>Nom du Centre :</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="549"/>
+        <source>Modify Center</source>
+        <translation>Modifier le Centre</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="556"/>
+        <location filename="../mainwin.ui" line="805"/>
         <source>Search</source>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="430"/>
+        <location filename="../mainwin.ui" line="573"/>
         <source>Last Name:</source>
         <oldsource>Last name:</oldsource>
         <translation>Nom :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="448"/>
+        <location filename="../mainwin.ui" line="591"/>
         <source>First Name:</source>
         <oldsource>first name:</oldsource>
         <translation>Prénom :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="466"/>
-        <source>Age:</source>
-        <translation>Âge :</translation>
+        <location filename="../mainwin.ui" line="718"/>
+        <source>M</source>
+        <translation>M</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="484"/>
+        <location filename="../mainwin.ui" line="723"/>
+        <source>F</source>
+        <translation>F</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="728"/>
+        <source>X</source>
+        <translation>X</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="627"/>
         <source>Homeland:</source>
         <translation>Pays d&apos;Origine :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="520"/>
+        <location filename="../mainwin.ui" line="663"/>
         <source>Type:</source>
         <translation>Type :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="538"/>
+        <location filename="../mainwin.ui" line="681"/>
         <source>Status:</source>
         <translation>Status :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="556"/>
+        <location filename="../mainwin.ui" line="699"/>
         <source>Others:</source>
         <translation>Autres :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="570"/>
-        <location filename="../mainwin.ui" line="585"/>
-        <location filename="../mainwin.ui" line="610"/>
-        <location filename="../mainwin.ui" line="625"/>
-        <location filename="../mainwin.ui" line="665"/>
+        <location filename="../mainwin.ui" line="713"/>
+        <location filename="../mainwin.ui" line="743"/>
+        <location filename="../mainwin.ui" line="758"/>
+        <location filename="../mainwin.ui" line="773"/>
         <source>Unknown</source>
         <translation>Inconnu</translation>
     </message>
     <message>
-        <source>Man</source>
-        <translation>Homme</translation>
-    </message>
-    <message>
-        <source>Woman</source>
-        <translation>Femme</translation>
-    </message>
-    <message>
-        <source>Caucasus</source>
-        <translation>Caucasien</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="635"/>
-        <source>African</source>
-        <translation>Africain</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="640"/>
-        <source>Asian</source>
-        <translation>Asiatique</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="645"/>
-        <source>Australian</source>
-        <translation>Australien</translation>
-    </message>
-    <message>
-        <source>Native American / Indian</source>
-        <translation>Amérindien</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="670"/>
-        <source>Missing</source>
-        <translation>Disparu</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="675"/>
-        <source>Healthy</source>
-        <translation>En bonne Santé</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="680"/>
-        <source>Sick</source>
-        <translation>Malade</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="685"/>
-        <source>Dead</source>
-        <translation>Mort</translation>
-    </message>
-    <message>
-        <source>Human Hanagement</source>
-        <oldsource>Human management</oldsource>
-        <translation>Gestion Humaine</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="781"/>
+        <location filename="../mainwin.ui" line="879"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="794"/>
+        <location filename="../mainwin.ui" line="892"/>
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="807"/>
+        <location filename="../mainwin.ui" line="905"/>
         <source>Modify</source>
         <translation>Modifier</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="823"/>
+        <location filename="../mainwin.ui" line="921"/>
         <source>Search for Someone...</source>
         <oldsource>Search for someone...</oldsource>
         <translation>Chercher un Réfugié...</translation>
     </message>
     <message>
-        <source>Stocks</source>
-        <translation>Stocks</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="858"/>
-        <location filename="../mainwin.ui" line="891"/>
+        <location filename="../mainwin.ui" line="956"/>
+        <location filename="../mainwin.ui" line="989"/>
         <source>Drug</source>
         <translation>Médicament</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="904"/>
-        <location filename="../tab_supplies.cpp" line="24"/>
+        <location filename="../mainwin.ui" line="1002"/>
+        <location filename="../tab_supplies.cpp" line="66"/>
         <source>Amount</source>
         <translation>Quantité</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="917"/>
+        <location filename="../mainwin.ui" line="1015"/>
         <source>Smecta</source>
         <translation>Smecta</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="930"/>
+        <location filename="../mainwin.ui" line="1028"/>
         <source>Aspirin</source>
         <translation>Aspirine</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="943"/>
+        <location filename="../mainwin.ui" line="1041"/>
         <source>Doliprane</source>
         <translation>Doliprane</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="995"/>
+        <location filename="../mainwin.ui" line="1093"/>
         <source>Order</source>
         <translation>Commander</translation>
     </message>
     <message>
-        <source>Other furnitures</source>
-        <translation>Autres Fournitures</translation>
-    </message>
-    <message>
-        <location filename="../general.cpp" line="172"/>
+        <location filename="../general.cpp" line="174"/>
         <source>All</source>
         <translation>Tous</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1152"/>
-        <source>Ctrl+A</source>
-        <translation>Ctrl+A</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="1038"/>
-        <location filename="../mainwin.ui" line="1065"/>
+        <location filename="../mainwin.ui" line="1136"/>
+        <location filename="../mainwin.ui" line="1163"/>
         <source>Search...</source>
         <translation>Chercher...</translation>
     </message>
     <message>
         <location filename="../mainwin.ui" line="26"/>
         <source>Humanitarian 2.0</source>
-        <translation type="unfinished"></translation>
+        <translation>Humanitaire 2.0</translation>
     </message>
     <message>
         <location filename="../mainwin.ui" line="173"/>
         <source>Location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Localisation :</translation>
     </message>
     <message>
         <location filename="../mainwin.ui" line="281"/>
         <source>Delete Camp</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le Camp</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="502"/>
+        <location filename="../mainwin.ui" line="609"/>
+        <source>Birth Date:</source>
+        <translation>Date de Naissance :</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.ui" line="645"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Genre :</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="630"/>
-        <source>Caucasian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="650"/>
-        <source>Native American</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="753"/>
+        <location filename="../mainwin.ui" line="851"/>
         <source>Human Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestion Humaine</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="842"/>
+        <location filename="../mainwin.ui" line="940"/>
         <source>Supplies</source>
-        <translation type="unfinished"></translation>
+        <translation>Stocks</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1131"/>
+        <location filename="../mainwin.ui" line="1229"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1149"/>
+        <location filename="../mainwin.ui" line="1247"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1251"/>
+        <location filename="../mainwin.ui" line="1360"/>
         <source>Language</source>
         <translation>Langage</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1258"/>
+        <location filename="../mainwin.ui" line="1367"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <source>Profile</source>
-        <translation>Profil</translation>
-    </message>
-    <message>
-        <location filename="../mainwin.ui" line="1267"/>
+        <location filename="../mainwin.ui" line="1376"/>
         <source>Français</source>
         <translation>Français</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1272"/>
+        <location filename="../mainwin.ui" line="1381"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
     <message>
-        <location filename="../mainwin.ui" line="1277"/>
+        <location filename="../mainwin.ui" line="1386"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <source>Log In</source>
-        <translation>Se Connecter</translation>
-    </message>
-    <message>
-        <source>Log out</source>
-        <translation>Se Déconnecter</translation>
-    </message>
-    <message>
-        <location filename="../general.cpp" line="91"/>
+        <location filename="../general.cpp" line="93"/>
         <source>New Camp</source>
         <translation>Nouveau Camp</translation>
     </message>
     <message>
-        <source>Camp name : </source>
-        <translation>Veuillez entrer le nom du nouveau camp :</translation>
-    </message>
-    <message>
-        <location filename="../general.cpp" line="91"/>
+        <location filename="../general.cpp" line="93"/>
         <source>Please enter the name you want for the new camp:</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez rentrer le nom pour le nouveau camp :</translation>
     </message>
     <message>
-        <location filename="../general.cpp" line="120"/>
+        <location filename="../general.cpp" line="122"/>
         <source>Error Camp Add</source>
         <translation>Erreur à l&apos;Ajout d&apos;un Nouveau Camp</translation>
     </message>
     <message>
-        <location filename="../general.cpp" line="120"/>
+        <location filename="../general.cpp" line="122"/>
         <source>Error inserting this new camp : </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur à l&apos;insertion du nouveau camp : </translation>
     </message>
     <message>
-        <location filename="../general.cpp" line="190"/>
+        <location filename="../general.cpp" line="192"/>
         <source>Error Loading Camps</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur Lors du Chargement des Camps</translation>
     </message>
     <message>
-        <location filename="../general.cpp" line="190"/>
+        <location filename="../general.cpp" line="192"/>
         <source>Error while getting the camps list : </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors du chargement de la liste de camps : </translation>
     </message>
     <message>
-        <location filename="../tab_management.cpp" line="84"/>
+        <location filename="../general.cpp" line="231"/>
+        <source>Error Loading Centers</source>
+        <translation>Erreur Lors du Chargement des Centres</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="231"/>
+        <source>Error while getting the center list : </source>
+        <translation>Erreur lors du chargement de la liste de centres : </translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="331"/>
+        <source>New Center</source>
+        <translation>Nouveau Centre</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="331"/>
+        <source>Please enter the name you want for the new center:</source>
+        <translation>Veuillez rentrer le nom pour le nouveau centre :</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="360"/>
+        <source>Error Center Add</source>
+        <translation>Erreur Lors du Rajout de Centre</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="360"/>
+        <source>Error inserting this new center : </source>
+        <translation>Erreur à l&apos;insertion de ce nouveau centre : </translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="398"/>
+        <source>Language Changing</source>
+        <translation>Changement de Langage</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="398"/>
+        <source>Please quit and restart the application to change the language.</source>
+        <translation>Veuillez quitter et relancer l&apos;application pour changer de langue.</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="399"/>
+        <source>Language Changing Failure</source>
+        <translation>Erreur de Changement de Langue</translation>
+    </message>
+    <message>
+        <location filename="../general.cpp" line="399"/>
+        <source>Cannot change the language, check your configuration file.</source>
+        <translation>Impossible de changer la langue, veuillez vérifier votre fichier de configuration.</translation>
+    </message>
+    <message>
+        <location filename="../tab_management.cpp" line="87"/>
         <source>Are you sure ?</source>
         <translation>Êtes-vous sur ?</translation>
     </message>
     <message>
-        <location filename="../tab_management.cpp" line="84"/>
+        <location filename="../tab_management.cpp" line="87"/>
         <source>Delete this refugee ?</source>
         <translation>Supprimer ce réfugié ?</translation>
     </message>
     <message>
-        <location filename="../tab_management.cpp" line="106"/>
+        <location filename="../tab_management.cpp" line="92"/>
+        <source>Deleting Refugees..</source>
+        <translation>Suppresion de Réfugiés..</translation>
+    </message>
+    <message>
+        <location filename="../tab_management.cpp" line="92"/>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <location filename="../tab_management.cpp" line="135"/>
         <source>Refugee Window Already Open</source>
         <translation>Fenêtre Déjà Ouverte</translation>
     </message>
     <message>
-        <location filename="../tab_management.cpp" line="106"/>
+        <location filename="../tab_management.cpp" line="135"/>
         <source>The Refugee Window is already open !</source>
         <translation>La Fenêtre de réfugié est déjà ouverte !</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="76"/>
+        <location filename="../tab_overview.cpp" line="82"/>
         <source>Wrong number</source>
-        <translation type="unfinished"></translation>
+        <translation>Mauvais Nombre</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="76"/>
+        <location filename="../tab_overview.cpp" line="82"/>
         <source>You entered a place number too small</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nombre de places rentré est trop petit</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="88"/>
+        <location filename="../tab_overview.cpp" line="120"/>
+        <source>Deletion Forbidden</source>
+        <translation>Suppression Interdite</translation>
+    </message>
+    <message>
+        <location filename="../tab_overview.cpp" line="120"/>
+        <source>You cannot delete this camp, there is still refugee(s) in it.</source>
+        <translation>Vous ne pouvez pas supprimer ce camp, il y a encore des réfugiés dedans.</translation>
+    </message>
+    <message>
+        <location filename="../tab_overview.cpp" line="248"/>
         <source>Validate Changes</source>
         <translation>Valider les Modifications</translation>
     </message>
     <message>
         <location filename="../mainwin.ui" line="263"/>
-        <location filename="../tab_overview.cpp" line="88"/>
-        <location filename="../tab_overview.cpp" line="106"/>
+        <location filename="../tab_overview.cpp" line="248"/>
         <source>Modify Camp</source>
         <translation>Modifier le Camp</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="125"/>
-        <source>Delete ?</source>
-        <translation>Supprimer ?</translation>
-    </message>
-    <message>
-        <location filename="../tab_overview.cpp" line="125"/>
-        <source>Are you sure you want to delete the camp ?</source>
-        <translation>Êtes-vous sur de vouloir supprimer ce camp ?</translation>
-    </message>
-    <message>
-        <location filename="../tab_overview.cpp" line="153"/>
+        <location filename="../tab_overview.cpp" line="150"/>
         <source>Error on Camp Deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de Suppression de Camp</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="153"/>
+        <location filename="../tab_overview.cpp" line="150"/>
         <source>Camp Deletion Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de Supprimer le Camp</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="184"/>
+        <location filename="../tab_overview.cpp" line="197"/>
         <source>Error loading camps summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors du Chargement du Résumé des Camps</translation>
     </message>
     <message>
-        <location filename="../tab_overview.cpp" line="184"/>
+        <location filename="../tab_overview.cpp" line="197"/>
         <source>Failed to load the camps summary : </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Deleting of </source>
-        <translation>Suppression de</translation>
+        <translation>Impossible de charger le résumé des camps : </translation>
     </message>
     <message>
         <location filename="../tab_search.cpp" line="80"/>
         <source>No Search Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de Résultat de Recherche</translation>
     </message>
     <message>
         <location filename="../tab_search.cpp" line="80"/>
         <source>No Refugee were found with those parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun réfugié n&apos;a été trouvé avec ces paramètres</translation>
     </message>
     <message>
-        <source>No Refugee found with those parameters</source>
-        <translation>Aucun Réfugié ne correspond à ces critères</translation>
+        <location filename="../tab_supplies.cpp" line="67"/>
+        <source>Amount to command</source>
+        <translation>Quantité à commander</translation>
     </message>
     <message>
-        <source>Validate</source>
-        <translation>Confirmer</translation>
-    </message>
-    <message>
-        <location filename="../tab_supplies.cpp" line="25"/>
+        <location filename="../tab_supplies.cpp" line="68"/>
         <source>Confirm</source>
-        <translation type="unfinished">Valider</translation>
+        <translation>Valider</translation>
+    </message>
+    <message>
+        <location filename="../tab_supplies.cpp" line="69"/>
+        <source>Amount in Center</source>
+        <translation>Quantité dans le Centre</translation>
+    </message>
+    <message>
+        <location filename="../tab_supplies.cpp" line="150"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="../tab_supplies.cpp" line="150"/>
+        <source>The center can&apos;t assure the command</source>
+        <translation>Le centre ne peut pas assurer la commande</translation>
+    </message>
+    <message>
+        <location filename="../mainwin.cpp" line="24"/>
+        <source>Format: %1</source>
+        <translation>Format : %1</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>No translation file</source>
+        <location filename="../main.cpp" line="19"/>
+        <source>No Translation File</source>
         <translation>Pas de Fichier de Traduction</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="20"/>
-        <source>No Translation File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="21"/>
         <source>No translation file for the requested language (%1), please search for it on the application website or contribute by creating it !</source>
         <translation>Il n&apos;existe pas de traduction pour la langue demandée (%1), vous pouvez la chercher sur le site de l&apos;application, ou contribuez en le créant !</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="37"/>
+        <source>Can&apos;t open config file</source>
+        <translation>Impossible d&apos;ouvrir le fichier de config</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="38"/>
+        <source>The config file can&apos;t be opened, download a good version on the team&apos;s drive</source>
+        <translation>Le fichier de config ne peut pas être ouvert, téléchargez une bonne version sur le drive de l&apos;équipe</translation>
     </message>
 </context>
 <context>
@@ -517,12 +522,6 @@
         <location filename="../refugeeinfowin.ui" line="37"/>
         <source>Refugee Informations</source>
         <translation>Informations sur le Refugié</translation>
-    </message>
-    <message>
-        <location filename="../refugeeinfowin.ui" line="94"/>
-        <source>Age:</source>
-        <oldsource>Age :</oldsource>
-        <translation>Âge :</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.ui" line="107"/>
@@ -535,13 +534,14 @@
         <translation>Annuler</translation>
     </message>
     <message>
-        <source>Sex :</source>
-        <translation>Genre :</translation>
+        <location filename="../refugeeinfowin.ui" line="94"/>
+        <source>Birth Date:</source>
+        <translation>Date de Naissance :</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.ui" line="138"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Genre :</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.ui" line="151"/>
@@ -572,6 +572,7 @@
         <translation>Camp Actuel :</translation>
     </message>
     <message>
+        <location filename="../refugeeinfowin.cpp" line="108"/>
         <location filename="../refugeeinfowin.cpp" line="113"/>
         <location filename="../refugeeinfowin.cpp" line="118"/>
         <location filename="../refugeeinfowin.cpp" line="123"/>
@@ -579,180 +580,130 @@
         <location filename="../refugeeinfowin.cpp" line="133"/>
         <location filename="../refugeeinfowin.cpp" line="138"/>
         <location filename="../refugeeinfowin.cpp" line="143"/>
-        <location filename="../refugeeinfowin.cpp" line="148"/>
+        <location filename="../refugeeinfowin.cpp" line="159"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../refugeeinfowin.cpp" line="113"/>
+        <location filename="../refugeeinfowin.cpp" line="108"/>
         <source>Please enter the first name!</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez rentrer le prénom !</translation>
+    </message>
+    <message>
+        <location filename="../refugeeinfowin.cpp" line="113"/>
+        <source>Please enter the last name!</source>
+        <translation>Veuillez rentrer le nom de famille !</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.cpp" line="118"/>
-        <source>Please enter the last name!</source>
-        <translation type="unfinished"></translation>
+        <source>Please enter the age!</source>
+        <translation>Veuillez rentrer l&apos;age !</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.cpp" line="123"/>
-        <source>Please enter the age!</source>
-        <translation type="unfinished"></translation>
+        <source>Please enter the sex!</source>
+        <translation>Veuillez rentrer le genre !</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.cpp" line="128"/>
-        <source>Please enter the sex!</source>
-        <translation type="unfinished"></translation>
+        <source>Please enter the homeland!</source>
+        <translation>Veuillez rentrer le pays d&apos;origine !</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.cpp" line="133"/>
-        <source>Please enter the homeland!</source>
-        <translation type="unfinished"></translation>
+        <source>Please enter the type!</source>
+        <translation>Veuillez rentrer le type !</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.cpp" line="138"/>
-        <source>Please enter the type!</source>
-        <translation type="unfinished"></translation>
+        <source>Please enter the state!</source>
+        <translation>Veuillez rentrer l&apos;état !</translation>
     </message>
     <message>
         <location filename="../refugeeinfowin.cpp" line="143"/>
-        <source>Please enter the state!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../refugeeinfowin.cpp" line="148"/>
         <source>Please enter the current camp!</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez rentrer le camp actuel !</translation>
     </message>
     <message>
-        <source>Please enter the firstname</source>
-        <translation type="obsolete">Veuillez préciser le prénom !</translation>
+        <location filename="../refugeeinfowin.cpp" line="159"/>
+        <source>This camp is already full! Try another one.</source>
+        <translation>Ce camp est déjà plein ! Essayer en un autre.</translation>
     </message>
     <message>
-        <source>Please enter the surname</source>
-        <translation type="obsolete">Veuillez préciser le nom !</translation>
-    </message>
-    <message>
-        <source>Please enter the age</source>
-        <translation type="obsolete">Veuillez préciser l&apos;âge !</translation>
-    </message>
-    <message>
-        <source>Please enter the sex</source>
-        <translation type="obsolete">Veuillez préciser le genre !</translation>
-    </message>
-    <message>
-        <source>Please enter the homeland</source>
-        <translation type="obsolete">Veuillez préciser le pays d&apos;origine !</translation>
-    </message>
-    <message>
-        <source>Please enter the type</source>
-        <translation type="obsolete">Veuillez préciser le type !</translation>
-    </message>
-    <message>
-        <source>Please enter the state</source>
-        <translation type="obsolete">Veuillez préciser l&apos;état !</translation>
-    </message>
-    <message>
-        <source>Please enter the current Camp</source>
-        <translation type="obsolete">Veuillez préciser le camp actuel !</translation>
+        <location filename="../refugeeinfowin.cpp" line="218"/>
+        <source>Format: %1</source>
+        <translation>Format : %1</translation>
     </message>
 </context>
 <context>
     <name>Tools</name>
     <message>
-        <source>Empty name</source>
-        <translation>Nom Vide</translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="31"/>
+        <location filename="../tools.cpp" line="32"/>
         <source>You entered an empty name for a camp, please enter one again.</source>
         <translation>Vous avez rentré un nom vide, veuillez en re-rentrer un.</translation>
     </message>
     <message>
-        <source>Name too long</source>
+        <location filename="../tools.cpp" line="32"/>
+        <source>Empty Name</source>
+        <translation>Nom Vide</translation>
+    </message>
+    <message>
+        <location filename="../tools.cpp" line="33"/>
+        <source>Name Too Long</source>
         <translation>Nom Trop Long</translation>
     </message>
     <message>
-        <source>This name is too long ( more than 50 character), please enter one again..</source>
-        <translation>Le nom rentré est trop long, veuillez en re-rentrer un.</translation>
+        <location filename="../tools.cpp" line="33"/>
+        <source>This name is too long, please enter one again..</source>
+        <translation>Ce nom est trop long, veuillez en re-rentrer un.</translation>
     </message>
     <message>
-        <source>Incorrect name</source>
+        <location filename="../tools.cpp" line="34"/>
+        <source>Incorrect Name</source>
         <translation>Nom Incorrect</translation>
     </message>
     <message>
-        <source>You enter an incorrect name: (^[a-z](\w|-)*$), please enter one again.</source>
-        <translation>Le nom rentré est inccorect. Un nom de camp devrait commencer par une lettre et ne comporter que des lettres, tirets et d&apos;espaces. Veuillez en re-rentrer un.</translation>
+        <location filename="../tools.cpp" line="34"/>
+        <source>This name is incorrect. A camp name may start with a letter and can only be made of letters, dashes and spaces. Please enter one again.</source>
+        <translation>Ce nom est incorrect. Un nom de camp doit commencer par une lettre et ne contenir que des lettres, tirets et espaces, veuillez en re-rentrer un.</translation>
     </message>
     <message>
-        <source>Name already taken</source>
+        <location filename="../tools.cpp" line="35"/>
+        <source>Name Already Taken</source>
         <translation>Nom Déjà Pris</translation>
     </message>
     <message>
-        <source>The name of the camp is already taken, please enter one again.</source>
+        <location filename="../tools.cpp" line="35"/>
+        <source>This camp name is already taken, please enter one again.</source>
         <translation>Ce nom de camp est déjà pris, veuillez en re-rentrer un.</translation>
     </message>
     <message>
-        <location filename="../tools.cpp" line="31"/>
-        <source>Empty Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="32"/>
-        <source>Name Too Long</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="32"/>
-        <source>This name is too long, please enter one again..</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="33"/>
-        <source>Incorrect Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="33"/>
-        <source>This name is incorrect. A camp name may start with a letter and can only be made of letters, dashes and spaces. Please enter one again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="34"/>
-        <source>Name Already Taken</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="34"/>
-        <source>This camp name is already taken, please enter one again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tools.cpp" line="50"/>
+        <location filename="../tools.cpp" line="51"/>
         <source>Can&apos;t open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;ouvrir le Fichier</translation>
     </message>
     <message>
-        <location filename="../tools.cpp" line="50"/>
+        <location filename="../tools.cpp" line="51"/>
         <source>File </source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="../tools.cpp" line="50"/>
+        <location filename="../tools.cpp" line="51"/>
         <source> cannot be opened</source>
         <translation> ne peux pas être ouvert</translation>
     </message>
     <message>
-        <location filename="../tools.cpp" line="61"/>
+        <location filename="../tools.cpp" line="62"/>
         <source>Error Parsing</source>
         <translation>Erreur en parcourant</translation>
     </message>
     <message>
-        <location filename="../tools.cpp" line="61"/>
+        <location filename="../tools.cpp" line="62"/>
         <source>Error parsing </source>
         <translation>Erreur en Parcourant </translation>
     </message>
     <message>
-        <location filename="../tools.cpp" line="61"/>
+        <location filename="../tools.cpp" line="62"/>
         <source>at line </source>
         <translation>A la position</translation>
     </message>

@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <QMap>
 #include <QDate>
+#include <QProgressDialog>
 
 #include "refugeeinfowin.h"
 #include "database.h"
@@ -39,21 +40,34 @@ class MainWin : public QMainWindow
         };
 
     public slots:
-        void changeCamp      (QModelIndex);
-        void changeCampSearch(QModelIndex);
+        void changeCamp        (QModelIndex);
+        void changeCampSearch  (QModelIndex);
+        void changeCenter      (QModelIndex);
+        void changeCenterSearch(QModelIndex);
+
         void changeTab(int);
-        void campAdd(bool);
-        void campSearch(QString);
-        void loadCampList(bool=false);
+
+        void campAdd  (bool);
+        void centerAdd(bool);
+
+        void campSearch  (QString);
+        void centerSearch(QString);
+
+        void loadCampList  (bool=false);
+        void loadCenterList(bool=false);
+
         void overview_setCampModOngoing();
+
         void gen_translateEn(bool);
         void gen_translateFr(bool);
 
     private:
         Ui::MainWin *ui;
         quint16 m_curCamp;
+        quint16 m_curCenter;
         quint16 m_curTab;
         QVector<int> m_campsIdDb;
+        QVector<int> m_centerIdDb;
 
         void initSlots();
         void gen_translate(appLanguages);
@@ -69,6 +83,7 @@ class MainWin : public QMainWindow
         void overviewCreation();
         void overviewLoad(bool= false);
         void overviewLoad(QSqlDatabase* db, bool= false);
+        void overview_centerLoad(QSqlDatabase* db);
 
     private slots:
         void campMod(bool);
@@ -123,9 +138,14 @@ class MainWin : public QMainWindow
 
     public slots:
 
+
     private slots:
-        void suppliesLoad(QSqlDatabase& db);
-        void suppliesInit(QSqlDatabase& db);
+        void suppliesLoad(QSqlDatabase* db);
+        void commandStock(bool);
+
+    private:
+         QVector<QVector<QLineEdit*> > m_suppliesText;
+         QVector<QVector<QLabel*> >    m_suppliesLabel;
 };
 
 #endif // MAINWIN_H

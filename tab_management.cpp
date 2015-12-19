@@ -7,15 +7,15 @@ void MainWin::managementLoad(QSqlDatabase* db_)
     ui->list_manageSearch->setVisible(false);
     ui->list_manage->clear();
     m_refugeeIdDb.clear();
-    req_management.prepare("SELECT name_refugee,id_refugee FROM Refugees WHERE id_camp = :id_courant ORDER BY name_refugee ASC");
+    req_management.prepare("SELECT name_refugee, firstname_refugee, id_refugee FROM Refugees WHERE id_camp = :id_courant ORDER BY name_refugee ASC");
     req_management.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
     if(req_management.exec())
     {
         while(req_management.next())
         {
-            ui->list_manage->addItem(req_management.value(0).toString());
-            m_refugeeIdDb.push_back(req_management.value(1).toInt());
+            ui->list_manage->addItem(req_management.value(0).toString().toUpper() + "  " + req_management.value(1).toString());
+            m_refugeeIdDb.push_back(req_management.value(2).toInt());
         }
     }
 }
@@ -81,22 +81,43 @@ void MainWin::refugeeMod(bool)
 
 void MainWin::refugeeDel(bool)
 {
+
+    quint16 nbRefugeeDeleted(1);
+
     if(QMessageBox::question(this, tr("Are you sure ?"), tr("Delete this refugee ?")) == QMessageBox::Yes)
     {
         QSqlQuery req_removeRef;
         req_removeRef.prepare("DELETE FROM Refugees where id_refugee = :idDelete");
 
+        QProgressDialog progress(tr("Deleting Refugees.."), tr("Cancel"), 0, ui->list_manage->selectedItems().count(), this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.show();
+
         for(int i= 0; i< ui->list_manage->count(); i++)
         {
             if(ui->list_manage->item(i)->isSelected())
             {
+                progress.setValue(nbRefugeeDeleted);
+                QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
                 req_removeRef.bindValue(":idDelete", m_refugeeIdDb[i]);
                 if(req_removeRef.exec())
-                    qDebug() << "Delete Successful";
+                    qDebug()   << "[DEBUG] tab_management::refugeeDel() : (" << nbRefugeeDeleted << "/"
+                                                                             << ui->list_manage->selectedItems().count()
+                                                                             << ") : Deletion sucessful";
                 else
-                    qDebug() << req_removeRef.lastError();
+                    qWarning() << "[WARN ] tab_management::refugeeDel() : (" << nbRefugeeDeleted + "/"
+                                                                              + ui->list_manage->selectedItems().count()
+                                                                             << ") : Error : " << req_removeRef.lastError().text();
+
+                nbRefugeeDeleted++;
+
+                if(progress.wasCanceled())
+                    break;
             }
         }
+
+        progress.setValue(nbRefugeeDeleted);
 
         managementLoad(m_db->access());
     }
@@ -106,7 +127,7 @@ void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode, int idRefugeeDb
 {
     if(m_refugeeInfoWin == NULL)
     {
-        m_refugeeInfoWin = new RefugeeInfoWin(m_db, this, idRefugeeDb, openMode);
+        m_refugeeInfoWin = new RefugeeInfoWin(m_db, this, idRefugeeDb, openMode, (m_curCamp == c_AllCampIndex) ? -1 : m_campsIdDb[m_curCamp]);
     }
 
     if(m_refugeeInfoWin->isVisible())
