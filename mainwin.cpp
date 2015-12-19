@@ -21,7 +21,7 @@ MainWin::MainWin(QWidget *parent, QJsonDocument configFile) :
             ui->list_campSearch->  setVisible(false);
             ui->list_centerSearch->setVisible(false);
             ui->btn_campModCancel->setVisible(false);
-            ui->text_searchBD->setToolTip(tr("Mettre au format AAAA-MM-JJ"));
+            ui->text_searchBD->setToolTip(tr("Format: %1").arg("AAAA-MM-JJ"));
             // Get the camp list from database
             ui->list_camp->clear();
             loadCampList();

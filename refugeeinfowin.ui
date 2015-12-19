@@ -274,7 +274,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>130</x>
      <y>380</y>
      <width>104</width>
      <height>71</height>
@@ -312,7 +312,7 @@
     </font>
    </property>
    <property name="text">
-    <string notr="true">#</string>
+    <string notr="true"/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

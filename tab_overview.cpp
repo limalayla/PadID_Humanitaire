@@ -272,8 +272,6 @@ void MainWin::overview_centerLoad(QSqlDatabase* db)
         req_centerCamps.prepare("SELECT name_camp FROM Camps WHERE id_center = :id");
         req_centerCamps.bindValue(":id", m_centerIdDb[m_curCenter]);
 
-        qDebug() << "[DEBUG] onglet_overview.cpp::overview_centerLoad()::idDb[curCenter]: " << m_centerIdDb[m_curCenter];
-
         if(req_centerCamps.exec())
         {
              while(req_centerCamps.next())

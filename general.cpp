@@ -108,7 +108,7 @@ void MainWin::campAdd(bool)
         // Add camp to Db
         QSqlQuery req_AddCamp(*m_db->access());
 
-        req_AddCamp.prepare("INSERT INTO Camps (name_camp,nb_max,id_location,id_center) Values (':newCampName',0,0,0)");
+        req_AddCamp.prepare("INSERT INTO Camps (name_camp, nb_max, id_location, id_center) Values (:newCampName, 0, 0, 0)");
         req_AddCamp.bindValue(":newCampName", ans);
 
         if(req_AddCamp.exec())

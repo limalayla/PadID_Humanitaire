@@ -7,15 +7,15 @@ void MainWin::managementLoad(QSqlDatabase* db_)
     ui->list_manageSearch->setVisible(false);
     ui->list_manage->clear();
     m_refugeeIdDb.clear();
-    req_management.prepare("SELECT name_refugee,id_refugee FROM Refugees WHERE id_camp = :id_courant ORDER BY name_refugee ASC");
+    req_management.prepare("SELECT name_refugee, firstname_refugee, id_refugee FROM Refugees WHERE id_camp = :id_courant ORDER BY name_refugee ASC");
     req_management.bindValue(":id_courant", m_campsIdDb[m_curCamp]);
 
     if(req_management.exec())
     {
         while(req_management.next())
         {
-            ui->list_manage->addItem(req_management.value(0).toString());
-            m_refugeeIdDb.push_back(req_management.value(1).toInt());
+            ui->list_manage->addItem(req_management.value(0).toString().toUpper() + "  " + req_management.value(1).toString());
+            m_refugeeIdDb.push_back(req_management.value(2).toInt());
         }
     }
 }
@@ -127,7 +127,7 @@ void MainWin::openRefugeeInfo(RefugeeInfoWin::OpenMode openMode, int idRefugeeDb
 {
     if(m_refugeeInfoWin == NULL)
     {
-        m_refugeeInfoWin = new RefugeeInfoWin(m_db, this, idRefugeeDb, openMode);
+        m_refugeeInfoWin = new RefugeeInfoWin(m_db, this, idRefugeeDb, openMode, (m_curCamp == c_AllCampIndex) ? -1 : m_campsIdDb[m_curCamp]);
     }
 
     if(m_refugeeInfoWin->isVisible())
