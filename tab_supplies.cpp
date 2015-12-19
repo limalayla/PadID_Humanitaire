@@ -67,12 +67,14 @@ void MainWin::suppliesLoad(QSqlDatabase* db)
                 QLabel *label_command        = new QLabel(tr("Amount to command"));
                 QPushButton *btn_validate    = new QPushButton(tr("Confirm"));
                 QLabel *label_amountInCenter = new QLabel(tr("Amount in Center"));
+                QLabel *label_CommandCenter = new QLabel(tr("Command for centerr"));
 
             /* Add them to the layout */
                 layout->addWidget(nomTab,               0, 0);
                 layout->addWidget(amount,               0, 1);
                 layout->addWidget(label_amountInCenter, 0, 2);
                 layout->addWidget(label_command,        0, 3);
+                layout->addWidget(label_CommandCenter, 0, 4);
 
 
             x = 0;
@@ -92,30 +94,34 @@ void MainWin::suppliesLoad(QSqlDatabase* db)
                     tmp->setValidator(new QIntValidator(0, 99999, tmp));
                     m_suppliesText[curTab].push_back(tmp);
 
+                    tmp = new QLineEdit();
+                    tmp->setValidator(new QIntValidator(0,99999,tmp));
+                    m_suppliesText[curTab].push_back(tmp);
                     m_suppliesText [curTab][x]->setEnabled(false);
 
                     layout->addWidget(m_suppliesLabel[curTab][  x], y, 0);
                     layout->addWidget(m_suppliesText [curTab][  x], y, 1);
                     layout->addWidget(m_suppliesText [curTab][x+1], y, 3);
+                    layout->addWidget(m_suppliesText[curTab][x+2],y,4);
 
                     if(req_amountInCenter.exec())
                     {
                         while(req_amountInCenter.next())
                         {
                             m_suppliesText[curTab].push_back(new QLineEdit(req_amountInCenter.value(0).toString()));
-                            m_suppliesText[curTab][x+2]->setEnabled(false);
-                            layout->addWidget(m_suppliesText[curTab][x+2], y, 2);
+                            m_suppliesText[curTab][x+3]->setEnabled(false);
+                            layout->addWidget(m_suppliesText[curTab][x+3], y, 2);
                         }
                     }
                     else qDebug() << req_amountInCenter.lastError().text();
 
                     y++;
-                    x += 3;
+                    x += 4;
                 }
             }
             else qDebug() << req_amountSupplies.lastError().text();
 
-            layout->addWidget(btn_validate, y, 4);
+            layout->addWidget(btn_validate, y+1, 4);
             tab->setLayout(layout);
 
             area->setWidget(tab);
@@ -137,14 +143,14 @@ void MainWin::suppliesLoad(QSqlDatabase* db)
 
 void MainWin::commandStock(bool)
 {
-    qDebug() << m_suppliesText[1][1]->text();
+
 
     bool ok(true);
     int curTab(ui->tabs_supplies->currentIndex() + 1);
 
-    for(int i= 0; i< m_suppliesText[curTab].size(); i+=3)
+    for(int i= 0; i< m_suppliesText[curTab].size(); i+=4)
     {
-        if(m_suppliesText[curTab][i+1]->text().toInt() > m_suppliesText[curTab][i+2]->text().toInt())
+        if(m_suppliesText[curTab][i+1]->text().toInt() > m_suppliesText[curTab][i+3]->text().toInt())
         {
             ok = false;
             QMessageBox::warning(this, tr("Error"), tr("The center can't assure the command"));
@@ -153,38 +159,60 @@ void MainWin::commandStock(bool)
 
     if(ok)
     {
-       for(int i= 0; i< m_suppliesText[curTab].size(); i+=3)
+        int y=0;
+       for(int i= 0; i< m_suppliesText[curTab].size(); i+=4)
        {
            QSqlQuery updt_supplies(*m_db->access());
            QSqlQuery updt_center  (*m_db->access());
+            QSqlQuery updt_commandCenter (*m_db->access());
 
-           updt_supplies.prepare("UPDATE Stock_camps SET quantity = :new_quantity"
-                                 " WHERE id_camp     = :id"
-                                 "   AND id_supplies = (SELECT id_supplies FROM Supplies WHERE name_supply = :type)");
+            if(!m_suppliesText[curTab][i+1]->text().isEmpty())
+            {
+               updt_supplies.prepare("UPDATE Stock_camps SET quantity = :new_quantity"
+                                     " WHERE id_camp     = :id"
+                                     "   AND id_supplies = (SELECT id_supplies FROM Supplies WHERE name_supply = :type)");
 
-           updt_supplies.bindValue(":id",           m_campsIdDb[m_curCamp]);
-           updt_supplies.bindValue(":type",         m_suppliesLabel[curTab][  i]->text());
-           updt_supplies.bindValue(":new_quantity", m_suppliesText [curTab][  i]->text().toInt() +
-                                                    m_suppliesText [curTab][i+1]->text().toInt());
+               updt_supplies.bindValue(":id",           m_campsIdDb[m_curCamp]);
+               updt_supplies.bindValue(":type",         m_suppliesLabel[curTab][  y]->text());
+               updt_supplies.bindValue(":new_quantity", m_suppliesText [curTab][  i]->text().toInt() +
+                                                        m_suppliesText [curTab][i+1]->text().toInt());
 
-           if(updt_supplies.exec())
-               qDebug()   << updt_supplies.lastQuery();
-           else
-               qWarning() << updt_supplies.lastError().text();
+               if(updt_supplies.exec())
+                   qDebug()   << updt_supplies.lastQuery();
+               else
+                   qWarning() << updt_supplies.lastError().text();
 
-           updt_center.prepare("UPDATE Stock_centers SET quantity = :new_quantity"
-                               " WHERE id_supplies = (SELECT id_supplies FROM Supplies WHERE name_supply = :type)"
-                               "   AND id_center   = (SELECT id_center   FROM Camps    WHERE id_camp = :id)");
+               updt_center.prepare("UPDATE Stock_centers SET quantity = :new_quantity"
+                                   " WHERE id_supplies = (SELECT id_supplies FROM Supplies WHERE name_supply = :type)"
+                                   "   AND id_center   = (SELECT id_center   FROM Camps    WHERE id_camp = :id)");
 
-           updt_center.bindValue(":id",           m_campsIdDb[m_curCamp]);
-           updt_center.bindValue(":type",         m_suppliesLabel[curTab][  i]->text());
-           updt_center.bindValue(":new_quantity", m_suppliesText [curTab][i+2]->text().toInt() -
-                                                  m_suppliesText [curTab][i+1]->text().toInt());
+               updt_center.bindValue(":id",           m_campsIdDb[m_curCamp]);
+               updt_center.bindValue(":type",         m_suppliesLabel[curTab][  y]->text());
+               updt_center.bindValue(":new_quantity", m_suppliesText [curTab][i+3]->text().toInt() -
+                                                      m_suppliesText [curTab][i+1]->text().toInt());
 
-           if(updt_center.exec())
-               qDebug()   << updt_center.lastQuery();
-           else
-               qWarning() << updt_center.lastError().text();
+               if(updt_center.exec())
+                   qDebug()   << updt_center.lastQuery();
+               else
+                   qWarning() << updt_center.lastError().text();
+            }
+            qDebug() << m_suppliesText[curTab][i+2]->text();
+            if(!m_suppliesText[curTab][i+2]->text().isEmpty())
+            {
+               updt_commandCenter.prepare(("UPDATE Stock_centers SET quantity = :new_quantity"
+                                                               " WHERE  id_center   = (SELECT id_center   FROM Camps    WHERE id_camp = :id)"
+                                                                "   AND id_supplies = (SELECT id_supplies FROM Supplies WHERE name_supply = :type)"));
+
+               updt_commandCenter.bindValue(":id",           m_campsIdDb[m_curCamp]);
+               updt_commandCenter.bindValue(":type",         m_suppliesLabel[curTab][  y]->text());
+               updt_commandCenter.bindValue(":new_quantity", m_suppliesText [curTab][  i+3]->text().toInt() +
+                                                        m_suppliesText [curTab][i+2]->text().toInt());
+               if(updt_commandCenter.exec())
+                   qDebug()   << updt_commandCenter.lastQuery();
+               else
+                   qWarning() << updt_commandCenter.lastError().text();
+           }
+           y++;
        }
 
        suppliesLoad(m_db->access());
